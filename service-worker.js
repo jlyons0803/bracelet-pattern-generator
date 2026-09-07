@@ -1,7 +1,7 @@
-const CACHE='dandelyons-designs-v64-revised-from-v62';
+const CACHE='dandelyons-designs-v65-layout-alignment-fix';
 const ASSETS=[
-  './','./index.html','./styles.css?v=64','./data.js?v=64','./core.js?v=64',
-  './calculator.js?v=64','./beads.js?v=64','./projects.js?v=64','./export.js?v=64','./app.js?v=64',
+  './','./index.html','./styles.css?v=65','./data.js?v=65','./core.js?v=65',
+  './calculator.js?v=65','./beads.js?v=65','./projects.js?v=65','./export.js?v=65','./app.js?v=65',
   './manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'
 ];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});

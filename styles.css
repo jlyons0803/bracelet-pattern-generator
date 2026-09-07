@@ -2580,3 +2580,175 @@ body.graphFullscreenOpen{
     grid-template-columns:minmax(0,1fr) 32px;
   }
 }
+
+/* V65 alignment fixes based on current iPad screenshot */
+
+/* Top area: Name/Generate row, then Stamp + Rows/Cols/View row without overlap */
+.graphToolBar{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  gap:7px !important;
+  margin-bottom:8px !important;
+}
+.graphQuickBar{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) !important;
+  gap:7px !important;
+  width:100% !important;
+  margin:0 !important;
+}
+.quickNameWrap{
+  width:min(430px,100%);
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) auto !important;
+  gap:7px !important;
+}
+.quickNameField input{
+  min-height:38px !important;
+}
+.quickStampSlot{
+  width:100%;
+  display:grid;
+  grid-template-columns:minmax(220px,1fr) auto;
+  align-items:end;
+  gap:12px;
+}
+.graphQuickBar .graphStampWindow{
+  width:min(340px,100%);
+  margin:0 !important;
+}
+.graphQuickBar .graphStampWindow>summary{
+  min-height:40px !important;
+  padding:7px 11px !important;
+}
+
+/* Put Rows/Columns/View on their own clean row aligned right */
+.graphInlineSettings{
+  display:grid !important;
+  grid-template-columns:104px 116px 150px !important;
+  justify-content:end !important;
+  gap:8px !important;
+  width:100% !important;
+  margin:0 !important;
+}
+.graphInlineSettings label{
+  min-width:0 !important;
+}
+.graphInlineSettings select{
+  width:100% !important;
+  min-width:0 !important;
+}
+
+/* Compact left edit rail */
+.graphEditWrap{
+  grid-template-columns:88px minmax(0,1fr) !important;
+  gap:8px !important;
+}
+.leftModeRail{
+  min-width:0 !important;
+  width:88px !important;
+  padding-top:26px !important;
+  gap:7px !important;
+}
+.leftModeRail .graphTool{
+  width:64px !important;
+  min-width:64px !important;
+  min-height:38px !important;
+  margin:0 auto !important;
+  padding:7px 6px !important;
+}
+.leftColorTools{
+  width:88px !important;
+  gap:7px !important;
+}
+.leftColorTool>span{
+  font-size:8px !important;
+}
+.leftColorControl{
+  grid-template-columns:minmax(0,1fr) 26px !important;
+  gap:3px !important;
+}
+.leftColorControl .compactColorSelect{
+  height:29px !important;
+  min-height:29px !important;
+  padding:3px 18px 3px 5px !important;
+  font-size:8px !important;
+}
+.leftColorControl .compactColorPicker{
+  width:26px !important;
+  min-width:26px !important;
+  height:29px !important;
+  min-height:29px !important;
+}
+
+/* Hide orphan Pattern/Background shells after their controls are moved */
+.movedColorShell{
+  display:none !important;
+}
+
+/* Lower name generator stays compact */
+#wideNameMount .nameGeneratorCard{
+  max-width:680px !important;
+}
+#wideNameMount .nameGeneratorCard .sideRailSection{
+  max-width:300px !important;
+}
+#wideNameMount .nameGeneratorCard #graphPresetSelect{
+  width:300px !important;
+  max-width:100% !important;
+}
+#wideNameMount .nameGeneratorCard .compactNameControls{
+  gap:5px !important;
+}
+#wideNameMount .nameGeneratorCard .compactNameControls .compactField{
+  width:92px !important;
+}
+#wideNameMount .nameGeneratorCard #sendToDraw{
+  min-width:150px !important;
+  width:auto !important;
+}
+
+/* Smaller Clear control */
+.clearToolCard{
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+}
+.clearToolCard #clearBtn,
+.sideClearButton{
+  width:140px !important;
+  max-width:140px !important;
+  min-height:40px !important;
+  height:40px !important;
+  margin:0 !important;
+  padding:6px 12px !important;
+  font-size:12px !important;
+}
+
+/* Don't reserve large blank cells where hidden palette shells used to be */
+.wideToolSplit:has(.movedColorShell){
+  display:none !important;
+}
+
+@media(max-width:820px){
+  .graphInlineSettings{
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  }
+}
+@media(max-width:650px){
+  .graphEditWrap{
+    grid-template-columns:1fr !important;
+  }
+  .leftModeRail{
+    width:100% !important;
+    flex-direction:row !important;
+    flex-wrap:wrap;
+    padding-top:0 !important;
+  }
+  .leftModeRail .graphTool{
+    margin:0 !important;
+  }
+  .leftColorTools{
+    width:100% !important;
+    grid-template-columns:1fr 1fr;
+  }
+}

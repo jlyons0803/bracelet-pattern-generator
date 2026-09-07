@@ -560,6 +560,10 @@ function initAdaptiveWorkspace(){
   workspaceAdaptive.patternSection=rightSections[0] || null;
   workspaceAdaptive.backgroundSection=rightSections[1] || null;
   workspaceAdaptive.borderSection=rightSections[2] || null;
+  // V65: Pattern/background controls are moved into the left graph rail.
+  // Hide the old shells so their headings do not remain below the generator.
+  if(workspaceAdaptive.patternSection) workspaceAdaptive.patternSection.classList.add("movedColorShell");
+  if(workspaceAdaptive.backgroundSection) workspaceAdaptive.backgroundSection.classList.add("movedColorShell");
   if(workspaceAdaptive.borderSection){
     workspaceAdaptive.borderSection.style.display="none";
   }
