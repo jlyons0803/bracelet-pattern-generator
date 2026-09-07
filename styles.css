@@ -2752,3 +2752,144 @@ body.graphFullscreenOpen{
     grid-template-columns:1fr 1fr;
   }
 }
+
+
+/* V66 under-graph cleanup */
+.quickNameWrap{
+  grid-template-columns:minmax(0,1fr) !important;
+}
+.compactGenerateBtn{
+  display:none !important;
+}
+.v66Hidden{
+  display:none !important;
+}
+
+/* In wide/under-graph mode, the name card is trimmed down */
+.previewCard.controlsUnderGraph + .wideToolLayout .nameGeneratorCard{
+  max-width:700px !important;
+}
+.previewCard.controlsUnderGraph + .wideToolLayout .nameGeneratorCard .adaptiveToolTitle{
+  margin-bottom:6px !important;
+}
+.previewCard.controlsUnderGraph + .wideToolLayout .nameGeneratorCard .sideRailSection{
+  display:none !important; /* graph preset removed */
+}
+.previewCard.controlsUnderGraph + .wideToolLayout .nameGeneratorCard .compactNameControls{
+  display:flex !important;
+  flex-wrap:wrap !important;
+  gap:8px !important;
+  align-items:end !important;
+}
+.previewCard.controlsUnderGraph + .wideToolLayout .nameGeneratorCard .compactNameControls .field{
+  flex:0 0 auto !important;
+}
+.previewCard.controlsUnderGraph + .wideToolLayout .nameGeneratorCard .compactNameControls .field:has(#nameHeight),
+.previewCard.controlsUnderGraph + .wideToolLayout .nameGeneratorCard .compactNameControls .field:has(#nameWidth){
+  width:170px !important;
+}
+.previewCard.controlsUnderGraph + .wideToolLayout .nameGeneratorCard .compactNameControls .field:has(#nameRows),
+.previewCard.controlsUnderGraph + .wideToolLayout .nameGeneratorCard .compactNameControls .field:has(#namePad),
+.previewCard.controlsUnderGraph + .wideToolLayout .nameGeneratorCard .compactNameControls .field:has(#spacing),
+.previewCard.controlsUnderGraph + .wideToolLayout .nameGeneratorCard .compactNameControls .field:has(#nameBorder){
+  display:none !important;
+}
+.previewCard.controlsUnderGraph + .wideToolLayout .nameGeneratorCard .compactNameControls .colorField{
+  display:none !important;
+}
+.previewCard.controlsUnderGraph + .wideToolLayout .nameGeneratorCard #sendToDraw{
+  width:220px !important;
+  min-width:220px !important;
+}
+
+/* New under-graph tool card */
+.underGraphActionCard{
+  padding:10px 12px !important;
+  display:grid !important;
+  gap:8px !important;
+}
+.underGraphTopRow{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  gap:12px;
+  align-items:end;
+}
+.underGraphModeGroup{
+  display:flex;
+  gap:8px;
+  align-items:end;
+}
+.underGraphModeGroup .graphTool{
+  min-width:90px !important;
+  min-height:40px !important;
+  padding:8px 12px !important;
+}
+.underGraphColorGroup{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:end;
+}
+.underGraphColorGroup .leftColorTools{
+  width:auto !important;
+  display:flex !important;
+  gap:10px !important;
+}
+.underGraphColorGroup .leftColorTool{
+  width:180px !important;
+}
+.underGraphColorGroup .leftColorTool > span{
+  font-size:10px !important;
+}
+.underGraphColorGroup .leftColorControl{
+  grid-template-columns:minmax(0,1fr) 34px !important;
+}
+.underGraphColorGroup .compactColorSelect{
+  height:36px !important;
+  min-height:36px !important;
+  font-size:12px !important;
+  padding:6px 24px 6px 8px !important;
+}
+.underGraphColorGroup .compactColorPicker{
+  width:34px !important;
+  min-width:34px !important;
+  height:36px !important;
+  min-height:36px !important;
+}
+.underGraphBottomRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:end;
+}
+.underGraphBottomRow .field{
+  width:160px !important;
+  min-width:160px !important;
+}
+.underGraphBottomRow .field label{
+  font-size:11px !important;
+}
+.underGraphBottomRow .field input,
+.underGraphBottomRow .field select{
+  min-height:36px !important;
+  height:36px !important;
+}
+
+.previewCard.controlsUnderGraph .leftModeRail,
+.previewCard.controlsUnderGraph .graphToolButtons{
+  display:none !important;
+}
+
+/* Keep lower edit row/column and clear sections neat */
+.previewCard.controlsUnderGraph + .wideToolLayout #wideEditMount{
+  align-self:start;
+}
+
+@media(max-width:900px){
+  .underGraphTopRow{
+    grid-template-columns:1fr !important;
+  }
+  .underGraphModeGroup{
+    flex-wrap:wrap;
+  }
+}

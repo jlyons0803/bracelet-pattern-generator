@@ -585,6 +585,7 @@ function initAdaptiveWorkspace(){
   wideLayout.id="wideToolLayout";
   wideLayout.innerHTML = `
     <div class="wideToolColumn">
+      <div id="wideUnderGraphMount"></div>
       <div id="wideNameMount"></div>
       <div class="wideToolSplit">
         <div id="widePatternMount"></div>
@@ -601,6 +602,7 @@ function initAdaptiveWorkspace(){
   `;
   graphWorkspace.insertAdjacentElement("afterend", wideLayout);
   workspaceAdaptive.wideLayout=wideLayout;
+  workspaceAdaptive.wideUnderGraphMount=wideLayout.querySelector("#wideUnderGraphMount");
   workspaceAdaptive.wideNameMount=wideLayout.querySelector("#wideNameMount");
   workspaceAdaptive.wideEditMount=wideLayout.querySelector("#wideEditMount");
   workspaceAdaptive.widePatternMount=wideLayout.querySelector("#widePatternMount");
@@ -612,10 +614,89 @@ function initAdaptiveWorkspace(){
   clearToolCard.classList.add("clearToolCard");
   if(workspaceAdaptive.clearBtn) clearToolCard.appendChild(workspaceAdaptive.clearBtn);
   workspaceAdaptive.clearToolCard=clearToolCard;
+
+  workspaceAdaptive.quickGenerateBtn=document.getElementById("quickGenerateNameBtn");
+  workspaceAdaptive.quickNameInput=document.getElementById("quickNameInput");
+  workspaceAdaptive.leftModeRail=document.querySelector(".leftModeRail");
+  workspaceAdaptive.leftColorTools=document.querySelector(".leftColorTools");
+  workspaceAdaptive.toolDraw=document.getElementById("toolDraw");
+  workspaceAdaptive.toolErase=document.getElementById("toolErase");
+  workspaceAdaptive.nameControls=namePanel.querySelector(".compactNameControls");
+  workspaceAdaptive.nameHeightField=document.getElementById("nameHeight")?.closest(".field") || null;
+  workspaceAdaptive.nameWidthField=document.getElementById("nameWidth")?.closest(".field") || null;
+  workspaceAdaptive.nameRowsField=document.getElementById("nameRows")?.closest(".field") || null;
+  workspaceAdaptive.namePadField=document.getElementById("namePad")?.closest(".field") || null;
+  workspaceAdaptive.nameSpacingField=document.getElementById("spacing")?.closest(".field") || null;
+  workspaceAdaptive.nameBorderField=document.getElementById("nameBorder")?.closest(".field") || null;
+  if(workspaceAdaptive.quickNameInput && !workspaceAdaptive.quickNameInput.dataset.enterGenerates){
+    workspaceAdaptive.quickNameInput.dataset.enterGenerates="1";
+    workspaceAdaptive.quickNameInput.addEventListener("keydown",e=>{
+      if(e.key==="Enter"){
+        e.preventDefault();
+        const btn=document.getElementById("sendToDraw");
+        if(btn) btn.click();
+      }
+    });
+  }
+
+  const underGraphCard=makeAdaptiveToolCard("");
+  underGraphCard.classList.add("underGraphActionCard");
+  underGraphCard.innerHTML=`
+    <div class="underGraphTopRow">
+      <div class="underGraphModeGroup"></div>
+      <div class="underGraphColorGroup"></div>
+    </div>
+    <div class="underGraphBottomRow"></div>
+  `;
+  workspaceAdaptive.underGraphCard=underGraphCard;
+  workspaceAdaptive.underGraphModeGroup=underGraphCard.querySelector(".underGraphModeGroup");
+  workspaceAdaptive.underGraphColorGroup=underGraphCard.querySelector(".underGraphColorGroup");
+  workspaceAdaptive.underGraphBottomRow=underGraphCard.querySelector(".underGraphBottomRow");
 }
 
 function moveNode(node, target){
   if(node && target) target.appendChild(node);
+}
+
+function v66RestoreNameFields(){
+  const controls=workspaceAdaptive.nameControls;
+  if(!controls) return;
+  [workspaceAdaptive.nameHeightField,workspaceAdaptive.nameWidthField,workspaceAdaptive.nameRowsField,workspaceAdaptive.namePadField,workspaceAdaptive.nameSpacingField,workspaceAdaptive.nameBorderField]
+    .forEach(node=>{ if(node) controls.appendChild(node); });
+}
+
+function v66ApplyUnderGraphLayout(){
+  if(workspaceAdaptive.quickGenerateBtn) workspaceAdaptive.quickGenerateBtn.style.display="none";
+  if(workspaceAdaptive.presetSection) workspaceAdaptive.presetSection.classList.add("v66Hidden");
+  if(workspaceAdaptive.nameRowsField) workspaceAdaptive.nameRowsField.classList.add("v66Hidden");
+
+  if(workspaceAdaptive.wideUnderGraphMount) moveNode(workspaceAdaptive.underGraphCard, workspaceAdaptive.wideUnderGraphMount);
+
+  if(workspaceAdaptive.underGraphModeGroup){
+    if(workspaceAdaptive.toolDraw) workspaceAdaptive.underGraphModeGroup.appendChild(workspaceAdaptive.toolDraw);
+    if(workspaceAdaptive.toolErase) workspaceAdaptive.underGraphModeGroup.appendChild(workspaceAdaptive.toolErase);
+  }
+  if(workspaceAdaptive.underGraphColorGroup && workspaceAdaptive.leftColorTools){
+    workspaceAdaptive.underGraphColorGroup.appendChild(workspaceAdaptive.leftColorTools);
+  }
+  if(workspaceAdaptive.underGraphBottomRow){
+    [workspaceAdaptive.namePadField,workspaceAdaptive.nameSpacingField,workspaceAdaptive.nameBorderField].forEach(node=>{
+      if(node) workspaceAdaptive.underGraphBottomRow.appendChild(node);
+    });
+  }
+}
+
+function v66RestoreSideLayout(){
+  if(workspaceAdaptive.quickGenerateBtn) workspaceAdaptive.quickGenerateBtn.style.display="";
+  if(workspaceAdaptive.presetSection) workspaceAdaptive.presetSection.classList.remove("v66Hidden");
+  if(workspaceAdaptive.nameRowsField) workspaceAdaptive.nameRowsField.classList.remove("v66Hidden");
+
+  if(workspaceAdaptive.leftModeRail){
+    if(workspaceAdaptive.toolDraw) workspaceAdaptive.leftModeRail.insertBefore(workspaceAdaptive.toolDraw, workspaceAdaptive.leftModeRail.firstChild);
+    if(workspaceAdaptive.toolErase) workspaceAdaptive.leftModeRail.insertBefore(workspaceAdaptive.toolErase, workspaceAdaptive.leftColorTools || null);
+    if(workspaceAdaptive.leftColorTools) workspaceAdaptive.leftModeRail.appendChild(workspaceAdaptive.leftColorTools);
+  }
+  v66RestoreNameFields();
 }
 
 function updateAdaptiveWorkspace(){
@@ -637,6 +718,7 @@ function updateAdaptiveWorkspace(){
     moveNode(workspaceAdaptive.backgroundSection, workspaceAdaptive.wideBackgroundMount);
     moveNode(workspaceAdaptive.borderSection, workspaceAdaptive.wideBorderMount);
     moveNode(workspaceAdaptive.clearToolCard, workspaceAdaptive.wideClearMount);
+    v66ApplyUnderGraphLayout();
   }else{
     if(workspaceAdaptive.wideLayout) workspaceAdaptive.wideLayout.style.display="none";
     moveNode(workspaceAdaptive.nameCard, workspaceAdaptive.sideNameMount);
@@ -645,6 +727,7 @@ function updateAdaptiveWorkspace(){
     moveNode(workspaceAdaptive.backgroundSection, workspaceAdaptive.rightRail);
     moveNode(workspaceAdaptive.borderSection, workspaceAdaptive.rightRail);
     if(workspaceAdaptive.clearBtn) workspaceAdaptive.rightRail.appendChild(workspaceAdaptive.clearBtn);
+    v66RestoreSideLayout();
   }
 }
 
