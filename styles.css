@@ -1772,3 +1772,262 @@ body.graphFullscreenOpen{
     width:100%;
   }
 }
+
+
+/* V57 compact workspace trim */
+#toolFill{
+  display:none !important;
+}
+
+/* tighter graph toolbar row */
+.graphToolBar{
+  align-items:flex-start;
+  gap:8px;
+}
+.graphInlineSettings{
+  gap:6px;
+  margin-left:auto;
+  flex-wrap:nowrap;
+}
+.graphInlineSettings label{
+  gap:2px;
+  font-size:10px;
+}
+.graphInlineSettings label:first-child{
+  min-width:82px;
+}
+.graphInlineSettings label:nth-child(2){
+  min-width:96px;
+}
+.graphInlineSettings label:nth-child(3){
+  min-width:120px;
+}
+.graphInlineSettings select{
+  min-height:34px;
+  padding:5px 28px 5px 8px;
+  font-size:12px;
+  border-radius:10px;
+}
+.previewCard .graphInlineSettings{
+  margin-bottom:2px;
+}
+.previewCard .graphTool{
+  min-height:36px;
+  padding:7px 13px;
+  font-size:13px;
+}
+.previewCard .gridScroll{
+  margin-top:8px;
+}
+
+/* compact name generator */
+#namePanel{
+  padding-top:10px;
+}
+.nameGeneratorCard .compactNameControls{
+  display:grid !important;
+  grid-template-columns:minmax(140px,1.4fr) repeat(3,minmax(0,1fr)) !important;
+  gap:6px !important;
+  align-items:end;
+}
+.nameGeneratorCard .compactNameControls .fieldWide{
+  grid-column:span 2 !important;
+}
+.nameGeneratorCard .compactNameControls .field,
+.nameGeneratorCard .compactNameControls .compactField{
+  margin:0;
+  min-width:0;
+}
+.nameGeneratorCard .compactNameControls label{
+  margin-bottom:2px;
+  font-size:11px;
+  line-height:1.1;
+}
+.nameGeneratorCard .compactNameControls input,
+.nameGeneratorCard .compactNameControls select{
+  min-height:36px;
+  padding:7px 10px;
+  font-size:14px;
+  border-radius:10px;
+}
+.nameGeneratorCard .compactNameControls .stepper{
+  gap:5px;
+}
+.nameGeneratorCard .compactNameControls .stepper button{
+  min-width:34px;
+  min-height:34px;
+}
+.nameGeneratorCard .compactNameControls .colorField{
+  display:none !important;
+}
+.nameGeneratorCard #nameSizeNote{
+  margin-top:8px;
+  font-size:11px;
+}
+.nameGeneratorCard .actions.compact.workspacePrimary{
+  margin-top:8px;
+}
+.nameGeneratorCard .actions.compact.workspacePrimary .primary{
+  min-height:40px;
+  padding:10px 16px;
+}
+
+/* keep name fields compact on medium widths */
+@media (max-width: 980px){
+  .nameGeneratorCard .compactNameControls{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+  .nameGeneratorCard .compactNameControls .fieldWide{
+    grid-column:1 / -1 !important;
+  }
+}
+@media (max-width: 680px){
+  .graphToolBar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .graphInlineSettings{
+    width:100%;
+    margin-left:0;
+    flex-wrap:wrap;
+  }
+  .graphInlineSettings label{
+    flex:1 1 110px;
+    min-width:0 !important;
+  }
+  .nameGeneratorCard .compactNameControls{
+    grid-template-columns:1fr !important;
+  }
+  .nameGeneratorCard .compactNameControls .fieldWide{
+    grid-column:auto !important;
+  }
+}
+
+/* slightly reduce top/bottom whitespace in workspace cards */
+.workspaceSection .workspaceBody{
+  padding-top:12px;
+}
+
+/* V58 ultra-compact workspace */
+.previewCard .graphToolBar{
+  display:grid !important;
+  grid-template-columns:auto minmax(0,1fr);
+  align-items:end !important;
+  gap:8px !important;
+  margin-bottom:8px !important;
+}
+.previewCard .graphToolButtons{
+  display:flex;
+  flex-wrap:nowrap;
+  gap:6px;
+}
+.previewCard .graphTool{
+  min-height:34px !important;
+  padding:6px 12px !important;
+  font-size:12px !important;
+}
+.previewCard .graphInlineSettings{
+  display:grid !important;
+  grid-template-columns:82px 92px 118px;
+  justify-content:end;
+  gap:6px !important;
+  margin:0 !important;
+}
+.previewCard .graphInlineSettings label{
+  min-width:0 !important;
+  gap:2px !important;
+  margin:0 !important;
+  font-size:9px !important;
+}
+.previewCard .graphInlineSettings select{
+  width:100%;
+  min-width:0 !important;
+  min-height:32px !important;
+  height:32px;
+  padding:4px 24px 4px 7px !important;
+  font-size:11px !important;
+  border-radius:9px !important;
+}
+#graphRowsSelect,#graphColsSelect,#graphOrientationSelect{
+  min-width:0 !important;
+}
+
+/* Condense the name generator into fewer rows. */
+.nameGeneratorCard{
+  padding:9px !important;
+}
+.nameGeneratorCard .adaptiveToolTitle{
+  margin-bottom:6px !important;
+  font-size:9px !important;
+}
+.nameGeneratorCard .compactNameControls{
+  grid-template-columns:minmax(160px,2fr) 84px 84px 74px 74px 74px 96px !important;
+  gap:6px !important;
+  align-items:end !important;
+}
+.nameGeneratorCard .compactNameControls .fieldWide{
+  grid-column:auto !important;
+}
+.nameGeneratorCard .compactNameControls .field{
+  min-width:0 !important;
+}
+.nameGeneratorCard .compactNameControls label{
+  font-size:9px !important;
+  margin:0 0 2px 1px !important;
+}
+.nameGeneratorCard .compactNameControls input:not([type="color"]),
+.nameGeneratorCard .compactNameControls select{
+  min-height:32px !important;
+  height:32px !important;
+  padding:4px 7px !important;
+  font-size:11px !important;
+  border-radius:9px !important;
+}
+.nameGeneratorCard .compactNameControls .stepper{
+  grid-template-columns:26px minmax(34px,1fr) 26px !important;
+  gap:3px !important;
+}
+.nameGeneratorCard .compactNameControls .stepper button{
+  min-width:26px !important;
+  width:26px !important;
+  min-height:32px !important;
+  height:32px !important;
+  font-size:15px !important;
+  border-radius:8px !important;
+}
+.nameGeneratorCard #nameSizeNote{
+  margin-top:5px !important;
+  padding:5px 7px !important;
+  font-size:9px !important;
+  line-height:1.2 !important;
+}
+.nameGeneratorCard .workspacePrimary{
+  margin-top:6px !important;
+}
+.nameGeneratorCard #sendToDraw{
+  min-height:36px !important;
+  padding:6px 10px !important;
+  font-size:11px !important;
+}
+
+/* Keep compact two-row fallback on narrower iPads. */
+@media(max-width:1050px){
+  .nameGeneratorCard .compactNameControls{
+    grid-template-columns:minmax(180px,2fr) repeat(3,minmax(70px,1fr)) !important;
+  }
+}
+@media(max-width:780px){
+  .previewCard .graphToolBar{
+    grid-template-columns:1fr !important;
+  }
+  .previewCard .graphInlineSettings{
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    justify-content:stretch;
+  }
+  .nameGeneratorCard .compactNameControls{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+  .nameGeneratorCard .compactNameControls .fieldWide{
+    grid-column:1/-1 !important;
+  }
+}
