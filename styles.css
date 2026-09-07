@@ -1604,3 +1604,119 @@ body.graphFullscreenOpen{
   }
 }
 
+
+/* V55 compact name generator */
+.nameGeneratorCard{
+  padding:10px !important;
+}
+.nameGeneratorCard .adaptiveToolTitle{
+  margin-bottom:8px;
+  font-size:10px;
+}
+.nameGeneratorCard #namePanel{
+  padding:0 !important;
+}
+.nameGeneratorCard .compactNameControls{
+  display:grid !important;
+  grid-template-columns:minmax(160px,2fr) repeat(3,minmax(78px,1fr)) !important;
+  gap:7px !important;
+  align-items:end;
+}
+.nameGeneratorCard .compactNameControls .field{
+  min-width:0;
+  margin:0;
+}
+.nameGeneratorCard .compactNameControls .fieldWide{
+  grid-column:auto !important;
+}
+.nameGeneratorCard .compactNameControls label{
+  display:block;
+  margin-bottom:3px;
+  font-size:9px !important;
+  line-height:1.05;
+  letter-spacing:.01em;
+  font-weight:850;
+  color:#687086;
+}
+.nameGeneratorCard .compactNameControls input:not([type="color"]),
+.nameGeneratorCard .compactNameControls select{
+  min-height:34px !important;
+  height:34px;
+  padding:5px 8px;
+  font-size:12px;
+  border-radius:9px;
+}
+.nameGeneratorCard .compactNameControls .stepper{
+  display:grid;
+  grid-template-columns:30px minmax(42px,1fr) 30px;
+  gap:4px;
+}
+.nameGeneratorCard .compactNameControls .stepper button{
+  min-width:30px;
+  width:30px;
+  min-height:34px;
+  height:34px;
+  padding:4px;
+  border-radius:9px;
+}
+.nameGeneratorCard .compactNameControls .stepper input{
+  width:100%;
+  min-width:0;
+  text-align:center;
+  padding-left:3px;
+  padding-right:3px;
+}
+.nameGeneratorCard .compactNameControls .colorField{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-height:34px;
+  padding:5px 8px;
+  border:1px solid #e2deea;
+  border-radius:9px;
+  background:#fff;
+}
+.nameGeneratorCard .compactNameControls .colorField label{
+  margin:0;
+}
+.nameGeneratorCard .compactNameControls input[type="color"]{
+  width:28px;
+  height:26px;
+  min-height:26px;
+  padding:0;
+  border:0;
+  background:transparent;
+}
+.nameGeneratorCard #nameSizeNote{
+  margin-top:6px;
+  padding:6px 8px;
+  min-height:0;
+  font-size:9px;
+  line-height:1.25;
+}
+.nameGeneratorCard .workspacePrimary{
+  margin-top:7px !important;
+}
+.nameGeneratorCard #sendToDraw{
+  width:100%;
+  min-height:38px;
+  padding:7px 10px;
+  font-size:12px;
+}
+.previewCard.controlsSideGraph .graphSideLeft .nameGeneratorCard .compactNameControls{
+  grid-template-columns:1fr 1fr !important;
+}
+.previewCard.controlsSideGraph .graphSideLeft .nameGeneratorCard .compactNameControls .fieldWide{
+  grid-column:1/-1 !important;
+}
+.previewCard.controlsSideGraph .graphSideLeft .nameGeneratorCard .compactNameControls .colorField{
+  min-height:36px;
+}
+@media(max-width:900px){
+  .nameGeneratorCard .compactNameControls{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+  .nameGeneratorCard .compactNameControls .fieldWide{
+    grid-column:1/-1 !important;
+  }
+}

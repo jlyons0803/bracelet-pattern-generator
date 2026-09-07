@@ -1,7 +1,7 @@
-const CACHE='dandelyons-designs-v54-adaptive-workspace';
+const CACHE='dandelyons-designs-v55-compact-name-generator';
 const ASSETS=[
-  './','./index.html','./styles.css?v=54','./data.js?v=54','./core.js?v=54',
-  './calculator.js?v=54','./beads.js?v=54','./projects.js?v=54','./export.js?v=54','./app.js?v=54',
+  './','./index.html','./styles.css?v=55','./data.js?v=55','./core.js?v=55',
+  './calculator.js?v=55','./beads.js?v=55','./projects.js?v=55','./export.js?v=55','./app.js?v=55',
   './manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'
 ];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});

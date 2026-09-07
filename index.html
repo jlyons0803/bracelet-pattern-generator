@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>DandeLyons Designs</title>
-<link rel="stylesheet" href="styles.css?v=54">
+<link rel="stylesheet" href="styles.css?v=55">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#6557d9">
@@ -77,16 +77,16 @@
         </summary>
 
         <div id="namePanel" class="workspaceBody">
-          <div class="controls nameControls">
+          <div class="controls nameControls compactNameControls">
             <div class="field fieldWide"><label>Name</label><input id="name" value="" maxlength="24" placeholder="Enter a name"></div>
-            <div class="field"><label>Name height</label>
+            <div class="field"><label>Height</label>
               <div class="stepper">
                 <button type="button" id="nameHeightMinus" aria-label="Decrease name height">−</button>
                 <input id="nameHeight" type="number" min="3" max="40" step="1" value="7">
                 <button type="button" id="nameHeightPlus" aria-label="Increase name height">+</button>
               </div>
             </div>
-            <div class="field"><label>Letter width</label>
+            <div class="field"><label>Width</label>
               <div class="stepper">
                 <button type="button" id="nameWidthMinus" aria-label="Decrease letter width">−</button>
                 <input id="nameWidth" type="number" min="3" max="30" step="1" value="5">
@@ -94,15 +94,15 @@
               </div>
             </div>
 
-            <div class="field compactField"><label>Graph rows</label><input id="nameRows" type="number" min="7" max="60" value="9"></div>
-            <div class="field compactField"><label>Side padding</label><input id="namePad" type="number" min="0" max="30" value="4"></div>
-            <div class="field compactField"><label>Letter spacing</label>
+            <div class="field compactField"><label>Rows</label><input id="nameRows" type="number" min="7" max="60" value="9"></div>
+            <div class="field compactField"><label>Padding</label><input id="namePad" type="number" min="0" max="30" value="4"></div>
+            <div class="field compactField"><label>Spacing</label>
               <select id="spacing">
                 <option value="1">1</option><option value="2">2</option><option value="3">3</option>
                 <option value="4">4</option><option value="5">5</option>
               </select>
             </div>
-            <div class="field compactField"><label>Top & bottom border</label>
+            <div class="field compactField"><label>Border</label>
               <select id="nameBorder">
                 <option value="0" selected>No border</option>
                 <option value="1">1 row</option>
@@ -117,7 +117,7 @@
 
           <div id="nameSizeNote" class="infoLine"></div>
           <div class="actions compact workspacePrimary">
-            <button type="button" id="sendToDraw" class="primary">Generate Name in Editor</button>
+            <button type="button" id="sendToDraw" class="primary">Generate Name</button>
           </div>
         </div>
       </details>
@@ -721,12 +721,12 @@
   On iPhone or iPad: Safari → Share → Add to Home Screen.
 </div>
 
-<script defer src="data.js?v=54"></script>
-<script defer src="core.js?v=54"></script>
-<script defer src="calculator.js?v=54"></script>
-<script defer src="beads.js?v=54"></script>
-<script defer src="projects.js?v=54"></script>
-<script defer src="export.js?v=54"></script>
-<script defer src="app.js?v=54"></script>
+<script defer src="data.js?v=55"></script>
+<script defer src="core.js?v=55"></script>
+<script defer src="calculator.js?v=55"></script>
+<script defer src="beads.js?v=55"></script>
+<script defer src="projects.js?v=55"></script>
+<script defer src="export.js?v=55"></script>
+<script defer src="app.js?v=55"></script>
 </body>
 </html>
