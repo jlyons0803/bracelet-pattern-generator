@@ -2340,3 +2340,342 @@ body.graphFullscreenOpen{
     flex:1 1 0;
   }
 }
+
+/* V62 tighter / cleaner top editing area */
+.previewCard.controls{
+  padding:14px;
+}
+.previewCard.controls > .cardHeader{
+  margin-bottom:8px;
+}
+.graphToolBar{
+  gap:8px;
+  margin-bottom:8px;
+}
+.graphQuickBar{
+  gap:8px;
+  margin-bottom:2px;
+  grid-template-columns:minmax(220px,1.15fr) minmax(210px,.85fr);
+}
+.quickNameWrap{
+  gap:6px;
+}
+.quickNameField{
+  gap:3px;
+}
+.quickNameField span{
+  font-size:10px;
+  letter-spacing:.06em;
+}
+.quickNameField input{
+  min-height:34px;
+  padding:7px 10px;
+  border-radius:10px;
+  font-size:14px;
+}
+.compactGenerateBtn{
+  min-height:34px !important;
+  padding:7px 12px !important;
+  font-size:14px !important;
+  border-radius:10px !important;
+}
+.graphQuickBar .graphStampWindow > summary{
+  min-height:34px;
+  padding:7px 10px;
+  border-radius:10px;
+}
+.graphQuickBar .graphStampWindow[open]{
+  padding:6px;
+  border-radius:12px;
+}
+.graphQuickBar .graphStampWindow .stampBody{
+  gap:6px;
+}
+.graphHeaderRow{
+  margin-bottom:6px;
+}
+.graphHeaderRow h3{
+  font-size:18px;
+  line-height:1.1;
+}
+.graphEditWrap{
+  gap:8px;
+}
+.leftModeRail{
+  padding-top:30px;
+  gap:6px;
+}
+.leftModeRail .graphTool{
+  min-width:56px;
+  min-height:34px;
+  padding:7px 10px;
+  font-size:14px;
+  border-radius:10px;
+}
+.graphInlineSettings{
+  gap:8px;
+  margin-bottom:6px;
+}
+.graphInlineSettings label{
+  min-width:96px;
+  gap:3px;
+}
+.graphInlineSettings span{
+  font-size:10px;
+  letter-spacing:.06em;
+}
+.graphInlineSettings select{
+  min-height:34px;
+  padding:7px 28px 7px 10px;
+  border-radius:10px;
+  font-size:14px;
+}
+.gridShell{
+  padding:10px;
+  border-radius:14px;
+}
+.fitNote{
+  margin-top:6px;
+  font-size:12px;
+}
+.underGraphBar{
+  margin-top:10px;
+}
+@media (max-width: 900px){
+  .previewCard.controls{
+    padding:12px;
+  }
+}
+
+/* V63 graph-first craft app cleanup */
+.previewCard{
+  padding:12px !important;
+}
+.previewCard .cardHead{
+  margin-bottom:6px !important;
+}
+.previewCard .eyebrow{
+  font-size:10px !important;
+  letter-spacing:.08em !important;
+}
+.previewCard #patternTitle{
+  font-size:22px !important;
+  line-height:1.05 !important;
+}
+.previewHeadActions{
+  gap:6px !important;
+}
+#modeBadge{
+  padding:5px 9px !important;
+  font-size:11px !important;
+}
+.fullscreenGraphBtn{
+  min-height:34px !important;
+  padding:6px 10px !important;
+}
+
+.graphToolBar{
+  margin-bottom:6px !important;
+}
+.graphQuickBar{
+  grid-template-columns:minmax(210px,1fr) minmax(190px,.8fr) !important;
+  gap:6px !important;
+  margin-bottom:2px !important;
+}
+.quickNameField input,
+.graphQuickBar .graphStampWindow>summary,
+.compactGenerateBtn{
+  min-height:32px !important;
+  height:32px !important;
+}
+.quickNameField input{
+  padding:5px 9px !important;
+  font-size:13px !important;
+}
+.quickNameField span{
+  display:none !important;
+}
+.compactGenerateBtn{
+  padding:5px 11px !important;
+  font-size:12px !important;
+}
+.graphQuickBar .graphStampWindow>summary{
+  padding:5px 9px !important;
+  font-size:12px !important;
+}
+.graphQuickBar .graphStampWindow>summary small{
+  display:none !important;
+}
+
+.graphInlineSettings{
+  gap:6px !important;
+  margin-bottom:4px !important;
+}
+.graphInlineSettings label{
+  min-width:0 !important;
+}
+.graphInlineSettings span{
+  font-size:9px !important;
+}
+.graphInlineSettings select{
+  min-height:30px !important;
+  height:30px !important;
+  padding:4px 24px 4px 7px !important;
+  font-size:11px !important;
+}
+
+.graphEditWrap{
+  gap:6px !important;
+}
+.leftModeRail{
+  padding-top:26px !important;
+  gap:5px !important;
+}
+.leftModeRail .graphTool{
+  min-width:50px !important;
+  min-height:32px !important;
+  padding:5px 8px !important;
+  font-size:11px !important;
+  border-radius:9px !important;
+}
+
+.graphCenter .gridScroll{
+  border-radius:12px !important;
+}
+#fitNote{
+  margin-top:4px !important;
+  padding:3px 0 !important;
+  font-size:10px !important;
+  line-height:1.2 !important;
+  min-height:0 !important;
+}
+
+.wideToolLayout{
+  gap:8px !important;
+  margin-top:8px !important;
+  margin-bottom:8px !important;
+}
+.wideToolColumn,
+.wideToolSplit{
+  gap:8px !important;
+}
+.adaptiveToolCard,
+.nameGeneratorCard{
+  padding:8px !important;
+  border-radius:12px !important;
+}
+.adaptiveToolTitle{
+  margin-bottom:5px !important;
+  font-size:9px !important;
+}
+.nameGeneratorCard .compactNameControls{
+  gap:5px !important;
+}
+.nameGeneratorCard .compactNameControls label{
+  font-size:8px !important;
+}
+.nameGeneratorCard .compactNameControls input:not([type="color"]),
+.nameGeneratorCard .compactNameControls select{
+  min-height:30px !important;
+  height:30px !important;
+  padding:3px 6px !important;
+  font-size:10px !important;
+}
+.nameGeneratorCard .compactNameControls .stepper button{
+  min-height:30px !important;
+  height:30px !important;
+}
+.nameGeneratorCard #nameSizeNote{
+  display:none !important;
+}
+.nameGeneratorCard #sendToDraw{
+  min-height:32px !important;
+  padding:5px 8px !important;
+  font-size:10px !important;
+}
+
+.compactColorSection{
+  padding:0 !important;
+  gap:4px !important;
+}
+.compactColorSection+.compactColorSection{
+  padding-top:5px !important;
+}
+.compactColorSelect,
+.compactColorPicker{
+  min-height:30px !important;
+  height:30px !important;
+}
+.compactColorSelect{
+  padding:4px 22px 4px 7px !important;
+  font-size:10px !important;
+}
+.compactColorPicker{
+  width:32px !important;
+  min-width:32px !important;
+}
+.sideRailTitle{
+  font-size:9px !important;
+}
+.sideRailSection{
+  gap:5px !important;
+}
+.sideRailSection+.sideRailSection{
+  padding-top:6px !important;
+}
+
+#drawBorderThickness,
+.sideWideButton,
+.sideClearButton{
+  min-height:32px !important;
+  height:32px !important;
+  padding:4px 8px !important;
+  font-size:10px !important;
+}
+.clearToolCard #clearBtn{
+  min-height:40px !important;
+  height:40px !important;
+}
+
+.underGraphBar{
+  margin-top:6px !important;
+  gap:8px !important;
+}
+.graphNextButton{
+  min-height:40px !important;
+  padding:7px 13px !important;
+  font-size:12px !important;
+}
+
+/* make optional lower utilities visually secondary */
+.quickToolsBlock,
+.toolDrawer{
+  margin-top:6px !important;
+}
+.quickToolsBlock{
+  padding:8px 10px !important;
+}
+.quickToolsBlock .editorBlockHead{
+  margin-bottom:5px !important;
+}
+.quickToolsBlock .editorBlockEyebrow{
+  display:none !important;
+}
+.quickToolsBlock h4{
+  font-size:12px !important;
+}
+.quickToolRow{
+  gap:5px !important;
+}
+.quickToolRow button,
+.quickToolRow .numberToggle{
+  min-height:30px !important;
+  padding:4px 8px !important;
+  font-size:10px !important;
+}
+
+@media(max-width:800px){
+  .graphQuickBar{
+    grid-template-columns:1fr !important;
+  }
+}

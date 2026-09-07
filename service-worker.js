@@ -1,7 +1,7 @@
-const CACHE='dandelyons-designs-v61-toolbar-relayout';
+const CACHE='dandelyons-designs-v63-graph-focus-cleanup';
 const ASSETS=[
-  './','./index.html','./styles.css?v=61','./data.js?v=61','./core.js?v=61',
-  './calculator.js?v=61','./beads.js?v=61','./projects.js?v=61','./export.js?v=61','./app.js?v=61',
+  './','./index.html','./styles.css?v=63','./data.js?v=63','./core.js?v=63',
+  './calculator.js?v=63','./beads.js?v=63','./projects.js?v=63','./export.js?v=63','./app.js?v=63',
   './manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'
 ];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
