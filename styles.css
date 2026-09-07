@@ -2447,235 +2447,136 @@ body.graphFullscreenOpen{
   }
 }
 
-/* V63 graph-first craft app cleanup */
-.previewCard{
-  padding:12px !important;
-}
-.previewCard .cardHead{
-  margin-bottom:6px !important;
-}
-.previewCard .eyebrow{
-  font-size:10px !important;
-  letter-spacing:.08em !important;
-}
-.previewCard #patternTitle{
-  font-size:22px !important;
-  line-height:1.05 !important;
-}
-.previewHeadActions{
-  gap:6px !important;
-}
-#modeBadge{
-  padding:5px 9px !important;
-  font-size:11px !important;
-}
-.fullscreenGraphBtn{
-  min-height:34px !important;
-  padding:6px 10px !important;
-}
+/* V64 revised from V62 based on marked layout */
 
-.graphToolBar{
-  margin-bottom:6px !important;
-}
-.graphQuickBar{
-  grid-template-columns:minmax(210px,1fr) minmax(190px,.8fr) !important;
-  gap:6px !important;
-  margin-bottom:2px !important;
-}
-.quickNameField input,
-.graphQuickBar .graphStampWindow>summary,
-.compactGenerateBtn{
-  min-height:32px !important;
-  height:32px !important;
-}
-.quickNameField input{
-  padding:5px 9px !important;
-  font-size:13px !important;
-}
-.quickNameField span{
-  display:none !important;
-}
-.compactGenerateBtn{
-  padding:5px 11px !important;
-  font-size:12px !important;
-}
-.graphQuickBar .graphStampWindow>summary{
-  padding:5px 9px !important;
-  font-size:12px !important;
-}
-.graphQuickBar .graphStampWindow>summary small{
-  display:none !important;
-}
-
-.graphInlineSettings{
-  gap:6px !important;
-  margin-bottom:4px !important;
-}
-.graphInlineSettings label{
-  min-width:0 !important;
-}
-.graphInlineSettings span{
-  font-size:9px !important;
-}
-.graphInlineSettings select{
-  min-height:30px !important;
-  height:30px !important;
-  padding:4px 24px 4px 7px !important;
-  font-size:11px !important;
-}
-
-.graphEditWrap{
-  gap:6px !important;
-}
-.leftModeRail{
-  padding-top:26px !important;
-  gap:5px !important;
-}
-.leftModeRail .graphTool{
-  min-width:50px !important;
-  min-height:32px !important;
-  padding:5px 8px !important;
-  font-size:11px !important;
-  border-radius:9px !important;
-}
-
-.graphCenter .gridScroll{
-  border-radius:12px !important;
-}
-#fitNote{
-  margin-top:4px !important;
-  padding:3px 0 !important;
-  font-size:10px !important;
-  line-height:1.2 !important;
-  min-height:0 !important;
-}
-
-.wideToolLayout{
-  gap:8px !important;
-  margin-top:8px !important;
-  margin-bottom:8px !important;
-}
-.wideToolColumn,
-.wideToolSplit{
-  gap:8px !important;
-}
-.adaptiveToolCard,
-.nameGeneratorCard{
-  padding:8px !important;
-  border-radius:12px !important;
-}
-.adaptiveToolTitle{
-  margin-bottom:5px !important;
-  font-size:9px !important;
-}
+/* Keep the V62 look, but reduce bulky controls. */
 .nameGeneratorCard .compactNameControls{
-  gap:5px !important;
+  grid-template-columns:78px 78px 72px 72px 72px 86px !important;
+  gap:6px !important;
+  justify-content:start;
 }
-.nameGeneratorCard .compactNameControls label{
-  font-size:8px !important;
-}
-.nameGeneratorCard .compactNameControls input:not([type="color"]),
-.nameGeneratorCard .compactNameControls select{
-  min-height:30px !important;
-  height:30px !important;
-  padding:3px 6px !important;
-  font-size:10px !important;
-}
-.nameGeneratorCard .compactNameControls .stepper button{
-  min-height:30px !important;
-  height:30px !important;
-}
-.nameGeneratorCard #nameSizeNote{
+.nameGeneratorCard .compactNameControls #name{
   display:none !important;
 }
-.nameGeneratorCard #sendToDraw{
-  min-height:32px !important;
-  padding:5px 8px !important;
-  font-size:10px !important;
+.nameGeneratorCard .compactNameControls .fieldWide{
+  display:none !important;
 }
 
-.compactColorSection{
-  padding:0 !important;
-  gap:4px !important;
+/* shrink the marked lower generator controls */
+.nameGeneratorCard #graphPresetSelect{
+  width:min(360px,100%) !important;
 }
-.compactColorSection+.compactColorSection{
-  padding-top:5px !important;
+.nameGeneratorCard #namePad{
+  max-width:110px !important;
 }
-.compactColorSelect,
-.compactColorPicker{
-  min-height:30px !important;
+.nameGeneratorCard #spacing{
+  max-width:110px !important;
+}
+.nameGeneratorCard #nameBorder{
+  max-width:130px !important;
+}
+.nameGeneratorCard .compactNameControls .field{
+  width:auto !important;
+}
+
+/* pattern/background controls moved beside Draw/Erase */
+.leftModeRail{
+  min-width:124px;
+  padding-top:28px !important;
+}
+.leftColorTools{
+  display:grid;
+  gap:8px;
+  margin-top:8px;
+}
+.leftColorTool{
+  display:grid;
+  gap:3px;
+}
+.leftColorTool>span{
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.04em;
+  color:#687086;
+}
+.leftColorControl{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 30px;
+  gap:4px;
+  align-items:center;
+}
+.leftColorControl .compactColorSelect{
+  min-width:0 !important;
+  width:100% !important;
   height:30px !important;
-}
-.compactColorSelect{
-  padding:4px 22px 4px 7px !important;
-  font-size:10px !important;
-}
-.compactColorPicker{
-  width:32px !important;
-  min-width:32px !important;
-}
-.sideRailTitle{
+  min-height:30px !important;
+  padding:4px 20px 4px 6px !important;
   font-size:9px !important;
 }
-.sideRailSection{
-  gap:5px !important;
-}
-.sideRailSection+.sideRailSection{
-  padding-top:6px !important;
-}
-
-#drawBorderThickness,
-.sideWideButton,
-.sideClearButton{
-  min-height:32px !important;
-  height:32px !important;
-  padding:4px 8px !important;
-  font-size:10px !important;
-}
-.clearToolCard #clearBtn{
-  min-height:40px !important;
-  height:40px !important;
+.leftColorControl .compactColorPicker{
+  width:30px !important;
+  min-width:30px !important;
+  height:30px !important;
+  min-height:30px !important;
+  padding:1px !important;
 }
 
-.underGraphBar{
-  margin-top:6px !important;
-  gap:8px !important;
-}
-.graphNextButton{
-  min-height:40px !important;
-  padding:7px 13px !important;
-  font-size:12px !important;
-}
-
-/* make optional lower utilities visually secondary */
-.quickToolsBlock,
-.toolDrawer{
-  margin-top:6px !important;
-}
-.quickToolsBlock{
-  padding:8px 10px !important;
-}
-.quickToolsBlock .editorBlockHead{
-  margin-bottom:5px !important;
-}
-.quickToolsBlock .editorBlockEyebrow{
+/* don't leave blank pattern/background cards below */
+.wideToolSplit:first-of-type{
   display:none !important;
 }
-.quickToolsBlock h4{
-  font-size:12px !important;
-}
-.quickToolRow{
-  gap:5px !important;
-}
-.quickToolRow button,
-.quickToolRow .numberToggle{
-  min-height:30px !important;
-  padding:4px 8px !important;
-  font-size:10px !important;
+
+/* remove standalone border controls section */
+.graphSideRight .sideRailSection:has(#drawBorderThickness),
+#wideBorderMount{
+  display:none !important;
 }
 
-@media(max-width:800px){
-  .graphQuickBar{
-    grid-template-columns:1fr !important;
+/* make lower graph preset and settings visibly narrower */
+#wideNameMount .nameGeneratorCard{
+  max-width:760px;
+}
+#wideNameMount .nameGeneratorCard .sideRailSection{
+  max-width:360px;
+}
+#wideNameMount .nameGeneratorCard .compactNameControls{
+  display:flex !important;
+  flex-wrap:wrap;
+  align-items:end !important;
+}
+#wideNameMount .nameGeneratorCard .compactNameControls .field{
+  flex:0 0 auto;
+}
+#wideNameMount .nameGeneratorCard .compactNameControls .field:nth-of-type(1),
+#wideNameMount .nameGeneratorCard .compactNameControls .field:nth-of-type(2){
+  width:160px;
+}
+#wideNameMount .nameGeneratorCard .compactNameControls .compactField{
+  width:110px;
+}
+
+/* keep generate button compact instead of full-width */
+#wideNameMount .nameGeneratorCard #sendToDraw{
+  width:auto !important;
+  min-width:180px;
+  padding-left:18px !important;
+  padding-right:18px !important;
+}
+
+/* let the graph have more width after color tools move left */
+.previewCard.controlsUnderGraph .graphEditWrap{
+  grid-template-columns:auto minmax(0,1fr);
+}
+
+@media(max-width:900px){
+  .leftModeRail{
+    min-width:0;
+  }
+  .leftColorTools{
+    grid-template-columns:1fr 1fr;
+    width:100%;
+  }
+  .leftColorControl{
+    grid-template-columns:minmax(0,1fr) 32px;
   }
 }

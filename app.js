@@ -560,6 +560,9 @@ function initAdaptiveWorkspace(){
   workspaceAdaptive.patternSection=rightSections[0] || null;
   workspaceAdaptive.backgroundSection=rightSections[1] || null;
   workspaceAdaptive.borderSection=rightSections[2] || null;
+  if(workspaceAdaptive.borderSection){
+    workspaceAdaptive.borderSection.style.display="none";
+  }
   workspaceAdaptive.clearBtn=$("clearBtn");
 
   const nameCard=makeAdaptiveToolCard("Name generator");
@@ -718,6 +721,31 @@ function initV61WorkspaceTweaks(){
       leftRail.className="leftModeRail";
       leftRail.appendChild(drawBtn);
       leftRail.appendChild(eraseBtn);
+
+      const patternSelect=document.getElementById("patternColorSelect");
+      const patternPicker=document.getElementById("sidePatternColor");
+      const backgroundSelect=document.getElementById("backgroundColorSelect");
+      const backgroundPicker=document.getElementById("sideBackgroundColor");
+
+      if(patternSelect && patternPicker && backgroundSelect && backgroundPicker){
+        const colorTools=document.createElement("div");
+        colorTools.className="leftColorTools";
+        colorTools.innerHTML=`
+          <div class="leftColorTool">
+            <span>Pattern</span>
+            <div class="leftColorControl"></div>
+          </div>
+          <div class="leftColorTool">
+            <span>Background</span>
+            <div class="leftColorControl"></div>
+          </div>
+        `;
+        const controls=colorTools.querySelectorAll(".leftColorControl");
+        controls[0].append(patternSelect,patternPicker);
+        controls[1].append(backgroundSelect,backgroundPicker);
+        leftRail.appendChild(colorTools);
+      }
+
       editWrap.insertBefore(leftRail, editWrap.firstChild);
     }
   }

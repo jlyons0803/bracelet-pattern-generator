@@ -1,7 +1,7 @@
-const CACHE='dandelyons-designs-v63-graph-focus-cleanup';
+const CACHE='dandelyons-designs-v64-revised-from-v62';
 const ASSETS=[
-  './','./index.html','./styles.css?v=63','./data.js?v=63','./core.js?v=63',
-  './calculator.js?v=63','./beads.js?v=63','./projects.js?v=63','./export.js?v=63','./app.js?v=63',
+  './','./index.html','./styles.css?v=64','./data.js?v=64','./core.js?v=64',
+  './calculator.js?v=64','./beads.js?v=64','./projects.js?v=64','./export.js?v=64','./app.js?v=64',
   './manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'
 ];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
