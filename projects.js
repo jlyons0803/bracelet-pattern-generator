@@ -60,7 +60,10 @@ function captureProjectState(){
       waste:$("waste").value,
       sampleCols:$("sampleCols").value,
       sampleUsed:$("sampleUsed").value,
-      tail:$("tail").value
+      tail:$("tail").value,
+      plasticBaseWidth:$("plasticBaseWidth")?.value||"",
+      plasticBaseUnit:$("plasticBaseUnit")?.value||"in",
+      baseRowsPerInch:$("baseRowsPerInch")?.value||"20"
     },
     beadCalculator:{
       finished:$("beadFinished").value,
@@ -125,7 +128,14 @@ function applyProjectState(state){
     ["finished","tie","baseExtra","ppi","waste","sampleCols","sampleUsed","tail"].forEach(id=>{
       if(c[id]!=null) $(id).value=c[id];
     });
+    if($("plasticBaseWidth")) $("plasticBaseWidth").value=c.plasticBaseWidth??"";
+    if($("plasticBaseUnit")) $("plasticBaseUnit").value=c.plasticBaseUnit||"in";
+    if($("baseRowsPerInch")){
+      const preset=BASE_THREAD_PRESETS[$("baseThreadType").value]||BASE_THREAD_PRESETS.custom;
+      $("baseRowsPerInch").value=c.baseRowsPerInch??preset.rowsPerInch??16;
+    }
     renderThreadNotes();
+    if(typeof updatePlasticBaseRows==="function") updatePlasticBaseRows();
 
     customFitToScreen=state.customFitToScreen!==false;
     history=[];
@@ -376,7 +386,11 @@ function newProjectNow(){
     $("threadType").value="floss6";
     $("baseThreadType").value="fineCord";
     $("ppi").value=THREAD_PRESETS.floss6.ppi;
+    if($("plasticBaseWidth")) $("plasticBaseWidth").value="";
+    if($("plasticBaseUnit")) $("plasticBaseUnit").value="in";
+    if($("baseRowsPerInch")) $("baseRowsPerInch").value=BASE_THREAD_PRESETS.fineCord.rowsPerInch||20;
     renderThreadNotes();
+    if(typeof updatePlasticBaseRows==="function") updatePlasticBaseRows();
     history=[];
     currentTool="draw";
     renderToolSelection?.();

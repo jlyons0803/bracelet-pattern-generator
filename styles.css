@@ -1720,3 +1720,55 @@ body.graphFullscreenOpen{
     grid-column:1/-1 !important;
   }
 }
+
+/* V56 plastic-base row calculator */
+.plasticBaseSection{
+  background:#fbfaff;
+}
+.plasticBaseGrid{
+  grid-template-columns:minmax(150px,1fr) minmax(120px,.7fr) minmax(180px,1fr);
+}
+.plasticRowsResult{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-top:12px;
+  padding:12px 14px;
+  border:1px solid #ddd8eb;
+  border-radius:14px;
+  background:#fff;
+}
+.plasticRowsResult>div{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+}
+.plasticRowsResult span{
+  font-size:12px;
+  font-weight:800;
+  color:#666d82;
+}
+.plasticRowsResult b{
+  font-size:24px;
+  line-height:1;
+  color:var(--accent-dark);
+}
+.plasticRowsResult button{
+  min-height:40px;
+}
+.plasticRowsResult button:disabled{
+  opacity:.45;
+}
+@media(max-width:700px){
+  .plasticBaseGrid{
+    grid-template-columns:1fr;
+  }
+  .plasticRowsResult{
+    align-items:stretch;
+    flex-direction:column;
+  }
+  .plasticRowsResult button{
+    width:100%;
+  }
+}

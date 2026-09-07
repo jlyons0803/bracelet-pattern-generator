@@ -363,6 +363,29 @@ $("baseThreadType").addEventListener("change",applyBaseThreadPreset);
 ["finished","tie","baseExtra","ppi","waste","sampleCols","sampleUsed","tail"].forEach(id=>{
   $(id).addEventListener("input",markCalculatorDirty);
 });
+
+["plasticBaseWidth","baseRowsPerInch"].forEach(id=>{
+  $(id).addEventListener("input",()=>{
+    updatePlasticBaseRows();
+    markCalculatorDirty();
+  });
+});
+$("plasticBaseUnit").addEventListener("change",()=>{
+  updatePlasticBaseRows();
+  markCalculatorDirty();
+});
+$("applyPlasticRowsBtn").addEventListener("click",()=>{
+  const recommended=Math.max(1,Number($("applyPlasticRowsBtn").dataset.rows)||0);
+  if(!recommended) return;
+  const rows=Math.min(60,recommended);
+  const cols=(drawMatrix[0]?.length)||Number($("drawCols").value)||60;
+  applyGraphSize(rows,cols);
+  if(typeof syncInlineGraphSizeControls==="function") syncInlineGraphSizeControls();
+  $("plasticRowsNote").innerHTML=
+    `<b>Graph updated to ${rows} rows.</b>` +
+    (recommended>60 ? ` Recommended value was ${recommended}, but the current graph limit is 60 rows.` : "");
+  autosaveCurrentProject();
+});
 $("updateCalculatorBtn").addEventListener("click",()=>{
   if(typeof runCalculatorUpdate==="function"){
     runCalculatorUpdate();
@@ -414,6 +437,12 @@ $("showGridNumbers").checked=true;
 showGridNumbers=true;
 
 setCraftMode("woven");
+
+if($("baseRowsPerInch")){
+  const initialBase=BASE_THREAD_PRESETS[$("baseThreadType").value]||BASE_THREAD_PRESETS.custom;
+  $("baseRowsPerInch").value=initialBase.rowsPerInch||16;
+  updatePlasticBaseRows();
+}
 
 updateGraphSizeReadout();
 syncInlineGraphSizeControls();

@@ -1,7 +1,7 @@
-const CACHE='dandelyons-designs-v55-compact-name-generator';
+const CACHE='dandelyons-designs-v56-plastic-base-rows';
 const ASSETS=[
-  './','./index.html','./styles.css?v=55','./data.js?v=55','./core.js?v=55',
-  './calculator.js?v=55','./beads.js?v=55','./projects.js?v=55','./export.js?v=55','./app.js?v=55',
+  './','./index.html','./styles.css?v=56','./data.js?v=56','./core.js?v=56',
+  './calculator.js?v=56','./beads.js?v=56','./projects.js?v=56','./export.js?v=56','./app.js?v=56',
   './manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'
 ];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});

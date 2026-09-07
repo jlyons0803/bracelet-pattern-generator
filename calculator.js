@@ -10,14 +10,14 @@ const THREAD_PRESETS={
 };
 
 const BASE_THREAD_PRESETS={
-  floss6:{label:"6-strand embroidery floss",wrapFactor:1.18,note:"Quite thick for a base thread, so wrapping thread usually travels farther around each pass."},
-  floss3:{label:"3-strand embroidery floss",wrapFactor:1.10,note:"A medium-thick floss base."},
-  pearl5:{label:"Pearl cotton #5",wrapFactor:1.15,note:"A thicker pearl-cotton base thread."},
-  pearl8:{label:"Pearl cotton #8",wrapFactor:1.08,note:"A medium pearl-cotton base thread."},
-  pearl10:{label:"Pearl cotton #10",wrapFactor:1.04,note:"A finer pearl-cotton base thread."},
-  crochet10:{label:"Crochet / craft thread #10",wrapFactor:1.06,note:"A medium craft-thread base."},
-  fineCord:{label:"Fine nylon / beading cord",wrapFactor:1.00,note:"A slim base-thread starting estimate."},
-  custom:{label:"Custom / measured base thread",wrapFactor:1.00,note:"If your base thread is thicker or thinner than usual, fine-tune the estimate with a real sample."}
+  floss6:{label:"6-strand embroidery floss",wrapFactor:1.18,rowsPerInch:12,note:"Quite thick for a base thread, so wrapping thread usually travels farther around each pass."},
+  floss3:{label:"3-strand embroidery floss",wrapFactor:1.10,rowsPerInch:16,note:"A medium-thick floss base."},
+  pearl5:{label:"Pearl cotton #5",wrapFactor:1.15,rowsPerInch:11,note:"A thicker pearl-cotton base thread."},
+  pearl8:{label:"Pearl cotton #8",wrapFactor:1.08,rowsPerInch:15,note:"A medium pearl-cotton base thread."},
+  pearl10:{label:"Pearl cotton #10",wrapFactor:1.04,rowsPerInch:18,note:"A finer pearl-cotton base thread."},
+  crochet10:{label:"Crochet / craft thread #10",wrapFactor:1.06,rowsPerInch:14,note:"A medium craft-thread base."},
+  fineCord:{label:"Fine nylon / beading cord",wrapFactor:1.00,rowsPerInch:20,note:"A slim base-thread starting estimate."},
+  custom:{label:"Custom / measured base thread",wrapFactor:1.00,rowsPerInch:16,note:"If your base thread is thicker or thinner than usual, fine-tune the estimate with a real sample."}
 };
 
 function fmtIn(value){
@@ -42,8 +42,11 @@ function renderThreadNotes(){
   const factorText=factorPct===0 ? `This uses the standard base-thread estimate.` :
     (factorPct>0 ? `This adds about ${factorPct}% to the wrapping-string estimate for the thicker base.` :
                     `This reduces the wrapping-string estimate by about ${Math.abs(factorPct)}%.`);
+  const rowDensityText=basePreset.rowsPerInch
+    ? ` Starting plastic-base estimate: about ${basePreset.rowsPerInch} rows per inch.`
+    : "";
   $("baseThreadTypeNote").innerHTML=
-    `<b>${basePreset.label}:</b> ${basePreset.note} ${factorText}`;
+    `<b>${basePreset.label}:</b> ${basePreset.note} ${factorText}${rowDensityText}`;
 }
 
 function markCalculatorDirty(){
@@ -97,8 +100,51 @@ function applyWrappingThreadPreset(){
 }
 
 function applyBaseThreadPreset(){
+  const preset=BASE_THREAD_PRESETS[$("baseThreadType").value]||BASE_THREAD_PRESETS.custom;
+  if($("baseRowsPerInch") && preset.rowsPerInch!=null){
+    $("baseRowsPerInch").value=preset.rowsPerInch;
+  }
   renderThreadNotes();
+  updatePlasticBaseRows();
   markCalculatorDirty();
+}
+
+function updatePlasticBaseRows(){
+  if(!$("plasticBaseWidth") || !$("plasticRows")) return null;
+
+  const rawWidth=Number($("plasticBaseWidth").value);
+  const unit=$("plasticBaseUnit")?.value==="mm" ? "mm" : "in";
+  const density=Math.max(1,Number($("baseRowsPerInch").value)||16);
+
+  if(!Number.isFinite(rawWidth) || rawWidth<=0){
+    $("plasticRows").textContent="—";
+    $("applyPlasticRowsBtn").disabled=true;
+    $("plasticRowsNote").textContent=
+      "Enter the plastic strip width. The row-density estimate is based on your selected base thread and can be adjusted after a test fit.";
+    return null;
+  }
+
+  const widthIn=unit==="mm" ? rawWidth/25.4 : rawWidth;
+  const estimated=Math.max(1,Math.round(widthIn*density));
+  const graphLimit=60;
+
+  $("plasticRows").textContent=estimated;
+  $("applyPlasticRowsBtn").disabled=false;
+  $("applyPlasticRowsBtn").dataset.rows=String(estimated);
+
+  const widthLabel=unit==="mm"
+    ? `${rawWidth.toFixed(rawWidth%1 ? 1 : 0)} mm (${widthIn.toFixed(2)} in)`
+    : `${rawWidth.toFixed(2).replace(/\.00$/,"")} in`;
+
+  const limitNote=estimated>graphLimit
+    ? ` The current graph supports up to ${graphLimit} rows, so using this recommendation will set the graph to ${graphLimit} rows.`
+    : "";
+
+  $("plasticRowsNote").innerHTML=
+    `<b>${widthLabel} × ${density} rows/in ≈ ${estimated} rows.</b> ` +
+    `This is a starting estimate; actual spacing depends on the base thread and how tightly you place the strings.${limitNote}`;
+
+  return estimated;
 }
 
 function updateCalculator(){
@@ -115,6 +161,7 @@ function updateCalculator(){
   const tail=Math.max(0,Number($("tail").value)||0);
   const baseThreadKey=$("baseThreadType")?.value||"fineCord";
   const basePreset=BASE_THREAD_PRESETS[baseThreadKey]||BASE_THREAD_PRESETS.custom;
+  const plasticRecommendedRows=updatePlasticBaseRows();
 
   let on=0;
   let minRow=canvasRows, maxRow=-1;
@@ -170,10 +217,13 @@ function updateCalculator(){
   const threadKey=$("threadType")?.value||"custom";
   const threadLabel=(THREAD_PRESETS[threadKey]||THREAD_PRESETS.custom).label;
   const baseLabel=basePreset.label;
+  const plasticMsg=plasticRecommendedRows
+    ? ` Plastic-base estimate: ${plasticRecommendedRows} rows.`
+    : "";
   $("calcNote").innerHTML =
     `<b>${boundsMsg}</b> Wrapping thread: ${threadLabel}. Base thread: ${baseLabel}. Pattern cells: ${on.toLocaleString()}; background cells counted: ${bgCells.toLocaleString()}. ` +
     `Calibration used: ${sampleUsed}" of thread for ${sampleCols} full-width passes over ${activeRows} active rows, adjusted for base-thread thickness and ${ppi} passes/in. ` +
-    sizeMsg;
+    sizeMsg + plasticMsg;
 
   if($("calcDirtyNote")){
     $("calcDirtyNote").textContent="Calculations are up to date.";

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>DandeLyons Designs</title>
-<link rel="stylesheet" href="styles.css?v=55">
+<link rel="stylesheet" href="styles.css?v=56">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#6557d9">
@@ -533,6 +533,38 @@
         <div id="baseThreadTypeNote" class="infoLine"></div>
       </div>
 
+      <div class="calcSection plasticBaseSection">
+        <div class="miniHeading">Plastic base / stabilizer</div>
+        <div class="controls calcGrid plasticBaseGrid">
+          <div class="field">
+            <label>Plastic base width</label>
+            <input id="plasticBaseWidth" type="number" min="0" max="12" step=".01" value="" placeholder="0.50">
+          </div>
+          <div class="field">
+            <label>Width unit</label>
+            <select id="plasticBaseUnit">
+              <option value="in" selected>Inches</option>
+              <option value="mm">Millimeters</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Base strings / rows per inch</label>
+            <input id="baseRowsPerInch" type="number" min="1" max="100" step=".5" value="20">
+          </div>
+        </div>
+
+        <div class="plasticRowsResult">
+          <div>
+            <span>Recommended graph rows</span>
+            <b id="plasticRows">—</b>
+          </div>
+          <button type="button" id="applyPlasticRowsBtn" disabled>Use These Rows</button>
+        </div>
+        <div id="plasticRowsNote" class="infoLine">
+          Enter the plastic strip width. The row-density estimate is based on your selected base thread and can be adjusted after a test fit.
+        </div>
+      </div>
+
       <details class="advancedBox">
         <summary>Advanced calibration</summary>
         <div class="controls calcGrid advancedGrid">
@@ -721,12 +753,12 @@
   On iPhone or iPad: Safari → Share → Add to Home Screen.
 </div>
 
-<script defer src="data.js?v=55"></script>
-<script defer src="core.js?v=55"></script>
-<script defer src="calculator.js?v=55"></script>
-<script defer src="beads.js?v=55"></script>
-<script defer src="projects.js?v=55"></script>
-<script defer src="export.js?v=55"></script>
-<script defer src="app.js?v=55"></script>
+<script defer src="data.js?v=56"></script>
+<script defer src="core.js?v=56"></script>
+<script defer src="calculator.js?v=56"></script>
+<script defer src="beads.js?v=56"></script>
+<script defer src="projects.js?v=56"></script>
+<script defer src="export.js?v=56"></script>
+<script defer src="app.js?v=56"></script>
 </body>
 </html>
