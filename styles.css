@@ -2893,3 +2893,31 @@ body.graphFullscreenOpen{
     flex-wrap:wrap;
   }
 }
+
+/* V67 graph width fix */
+.previewCard.controlsUnderGraph .graphCenter,
+.previewCard.controlsUnderGraph .graphCenter.wideGraph{
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+  align-self:stretch !important;
+}
+
+.previewCard.controlsUnderGraph .graphEditWrap{
+  display:block !important;
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+}
+
+.previewCard.controlsUnderGraph .graphCenter .gridScroll{
+  display:block !important;
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+}
+
+.previewCard.controlsUnderGraph .graphCenter .gridNumbered{
+  max-width:none !important;
+}

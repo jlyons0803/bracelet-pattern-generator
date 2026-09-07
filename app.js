@@ -729,6 +729,17 @@ function updateAdaptiveWorkspace(){
     if(workspaceAdaptive.clearBtn) workspaceAdaptive.rightRail.appendChild(workspaceAdaptive.clearBtn);
     v66RestoreSideLayout();
   }
+
+  // V67: the adaptive layout can change the graph holder width after the
+  // first render. Recalculate cell size once the new layout has settled.
+  const settledHolder=document.getElementById("gridScroll");
+  const settledWidth=settledHolder ? settledHolder.clientWidth : 0;
+  if(settledWidth>0 && workspaceAdaptive.lastSettledGridWidth!==settledWidth){
+    workspaceAdaptive.lastSettledGridWidth=settledWidth;
+    requestAnimationFrame(()=>{
+      if(typeof __v54RenderGrid==="function") __v54RenderGrid();
+    });
+  }
 }
 
 
