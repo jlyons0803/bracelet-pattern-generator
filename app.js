@@ -641,6 +641,99 @@ function updateAdaptiveWorkspace(){
   }
 }
 
+
+
+// V61 toolbar + tool relocation
+function initV61WorkspaceTweaks(){
+  if(document.body.dataset.v61WorkspaceTweaks) return;
+  document.body.dataset.v61WorkspaceTweaks="1";
+
+  const graphToolBar=document.getElementById("graphToolBar");
+  const graphCenter=document.querySelector(".graphCenter");
+  const underGraphBar=document.querySelector(".underGraphBar");
+  const stampWindow=document.querySelector(".graphStampWindow");
+  const drawBtn=document.getElementById("toolDraw");
+  const eraseBtn=document.getElementById("toolErase");
+  const stampBtn=document.getElementById("toolStamp");
+  const fillBtn=document.getElementById("toolFill");
+  const graphToolButtons=document.querySelector(".graphToolButtons");
+  const nameInput=document.getElementById("name");
+  const sendNameBtn=document.getElementById("sendToDraw");
+  const gridScroll=document.getElementById("gridScroll");
+  const fitNote=document.getElementById("fitNote");
+
+  if(graphToolBar && nameInput){
+    const quickBar=document.createElement("div");
+    quickBar.className="graphQuickBar";
+    quickBar.innerHTML = `
+      <div class="quickNameWrap">
+        <label class="quickNameField">
+          <span>Name</span>
+          <input id="quickNameInput" type="text" maxlength="24" placeholder="Enter a name">
+        </label>
+        <button type="button" id="quickGenerateNameBtn" class="secondaryAction compactGenerateBtn">Generate</button>
+      </div>
+      <div class="quickStampSlot"></div>
+    `;
+    graphToolBar.insertBefore(quickBar, graphToolBar.firstChild);
+
+    const quickNameInput=document.getElementById("quickNameInput");
+    const quickGenerateNameBtn=document.getElementById("quickGenerateNameBtn");
+    quickNameInput.value=nameInput.value || "";
+    quickNameInput.addEventListener("input",()=>{
+      nameInput.value=quickNameInput.value;
+      nameInput.dispatchEvent(new Event("input",{bubbles:true}));
+      if(typeof autosaveCurrentProject==="function") autosaveCurrentProject();
+    });
+    nameInput.addEventListener("input",()=>{
+      if(document.activeElement !== quickNameInput){
+        quickNameInput.value=nameInput.value || "";
+      }
+    });
+    quickGenerateNameBtn.addEventListener("click",()=>{
+      if(sendNameBtn) sendNameBtn.click();
+    });
+
+    if(stampWindow){
+      const slot=quickBar.querySelector(".quickStampSlot");
+      stampWindow.classList.add("stampWindowTop");
+      slot.appendChild(stampWindow);
+    }
+  }
+
+  if(graphCenter && gridScroll){
+    let editWrap=graphCenter.querySelector(".graphEditWrap");
+    if(!editWrap){
+      editWrap=document.createElement("div");
+      editWrap.className="graphEditWrap";
+      graphCenter.insertBefore(editWrap, gridScroll);
+      editWrap.appendChild(gridScroll);
+    }
+    if(fitNote && fitNote.parentElement!==graphCenter){
+      graphCenter.appendChild(fitNote);
+    }
+
+    if(drawBtn && eraseBtn){
+      const leftRail=document.createElement("div");
+      leftRail.className="leftModeRail";
+      leftRail.appendChild(drawBtn);
+      leftRail.appendChild(eraseBtn);
+      editWrap.insertBefore(leftRail, editWrap.firstChild);
+    }
+  }
+
+  if(graphToolButtons){
+    graphToolButtons.classList.add("toolbarToolsMoved");
+  }
+  if(stampBtn) stampBtn.classList.add("toolHiddenV61");
+  if(fillBtn) fillBtn.classList.add("toolHiddenV61");
+
+  if(underGraphBar && underGraphBar.querySelector(".graphStampWindow")){
+    // just in case move failed above, leave it but clean up spacing
+  }
+}
+initV61WorkspaceTweaks();
+
 const __v54RenderGrid = renderGrid;
 renderGrid = function(){
   const result = __v54RenderGrid.apply(this, arguments);

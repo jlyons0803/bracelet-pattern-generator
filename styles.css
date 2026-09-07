@@ -2213,3 +2213,130 @@ body.graphFullscreenOpen{
     grid-template-columns:minmax(0,1fr) 40px;
   }
 }
+
+/* V61 toolbar relayout */
+.graphQuickBar{
+  display:grid;
+  grid-template-columns:minmax(240px,1.1fr) minmax(220px,.9fr);
+  gap:10px;
+  align-items:end;
+  width:100%;
+  margin-bottom:4px;
+}
+.quickNameWrap{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:8px;
+  align-items:end;
+}
+.quickNameField{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.quickNameField span{
+  font-size:11px;
+  font-weight:900;
+  color:#676182;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.quickNameField input{
+  width:100%;
+  min-height:38px;
+  padding:9px 12px;
+  border:1px solid #ddd7ea;
+  border-radius:12px;
+  background:#fff;
+  font-size:15px;
+  font-weight:700;
+  color:#25273a;
+}
+.compactGenerateBtn{
+  min-height:38px !important;
+  padding:8px 14px !important;
+  border-radius:12px !important;
+  white-space:nowrap;
+}
+.quickStampSlot{
+  min-width:0;
+}
+.graphQuickBar .graphStampWindow{
+  margin:0;
+}
+.graphQuickBar .graphStampWindow > summary{
+  min-height:38px;
+  padding:8px 12px;
+  border-radius:12px;
+}
+.graphQuickBar .graphStampWindow[open]{
+  background:#fbfaff;
+  border:1px solid #e7e2f2;
+  border-radius:14px;
+  padding:8px;
+}
+.graphQuickBar .graphStampWindow[open] > summary{
+  margin-bottom:8px;
+}
+.graphQuickBar .graphStampWindow .toolbarHeader{
+  gap:8px;
+}
+.graphQuickBar .graphStampWindow .toolbarHeader span:first-child,
+.graphQuickBar .graphStampWindow .toolbarLabel{
+  font-size:13px;
+  font-weight:800;
+}
+.graphToolButtons.toolbarToolsMoved{
+  display:none !important;
+}
+.toolHiddenV61{
+  display:none !important;
+}
+.graphEditWrap{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  gap:10px;
+  align-items:start;
+}
+.leftModeRail{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding-top:34px;
+}
+.leftModeRail .graphTool{
+  min-width:62px;
+  justify-content:center;
+  padding:8px 12px;
+}
+.graphInlineSettings{
+  width:100%;
+  justify-content:flex-end;
+}
+.graphInlineSettings label{
+  min-width:110px;
+}
+.underGraphBar{
+  align-items:center;
+}
+.underGraphBar > .graphStampWindow{
+  display:none !important;
+}
+@media (max-width: 900px){
+  .graphQuickBar{
+    grid-template-columns:1fr;
+  }
+}
+@media (max-width: 700px){
+  .graphEditWrap{
+    grid-template-columns:1fr;
+  }
+  .leftModeRail{
+    flex-direction:row;
+    padding-top:0;
+    margin-bottom:6px;
+  }
+  .leftModeRail .graphTool{
+    flex:1 1 0;
+  }
+}
