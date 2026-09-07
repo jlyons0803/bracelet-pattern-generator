@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>DandeLyons Designs</title>
-<link rel="stylesheet" href="styles.css?v=58">
+<link rel="stylesheet" href="styles.css?v=60">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#6557d9">
@@ -255,30 +255,36 @@
         </div>
 
         <aside class="graphSideRail graphSideRight">
-          <div class="sideRailSection">
-            <div class="sideRailTitle">Pattern color</div>
-            <div class="colorPalette" aria-label="Pattern color palette">
-              <button type="button" class="paletteSwatch" data-target="drawLetterColor" data-color="#183d7a" style="--swatch:#183d7a" aria-label="Navy"></button>
-              <button type="button" class="paletteSwatch" data-target="drawLetterColor" data-color="#111111" style="--swatch:#111111" aria-label="Black"></button>
-              <button type="button" class="paletteSwatch" data-target="drawLetterColor" data-color="#6b4ab3" style="--swatch:#6b4ab3" aria-label="Purple"></button>
-              <button type="button" class="paletteSwatch" data-target="drawLetterColor" data-color="#d9466b" style="--swatch:#d9466b" aria-label="Pink"></button>
-              <button type="button" class="paletteSwatch" data-target="drawLetterColor" data-color="#d97706" style="--swatch:#d97706" aria-label="Orange"></button>
-              <button type="button" class="paletteSwatch" data-target="drawLetterColor" data-color="#138a72" style="--swatch:#138a72" aria-label="Teal"></button>
+          <div class="sideRailSection compactColorSection">
+            <div class="sideRailTitle">Pattern</div>
+            <div class="compactColorRow">
+              <select id="patternColorSelect" class="compactColorSelect" aria-label="Pattern color">
+                <option value="#183d7a" selected>Navy</option>
+                <option value="#111111">Black</option>
+                <option value="#6b4ab3">Purple</option>
+                <option value="#d9466b">Pink</option>
+                <option value="#d97706">Orange</option>
+                <option value="#138a72">Teal</option>
+                <option value="custom">Custom</option>
+              </select>
+              <input id="sidePatternColor" class="compactColorPicker" type="color" value="#183d7a" aria-label="Custom pattern color">
             </div>
-            <label class="sideColorPicker"><span>Custom</span><input id="sidePatternColor" type="color" value="#183d7a"></label>
           </div>
 
-          <div class="sideRailSection">
+          <div class="sideRailSection compactColorSection">
             <div class="sideRailTitle">Background</div>
-            <div class="colorPalette" aria-label="Background color palette">
-              <button type="button" class="paletteSwatch" data-target="drawBgColor" data-color="#d9f3e8" style="--swatch:#d9f3e8" aria-label="Mint"></button>
-              <button type="button" class="paletteSwatch" data-target="drawBgColor" data-color="#ffffff" style="--swatch:#ffffff" aria-label="White"></button>
-              <button type="button" class="paletteSwatch" data-target="drawBgColor" data-color="#fff2c9" style="--swatch:#fff2c9" aria-label="Cream"></button>
-              <button type="button" class="paletteSwatch" data-target="drawBgColor" data-color="#f9d8e7" style="--swatch:#f9d8e7" aria-label="Blush"></button>
-              <button type="button" class="paletteSwatch" data-target="drawBgColor" data-color="#dce7ff" style="--swatch:#dce7ff" aria-label="Blue"></button>
-              <button type="button" class="paletteSwatch" data-target="drawBgColor" data-color="#eee7ff" style="--swatch:#eee7ff" aria-label="Lavender"></button>
+            <div class="compactColorRow">
+              <select id="backgroundColorSelect" class="compactColorSelect" aria-label="Background color">
+                <option value="#d9f3e8" selected>Mint</option>
+                <option value="#ffffff">White</option>
+                <option value="#fff2c9">Cream</option>
+                <option value="#f9d8e7">Blush</option>
+                <option value="#dce7ff">Blue</option>
+                <option value="#eee7ff">Lavender</option>
+                <option value="custom">Custom</option>
+              </select>
+              <input id="sideBackgroundColor" class="compactColorPicker" type="color" value="#d9f3e8" aria-label="Custom background color">
             </div>
-            <label class="sideColorPicker"><span>Custom</span><input id="sideBackgroundColor" type="color" value="#d9f3e8"></label>
           </div>
 
           <div class="sideRailSection">
@@ -753,12 +759,12 @@
   On iPhone or iPad: Safari → Share → Add to Home Screen.
 </div>
 
-<script defer src="data.js?v=58"></script>
-<script defer src="core.js?v=58"></script>
-<script defer src="calculator.js?v=58"></script>
-<script defer src="beads.js?v=58"></script>
-<script defer src="projects.js?v=58"></script>
-<script defer src="export.js?v=58"></script>
-<script defer src="app.js?v=58"></script>
+<script defer src="data.js?v=60"></script>
+<script defer src="core.js?v=60"></script>
+<script defer src="calculator.js?v=60"></script>
+<script defer src="beads.js?v=60"></script>
+<script defer src="projects.js?v=60"></script>
+<script defer src="export.js?v=60"></script>
+<script defer src="app.js?v=60"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
-const CACHE='dandelyons-designs-v58-ultra-compact-workspace';
+const CACHE='dandelyons-designs-v60-compact-color-dropdowns';
 const ASSETS=[
-  './','./index.html','./styles.css?v=58','./data.js?v=58','./core.js?v=58',
-  './calculator.js?v=58','./beads.js?v=58','./projects.js?v=58','./export.js?v=58','./app.js?v=58',
+  './','./index.html','./styles.css?v=60','./data.js?v=60','./core.js?v=60',
+  './calculator.js?v=60','./beads.js?v=60','./projects.js?v=60','./export.js?v=60','./app.js?v=60',
   './manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'
 ];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});

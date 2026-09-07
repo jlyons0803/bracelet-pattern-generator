@@ -2031,3 +2031,185 @@ body.graphFullscreenOpen{
     grid-column:1/-1 !important;
   }
 }
+
+
+/* V59 condense pattern + background sections */
+.colorSections,
+.paletteWorkspace,
+.paletteSections,
+.colorPanelGrid{
+  gap:10px !important;
+}
+
+.colorCard,
+.paletteCard,
+.patternPaletteCard,
+.backgroundPaletteCard{
+  padding:10px !important;
+  border-radius:16px !important;
+}
+
+.colorCard h4,
+.paletteCard h4,
+.patternPaletteCard h4,
+.backgroundPaletteCard h4{
+  margin:0 0 6px 0 !important;
+  font-size:12px !important;
+  line-height:1.1 !important;
+}
+
+.colorCard .sectionLabel,
+.paletteCard .sectionLabel{
+  margin-bottom:4px !important;
+  font-size:10px !important;
+}
+
+/* Put pattern and background next to each other when possible */
+.patternBackgroundRow,
+.colorPaletteRow,
+.paletteDualRow{
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:10px !important;
+  align-items:start !important;
+}
+
+/* tighten swatches */
+.colorSwatches,
+.paletteSwatches,
+.swatchGrid{
+  display:grid !important;
+  grid-template-columns:repeat(4, minmax(0,1fr)) !important;
+  gap:7px !important;
+}
+
+.colorSwatch,
+.paletteSwatch,
+.swatchBtn{
+  width:100% !important;
+  aspect-ratio:1/1 !important;
+  min-height:48px !important;
+  border-radius:12px !important;
+  box-shadow:none !important;
+}
+
+.colorSwatch.large,
+.paletteSwatch.large{
+  min-height:48px !important;
+}
+
+.colorPickerRow,
+.customColorRow{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) 56px !important;
+  gap:8px !important;
+  align-items:center !important;
+  margin-top:8px !important;
+}
+
+.colorPickerRow label,
+.customColorRow label{
+  margin:0 !important;
+  font-size:10px !important;
+}
+
+.colorPickerRow input[type="color"],
+.customColorRow input[type="color"]{
+  width:56px !important;
+  min-width:56px !important;
+  height:32px !important;
+  padding:0 !important;
+  border-radius:10px !important;
+}
+
+.patternBackgroundRow .workspacePanel,
+.colorPaletteRow .workspacePanel,
+.paletteDualRow .workspacePanel{
+  min-width:0 !important;
+}
+
+/* If the clear card sits with palettes, keep it compact too */
+.compactClearCard,
+.clearCard,
+.workspaceClearCard{
+  padding:10px !important;
+  min-height:unset !important;
+}
+.compactClearCard .workspaceDanger,
+.clearCard .workspaceDanger,
+.workspaceClearCard .workspaceDanger{
+  min-height:44px !important;
+}
+
+/* narrow screens stack */
+@media (max-width: 900px){
+  .patternBackgroundRow,
+  .colorPaletteRow,
+  .paletteDualRow{
+    grid-template-columns:1fr !important;
+  }
+  .colorSwatches,
+  .paletteSwatches,
+  .swatchGrid{
+    grid-template-columns:repeat(4, minmax(0,1fr)) !important;
+  }
+}
+
+/* V60 compact color dropdowns */
+.compactColorSection{
+  gap:5px !important;
+  padding-top:0 !important;
+  border-top:0 !important;
+}
+.compactColorSection + .compactColorSection{
+  margin-top:0 !important;
+  padding-top:7px !important;
+  border-top:1px solid #ece8f2 !important;
+}
+.compactColorSection .sideRailTitle{
+  margin:0;
+  font-size:10px !important;
+}
+.compactColorRow{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 36px;
+  gap:6px;
+  align-items:center;
+}
+.compactColorSelect{
+  width:100%;
+  min-height:34px !important;
+  height:34px;
+  padding:5px 26px 5px 8px !important;
+  border-radius:9px !important;
+  font-size:11px !important;
+  font-weight:800;
+}
+.compactColorPicker{
+  width:36px !important;
+  min-width:36px !important;
+  height:34px !important;
+  min-height:34px !important;
+  padding:2px !important;
+  border:1px solid #dcd6e8 !important;
+  border-radius:9px !important;
+  background:#fff !important;
+  cursor:pointer;
+}
+.previewCard.controlsUnderGraph .compactColorSection{
+  min-width:0;
+}
+.previewCard.controlsUnderGraph .compactColorRow{
+  grid-template-columns:minmax(0,1fr) 40px;
+}
+.previewCard.controlsSideGraph .graphSideRight{
+  gap:8px !important;
+}
+.previewCard.controlsSideGraph .compactColorSection{
+  gap:4px !important;
+}
+@media(max-width:700px){
+  .compactColorRow{
+    grid-template-columns:minmax(0,1fr) 40px;
+  }
+}

@@ -337,8 +337,14 @@ $("addBorderBtn").addEventListener("click",addCustomBorder);
 $("removeBorderBtn").addEventListener("click",removeCustomBorder);
 $("drawBorderThickness").addEventListener("change",autosaveCurrentProject);
 ["drawLetterColor","drawBgColor"].forEach(id=>$(id).addEventListener("input",()=>{
-  if(id==="drawLetterColor" && $("sidePatternColor")) $("sidePatternColor").value=$("drawLetterColor").value;
-  if(id==="drawBgColor" && $("sideBackgroundColor")) $("sideBackgroundColor").value=$("drawBgColor").value;
+  if(id==="drawLetterColor" && $("sidePatternColor")){
+    $("sidePatternColor").value=$("drawLetterColor").value;
+    if(typeof syncCompactColorDropdown==="function") syncCompactColorDropdown("patternColorSelect",$("drawLetterColor").value);
+  }
+  if(id==="drawBgColor" && $("sideBackgroundColor")){
+    $("sideBackgroundColor").value=$("drawBgColor").value;
+    if(typeof syncCompactColorDropdown==="function") syncCompactColorDropdown("backgroundColorSelect",$("drawBgColor").value);
+  }
   if(mode==="draw")renderGrid();
 }));
 document.querySelectorAll(".paletteSwatch").forEach(btn=>{
@@ -352,10 +358,50 @@ document.querySelectorAll(".paletteSwatch").forEach(btn=>{
     autosaveCurrentProject();
   });
 });
-$("sidePatternColor").addEventListener("input",()=>{$("drawLetterColor").value=$("sidePatternColor").value;renderGrid();});
-$("sideBackgroundColor").addEventListener("input",()=>{$("drawBgColor").value=$("sideBackgroundColor").value;renderGrid();});
 $("sidePatternColor").addEventListener("change",autosaveCurrentProject);
 $("sideBackgroundColor").addEventListener("change",autosaveCurrentProject);
+
+function syncCompactColorDropdown(selectId,color){
+  const select=$(selectId);
+  if(!select) return;
+  const option=[...select.options].find(o=>o.value.toLowerCase()===String(color).toLowerCase());
+  select.value=option ? option.value : "custom";
+}
+
+$("patternColorSelect").addEventListener("change",()=>{
+  const value=$("patternColorSelect").value;
+  if(value==="custom"){
+    $("sidePatternColor").click();
+    return;
+  }
+  $("drawLetterColor").value=value;
+  $("sidePatternColor").value=value;
+  renderGrid();
+  autosaveCurrentProject();
+});
+
+$("backgroundColorSelect").addEventListener("change",()=>{
+  const value=$("backgroundColorSelect").value;
+  if(value==="custom"){
+    $("sideBackgroundColor").click();
+    return;
+  }
+  $("drawBgColor").value=value;
+  $("sideBackgroundColor").value=value;
+  renderGrid();
+  autosaveCurrentProject();
+});
+
+$("sidePatternColor").addEventListener("input",()=>{
+  $("drawLetterColor").value=$("sidePatternColor").value;
+  syncCompactColorDropdown("patternColorSelect",$("sidePatternColor").value);
+  renderGrid();
+});
+$("sideBackgroundColor").addEventListener("input",()=>{
+  $("drawBgColor").value=$("sideBackgroundColor").value;
+  syncCompactColorDropdown("backgroundColorSelect",$("sideBackgroundColor").value);
+  renderGrid();
+});
 
 // Calculator controls
 $("threadType").addEventListener("change",applyWrappingThreadPreset);
@@ -457,6 +503,8 @@ $("drawLetterColor").value=$("nameLetterColor").value;
 $("drawBgColor").value=$("nameBgColor").value;
 if($("sidePatternColor")) $("sidePatternColor").value=$("drawLetterColor").value;
 if($("sideBackgroundColor")) $("sideBackgroundColor").value=$("drawBgColor").value;
+if($("patternColorSelect")) syncCompactColorDropdown("patternColorSelect",$("drawLetterColor").value);
+if($("backgroundColorSelect")) syncCompactColorDropdown("backgroundColorSelect",$("drawBgColor").value);
 mode="draw";
 currentTool="draw";
 renderToolSelection();
