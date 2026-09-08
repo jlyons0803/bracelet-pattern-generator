@@ -70,26 +70,72 @@ $("beadBackToDesignBtn").addEventListener("click",()=>showAppPane("design"));
 $("beadGoProjectsBtn").addEventListener("click",()=>showAppPane("projects"));
 
 
+function ensurePopoutEditor(){
+  let overlay=document.getElementById("graphPopoutEditor");
+  if(overlay) return overlay;
+
+  overlay=document.createElement("div");
+  overlay.id="graphPopoutEditor";
+  overlay.className="graphPopoutEditor";
+  overlay.innerHTML=`
+    <div class="graphPopoutHeader">
+      <div class="graphPopoutTools"></div>
+      <button type="button" id="graphPopoutDone" class="graphPopoutDone">Done</button>
+    </div>
+    <div class="graphPopoutCanvas"></div>
+  `;
+  document.body.appendChild(overlay);
+
+  overlay.querySelector("#graphPopoutDone").addEventListener("click",()=>setGraphFullscreen(false));
+  return overlay;
+}
+
 function setGraphFullscreen(on){
-  const card=document.querySelector(".previewCard");
-  if(!card) return;
-
   const enabled=!!on;
-  card.classList.toggle("graphFullscreen",enabled);
-  document.body.classList.toggle("graphFullscreenOpen",enabled);
+  const overlay=ensurePopoutEditor();
+  const graph=document.querySelector(".graphCenter");
+  const draw=document.getElementById("toolDraw");
+  const erase=document.getElementById("toolErase");
+  if(!overlay || !graph) return;
 
-  const btn=$("fullscreenGraphBtn");
-  if(btn){
-    btn.setAttribute("aria-pressed",enabled?"true":"false");
+  const tools=overlay.querySelector(".graphPopoutTools");
+  const canvas=overlay.querySelector(".graphPopoutCanvas");
+
+  if(enabled){
+    document.body.classList.add("graphPopoutOpen");
+    overlay.classList.add("open");
+
+    tools.replaceChildren();
+    canvas.replaceChildren();
+
+    if(draw) tools.appendChild(draw);
+    if(erase) tools.appendChild(erase);
+    canvas.appendChild(graph);
+
+    const btn=$("fullscreenGraphBtn");
+    if(btn) btn.setAttribute("aria-pressed","true");
+
+    requestAnimationFrame(()=>{
+      if(typeof __v54RenderGrid==="function") __v54RenderGrid();
+      else renderGrid();
+    });
+  }else{
+    overlay.classList.remove("open");
+    document.body.classList.remove("graphPopoutOpen");
+
+    const btn=$("fullscreenGraphBtn");
+    if(btn) btn.setAttribute("aria-pressed","false");
+
+    // v69Apply knows the correct home for graph, Draw and Erase for
+    // whichever Portrait/Landscape layout is selected.
+    requestAnimationFrame(()=>{
+      if(typeof v69Apply==="function") v69Apply();
+      requestAnimationFrame(()=>{
+        if(typeof __v54RenderGrid==="function") __v54RenderGrid();
+        else renderGrid();
+      });
+    });
   }
-
-  requestAnimationFrame(()=>{
-    renderGrid();
-    if(enabled && $("gridScroll")){
-      $("gridScroll").scrollLeft=0;
-      $("gridScroll").scrollTop=0;
-    }
-  });
 }
 
 $("fullscreenGraphBtn").addEventListener("click",()=>setGraphFullscreen(true));
@@ -1108,63 +1154,6 @@ function v72EnforceOrientationLayout(view){
 }
 
 
-function v77EnterGraphFullscreen(){
-  const n=v69LayoutState.nodes;
-  const preview=n.preview || document.querySelector(".previewCard");
-  const shell=n.shell || document.querySelector(".v69EditorShell");
-  const graph=n.graphCenter || document.querySelector(".graphCenter");
-  if(!preview || !shell || !graph) return;
-
-  preview.classList.add("graphFullscreen","v77GraphFullscreen");
-  document.body.classList.add("v77BodyFullscreen");
-
-  let overlay=document.getElementById("v77FullscreenOverlay");
-  if(!overlay){
-    overlay=document.createElement("div");
-    overlay.id="v77FullscreenOverlay";
-    overlay.className="v77FullscreenOverlay";
-    overlay.innerHTML=`
-      <div class="v77FullscreenTop">
-        <div class="v77FullscreenTools"></div>
-        <button id="v77FullscreenDone" type="button" class="v77FullscreenDone">Done</button>
-      </div>
-      <div class="v77FullscreenGraph"></div>
-    `;
-    document.body.appendChild(overlay);
-    overlay.querySelector("#v77FullscreenDone").addEventListener("click",v77ExitGraphFullscreen);
-  }
-
-  const tools=overlay.querySelector(".v77FullscreenTools");
-  const graphSlot=overlay.querySelector(".v77FullscreenGraph");
-  tools.replaceChildren();
-  graphSlot.replaceChildren();
-
-  if(n.draw) tools.appendChild(n.draw);
-  if(n.erase) tools.appendChild(n.erase);
-  graphSlot.appendChild(graph);
-
-  overlay.classList.add("open");
-  requestAnimationFrame(()=>{
-    if(typeof __v54RenderGrid==="function") __v54RenderGrid();
-    else if(typeof renderGrid==="function") renderGrid();
-  });
-}
-
-function v77ExitGraphFullscreen(){
-  const n=v69LayoutState.nodes;
-  const overlay=document.getElementById("v77FullscreenOverlay");
-  if(overlay) overlay.classList.remove("open");
-  document.body.classList.remove("v77BodyFullscreen");
-  if(n.preview) n.preview.classList.remove("graphFullscreen","v77GraphFullscreen");
-
-  requestAnimationFrame(()=>{
-    if(typeof v69Apply==="function") v69Apply();
-    requestAnimationFrame(()=>{
-      if(typeof __v54RenderGrid==="function") __v54RenderGrid();
-      else if(typeof renderGrid==="function") renderGrid();
-    });
-  });
-}
 
 function v69Apply(){
   if(!v69LayoutState.initialized){
@@ -1257,24 +1246,3 @@ updateAdaptiveWorkspace=function(){ requestAnimationFrame(v69Apply); };
 requestAnimationFrame(()=>{ v69Init(); requestAnimationFrame(v69Apply); });
 
 
-// V77 fullscreen graph + Draw / Erase pop-out
-requestAnimationFrame(()=>{
-  const btn=document.getElementById("fullscreenGraphBtn");
-  if(btn && !btn.dataset.v77FullscreenBound){
-    btn.dataset.v77FullscreenBound="1";
-    btn.addEventListener("click",e=>{
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      v77EnterGraphFullscreen();
-    },true);
-  }
-  const exitBtn=document.getElementById("exitFullscreenGraphBtn");
-  if(exitBtn && !exitBtn.dataset.v77FullscreenBound){
-    exitBtn.dataset.v77FullscreenBound="1";
-    exitBtn.addEventListener("click",e=>{
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      v77ExitGraphFullscreen();
-    },true);
-  }
-});
