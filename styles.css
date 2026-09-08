@@ -2921,3 +2921,330 @@ body.graphFullscreenOpen{
 .previewCard.controlsUnderGraph .graphCenter .gridNumbered{
   max-width:none !important;
 }
+
+
+/* V68 explicit Portrait / Landscape layouts */
+.v68LegacyHidden{display:none !important;}
+.v68QuickToolsHidden{display:none !important;}
+.v68NameCardSource{
+  position:absolute !important;
+  left:-99999px !important;
+  top:auto !important;
+  width:1px !important;
+  height:1px !important;
+  overflow:hidden !important;
+}
+.previewCard.v68PortraitMode .previewHead,
+.previewCard.v68LandscapeMode .previewHead{
+  margin-bottom:8px !important;
+}
+.v68EditorShell{
+  width:100%;
+  display:grid;
+  gap:10px;
+}
+.v68TopStrip{
+  display:grid;
+  gap:8px;
+  align-items:end;
+}
+.v68TopStrip label{
+  display:grid;
+  gap:3px;
+  font-size:10px;
+  font-weight:850;
+  color:#687086;
+}
+.v68TopStrip select{
+  width:100%;
+  min-height:36px;
+  padding:6px 26px 6px 8px;
+  border-radius:10px;
+}
+.v68TopFullscreen{
+  display:flex;
+  align-items:end;
+}
+.v68TopFullscreen .fullscreenGraphBtn{
+  width:100%;
+  min-height:38px;
+}
+.v68UpperTools{
+  display:grid;
+  gap:10px;
+}
+.v68MiniCard{
+  min-width:0;
+  padding:8px 10px;
+  border:1px solid #e4dfee;
+  border-radius:13px;
+  background:#fbfaff;
+}
+.v68MiniTitle{
+  margin-bottom:5px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  color:#686185;
+}
+.v68NameSlot input{
+  width:100% !important;
+  min-height:42px !important;
+  padding:8px 10px !important;
+  border:1px solid #dcd7e8 !important;
+  border-radius:10px !important;
+  background:#fff !important;
+  font-size:15px !important;
+}
+.v68StampSlot .graphStampWindow,
+.v68LibrarySlot .toolDrawer{
+  margin:0 !important;
+  border:0 !important;
+  background:transparent !important;
+}
+.v68StampSlot .graphStampWindow>summary,
+.v68LibrarySlot .toolDrawer>summary{
+  min-height:42px;
+  padding:7px 8px !important;
+  border-radius:9px;
+}
+.v68StampSlot .toolDrawerBody,
+.v68LibrarySlot .toolDrawerBody{
+  max-height:320px;
+  overflow:auto;
+}
+.v68GraphLayout{
+  display:grid;
+  gap:10px;
+  align-items:stretch;
+}
+.v68GraphSlot{
+  min-width:0;
+}
+.v68GraphSlot .graphCenter{
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+}
+.v68GraphSlot .graphEditWrap{
+  display:block !important;
+  width:100% !important;
+}
+.v68GraphSlot .gridScroll{
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+}
+.v68CompactControl,
+.v68PortraitLeft>label,
+.v68PortraitRight>.field,
+.v68MiddleTools>.field,
+.v68MiddleLeft>.field{
+  display:grid;
+  gap:4px;
+}
+.v68ControlLabel,
+.v68PortraitLeft label>span,
+.v68PortraitRight .field>label,
+.v68MiddleLeft .field>label,
+.v68MiddleCenter .field>label{
+  font-size:10px !important;
+  font-weight:850 !important;
+  color:#687086 !important;
+}
+.v68ColorInner{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 34px;
+  gap:5px;
+}
+.v68ColorInner .compactColorSelect{
+  width:100% !important;
+  min-height:34px !important;
+  height:34px !important;
+  font-size:11px !important;
+}
+.v68ColorInner .compactColorPicker{
+  width:34px !important;
+  min-width:34px !important;
+  height:34px !important;
+  min-height:34px !important;
+}
+.v68SizePair{
+  display:grid;
+  gap:7px;
+}
+.v68SizePair .field{
+  min-width:0;
+}
+.v68SizePair .stepper{
+  display:grid;
+  grid-template-columns:28px minmax(38px,1fr) 28px;
+  gap:3px;
+}
+.v68SizePair .stepper button,
+.v68SizePair .stepper input{
+  min-height:34px !important;
+  height:34px !important;
+}
+.v68PortraitLeft .graphTool,
+.v68MiddleRight .graphTool{
+  min-height:40px !important;
+}
+.v68PortraitRight .rowColumnSection,
+.v68LandscapeEdit .rowColumnSection{
+  display:grid !important;
+  gap:7px !important;
+  padding:10px !important;
+  border:1px solid #e4dfee;
+  border-radius:12px;
+  background:#fbfaff;
+}
+.v68PortraitFooter,
+.v68ActionRow{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.v68PortraitFooter button,
+.v68ActionRow button{
+  min-width:110px;
+  min-height:40px;
+}
+.v68PortraitFooter #goCalculatorBtn{
+  margin-left:auto;
+}
+.v68LandscapeFooter{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 250px;
+  gap:12px;
+  align-items:start;
+}
+.v68LandscapeActions{
+  display:grid;
+  gap:8px;
+}
+.v68LandscapeActions button{
+  width:100% !important;
+  min-height:40px !important;
+}
+.v68GenerateRow #sendToDraw,
+.v68CalculateRow #goCalculatorBtn{
+  width:100% !important;
+}
+.v68MiddleTools{
+  display:grid;
+  gap:10px;
+  align-items:end;
+}
+.v68MiddleLeft{
+  display:flex;
+  gap:8px;
+  align-items:end;
+}
+.v68MiddleLeft>.field{
+  min-width:120px;
+}
+.v68MiddleCenter{
+  min-width:0;
+}
+.v68MiddleRight{
+  display:flex;
+  gap:8px;
+  align-items:end;
+}
+
+/* Portrait / layout 1 */
+.v68Portrait .v68TopStrip{
+  grid-template-columns:minmax(120px,180px) minmax(150px,220px);
+  justify-content:space-between;
+}
+.v68Portrait .v68TopRows,
+.v68Portrait .v68TopCols,
+.v68Portrait .v68TopPattern,
+.v68Portrait .v68TopBackground{
+  display:none;
+}
+.v68Portrait .v68UpperTools{
+  grid-template-columns:minmax(170px,1fr) minmax(160px,.9fr) minmax(180px,1fr);
+}
+.v68Portrait .v68MiddleTools{display:none;}
+.v68Portrait .v68GraphLayout{
+  grid-template-columns:145px minmax(0,1fr) 175px;
+}
+.v68Portrait .v68PortraitLeft,
+.v68Portrait .v68PortraitRight{
+  display:grid;
+  gap:9px;
+  align-content:start;
+}
+.v68Portrait .v68PortraitLeft>label select{
+  width:100%;
+  min-height:34px;
+}
+.v68Portrait .v68PortraitRight input,
+.v68Portrait .v68PortraitRight select{
+  width:100%;
+  min-height:34px;
+}
+.v68Portrait .v68LandscapeFooter{display:none;}
+
+/* Landscape / layout 2 */
+.v68Landscape .v68TopStrip{
+  grid-template-columns:120px 150px 82px 92px minmax(130px,1fr) minmax(145px,1fr);
+}
+.v68Landscape .v68UpperTools{
+  grid-template-columns:minmax(230px,1.1fr) minmax(180px,.8fr) minmax(230px,1.1fr);
+}
+.v68Landscape .v68MiddleTools{
+  grid-template-columns:minmax(300px,1fr) minmax(250px,.8fr) auto;
+}
+.v68Landscape .v68GraphLayout{
+  grid-template-columns:1fr;
+}
+.v68Landscape .v68PortraitLeft,
+.v68Landscape .v68PortraitRight,
+.v68Landscape .v68PortraitFooter{
+  display:none;
+}
+.v68Landscape .v68LandscapeFooter{display:grid;}
+
+.previewCard.graphFullscreen .v68EditorShell{
+  min-height:0;
+}
+.previewCard.graphFullscreen .v68GraphLayout{
+  flex:1;
+  min-height:0;
+}
+.previewCard.graphFullscreen .v68GraphSlot{
+  min-height:0;
+}
+.previewCard.graphFullscreen .v68GraphSlot .graphCenter{
+  height:100%;
+  min-height:0 !important;
+}
+.previewCard.graphFullscreen .v68GraphSlot .gridScroll{
+  min-height:0 !important;
+  height:100% !important;
+}
+
+@media(max-width:800px){
+  .v68Portrait .v68UpperTools,
+  .v68Landscape .v68UpperTools{
+    grid-template-columns:1fr;
+  }
+  .v68Portrait .v68GraphLayout{
+    grid-template-columns:1fr;
+  }
+  .v68Portrait .v68PortraitLeft,
+  .v68Portrait .v68PortraitRight{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .v68Landscape .v68TopStrip{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .v68Landscape .v68MiddleTools,
+  .v68Landscape .v68LandscapeFooter{
+    grid-template-columns:1fr;
+  }
+}

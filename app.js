@@ -868,3 +868,257 @@ renderGrid = function(){
 };
 
 requestAnimationFrame(updateAdaptiveWorkspace);
+
+
+// V68 explicit Portrait / Landscape workspace layouts
+const v68LayoutState={initialized:false,nodes:{}};
+
+function v68FindPatternLibrary(){
+  return [...document.querySelectorAll("details.toolDrawer")].find(d=>{
+    const b=d.querySelector("summary b");
+    return b && b.textContent.trim().toLowerCase()==="pattern library";
+  }) || null;
+}
+
+function v68FieldFor(id){
+  const el=document.getElementById(id);
+  return el ? el.closest(".field") : null;
+}
+
+function v68MakeSlot(className){
+  const el=document.createElement("div");
+  el.className=className;
+  return el;
+}
+
+function v68InitLayout(){
+  if(v68LayoutState.initialized) return;
+  const preview=document.querySelector(".previewCard");
+  const graphCenter=document.querySelector(".graphCenter");
+  const orientation=document.getElementById("graphOrientationSelect");
+  if(!preview || !graphCenter || !orientation) return;
+
+  v68LayoutState.initialized=true;
+  const nodes=v68LayoutState.nodes;
+  nodes.preview=preview;
+  nodes.graphCenter=graphCenter;
+  nodes.graphEditWrap=graphCenter.querySelector(".graphEditWrap");
+  nodes.fitNote=document.getElementById("fitNote");
+  nodes.orientationLabel=orientation.closest("label");
+  nodes.rowsLabel=document.getElementById("graphRowsSelect")?.closest("label") || null;
+  nodes.colsLabel=document.getElementById("graphColsSelect")?.closest("label") || null;
+  nodes.fullscreen=document.getElementById("fullscreenGraphBtn");
+  nodes.nameInput=document.getElementById("quickNameInput");
+  nodes.stamp=document.querySelector(".graphStampWindow");
+  nodes.patternLibrary=v68FindPatternLibrary();
+  nodes.patternSelect=document.getElementById("patternColorSelect");
+  nodes.patternPicker=document.getElementById("sidePatternColor");
+  nodes.backgroundSelect=document.getElementById("backgroundColorSelect");
+  nodes.backgroundPicker=document.getElementById("sideBackgroundColor");
+  nodes.heightField=v68FieldFor("nameHeight");
+  nodes.widthField=v68FieldFor("nameWidth");
+  nodes.paddingField=v68FieldFor("namePad");
+  nodes.spacingField=v68FieldFor("spacing");
+  nodes.borderField=v68FieldFor("nameBorder");
+  nodes.nameRowsField=v68FieldFor("nameRows");
+  nodes.draw=document.getElementById("toolDraw");
+  nodes.erase=document.getElementById("toolErase");
+  nodes.rowColumn=document.querySelector(".rowColumnSection");
+  nodes.undo=document.getElementById("undoBtn");
+  nodes.clear=document.getElementById("clearBtn");
+  nodes.generate=document.getElementById("sendToDraw");
+  nodes.calculate=document.getElementById("goCalculatorBtn");
+  nodes.nameCard=document.querySelector(".nameGeneratorCard");
+  nodes.wideLayout=document.getElementById("wideToolLayout");
+  nodes.quickTools=document.querySelector(".quickToolsBlock");
+  nodes.graphToolBar=document.getElementById("graphToolBar");
+  nodes.leftRail=document.querySelector(".graphSideLeft");
+  nodes.rightRail=document.querySelector(".graphSideRight");
+  nodes.underGraphBar=document.querySelector(".underGraphBar");
+  nodes.quickGenerate=document.getElementById("quickGenerateNameBtn");
+  nodes.modeBadge=document.getElementById("modeBadge");
+  nodes.patternTitle=document.getElementById("patternTitle");
+
+  // Dedicated clean workspace shell.
+  const shell=document.createElement("div");
+  shell.className="v68EditorShell";
+
+  shell.innerHTML=`
+    <div class="v68TopStrip">
+      <div class="v68TopView"></div>
+      <div class="v68TopFullscreen"></div>
+      <div class="v68TopRows"></div>
+      <div class="v68TopCols"></div>
+      <div class="v68TopPattern"></div>
+      <div class="v68TopBackground"></div>
+    </div>
+
+    <div class="v68UpperTools">
+      <section class="v68MiniCard v68NameCard"><div class="v68MiniTitle">Name</div><div class="v68NameSlot"></div></section>
+      <section class="v68MiniCard v68StampCard"><div class="v68StampSlot"></div></section>
+      <section class="v68MiniCard v68LibraryCard"><div class="v68LibrarySlot"></div></section>
+    </div>
+
+    <div class="v68MiddleTools">
+      <div class="v68MiddleLeft"></div>
+      <div class="v68MiddleCenter"></div>
+      <div class="v68MiddleRight"></div>
+    </div>
+
+    <div class="v68GraphLayout">
+      <aside class="v68PortraitLeft"></aside>
+      <div class="v68GraphSlot"></div>
+      <aside class="v68PortraitRight"></aside>
+    </div>
+
+    <div class="v68PortraitFooter"></div>
+
+    <div class="v68LandscapeFooter">
+      <div class="v68LandscapeEdit"></div>
+      <div class="v68LandscapeActions">
+        <div class="v68ActionRow"></div>
+        <div class="v68GenerateRow"></div>
+        <div class="v68CalculateRow"></div>
+      </div>
+    </div>
+  `;
+  preview.appendChild(shell);
+  nodes.shell=shell;
+
+  // Color control wrappers.
+  const patternWrap=document.createElement("div");
+  patternWrap.className="v68CompactControl v68PatternControl";
+  patternWrap.innerHTML='<span class="v68ControlLabel">Pattern</span><div class="v68ColorInner"></div>';
+  const bgWrap=document.createElement("div");
+  bgWrap.className="v68CompactControl v68BackgroundControl";
+  bgWrap.innerHTML='<span class="v68ControlLabel">Background</span><div class="v68ColorInner"></div>';
+  if(nodes.patternSelect) patternWrap.querySelector(".v68ColorInner").appendChild(nodes.patternSelect);
+  if(nodes.patternPicker) patternWrap.querySelector(".v68ColorInner").appendChild(nodes.patternPicker);
+  if(nodes.backgroundSelect) bgWrap.querySelector(".v68ColorInner").appendChild(nodes.backgroundSelect);
+  if(nodes.backgroundPicker) bgWrap.querySelector(".v68ColorInner").appendChild(nodes.backgroundPicker);
+  nodes.patternWrap=patternWrap;
+  nodes.bgWrap=bgWrap;
+
+  // Small wrapper for Height + Width as one group.
+  const sizeWrap=document.createElement("div");
+  sizeWrap.className="v68SizePair";
+  if(nodes.heightField) sizeWrap.appendChild(nodes.heightField);
+  if(nodes.widthField) sizeWrap.appendChild(nodes.widthField);
+  nodes.sizeWrap=sizeWrap;
+
+  // Remove top duplicate Generate; Enter still generates.
+  if(nodes.quickGenerate) nodes.quickGenerate.style.display="none";
+  if(nodes.nameRowsField) nodes.nameRowsField.style.display="none";
+
+  // Keep core graph wrapper simple/full-width.
+  if(nodes.graphEditWrap){
+    nodes.graphEditWrap.style.display="block";
+    const oldMode=nodes.graphEditWrap.querySelector(".leftModeRail");
+    if(oldMode) oldMode.style.display="none";
+  }
+
+  orientation.addEventListener("change",()=>requestAnimationFrame(v68ApplyLayout));
+  requestAnimationFrame(v68ApplyLayout);
+}
+
+function v68Move(node, target){
+  if(node && target && node.parentElement!==target) target.appendChild(node);
+}
+
+function v68ApplyLayout(){
+  if(!v68LayoutState.initialized){
+    v68InitLayout();
+    if(!v68LayoutState.initialized) return;
+  }
+  const n=v68LayoutState.nodes;
+  const shell=n.shell;
+  const view=document.getElementById("graphOrientationSelect")?.value==="portrait" ? "portrait" : "landscape";
+
+  shell.classList.toggle("v68Portrait",view==="portrait");
+  shell.classList.toggle("v68Landscape",view==="landscape");
+  n.preview.classList.toggle("v68PortraitMode",view==="portrait");
+  n.preview.classList.toggle("v68LandscapeMode",view==="landscape");
+
+  // Hide old adaptive holders; V68 owns the workspace placement.
+  if(n.graphToolBar) n.graphToolBar.classList.add("v68LegacyHidden");
+  if(n.leftRail) n.leftRail.classList.add("v68LegacyHidden");
+  if(n.rightRail) n.rightRail.classList.add("v68LegacyHidden");
+  if(n.underGraphBar) n.underGraphBar.classList.add("v68LegacyHidden");
+  if(n.wideLayout) n.wideLayout.classList.add("v68LegacyHidden");
+  if(n.quickTools) n.quickTools.classList.add("v68QuickToolsHidden");
+  if(n.nameCard) n.nameCard.classList.add("v68NameCardSource");
+  if(n.modeBadge) n.modeBadge.style.display="none";
+
+  // Common placements.
+  v68Move(n.fullscreen,shell.querySelector(".v68TopFullscreen"));
+  v68Move(n.nameInput,shell.querySelector(".v68NameSlot"));
+  v68Move(n.stamp,shell.querySelector(".v68StampSlot"));
+  v68Move(n.patternLibrary,shell.querySelector(".v68LibrarySlot"));
+  v68Move(n.graphCenter,shell.querySelector(".v68GraphSlot"));
+
+  if(view==="portrait"){
+    // Layout 1: controls on both sides of a tall graph.
+    v68Move(n.orientationLabel,shell.querySelector(".v68TopView"));
+
+    const left=shell.querySelector(".v68PortraitLeft");
+    const right=shell.querySelector(".v68PortraitRight");
+    v68Move(n.patternWrap,left);
+    v68Move(n.bgWrap,left);
+    v68Move(n.rowsLabel,left);
+    v68Move(n.colsLabel,left);
+    v68Move(n.sizeWrap,left);
+    v68Move(n.draw,left);
+    v68Move(n.erase,left);
+
+    v68Move(n.borderField,right);
+    v68Move(n.paddingField,right);
+    v68Move(n.spacingField,right);
+    v68Move(n.rowColumn,right);
+
+    const footer=shell.querySelector(".v68PortraitFooter");
+    v68Move(n.clear,footer);
+    v68Move(n.undo,footer);
+    v68Move(n.calculate,footer);
+    if(n.generate) n.generate.style.display="none";
+  }else{
+    // Layout 2: compact rows above a wide graph.
+    v68Move(n.orientationLabel,shell.querySelector(".v68TopView"));
+    v68Move(n.rowsLabel,shell.querySelector(".v68TopRows"));
+    v68Move(n.colsLabel,shell.querySelector(".v68TopCols"));
+    v68Move(n.patternWrap,shell.querySelector(".v68TopPattern"));
+    v68Move(n.bgWrap,shell.querySelector(".v68TopBackground"));
+
+    const middle=shell.querySelector(".v68MiddleTools");
+    v68Move(n.borderField,shell.querySelector(".v68MiddleLeft"));
+    v68Move(n.paddingField,shell.querySelector(".v68MiddleLeft"));
+    v68Move(n.spacingField,shell.querySelector(".v68MiddleLeft"));
+    v68Move(n.sizeWrap,shell.querySelector(".v68MiddleCenter"));
+    v68Move(n.draw,shell.querySelector(".v68MiddleRight"));
+    v68Move(n.erase,shell.querySelector(".v68MiddleRight"));
+
+    v68Move(n.rowColumn,shell.querySelector(".v68LandscapeEdit"));
+    v68Move(n.undo,shell.querySelector(".v68ActionRow"));
+    v68Move(n.clear,shell.querySelector(".v68ActionRow"));
+    if(n.generate){
+      n.generate.style.display="";
+      v68Move(n.generate,shell.querySelector(".v68GenerateRow"));
+    }
+    v68Move(n.calculate,shell.querySelector(".v68CalculateRow"));
+  }
+
+  // Re-render after DOM move so grid uses the final available width.
+  requestAnimationFrame(()=>{
+    if(typeof __v54RenderGrid==="function") __v54RenderGrid();
+    else if(typeof renderGrid==="function") renderGrid();
+  });
+}
+
+// Replace the older rows-vs-columns placement routine with explicit View layout.
+updateAdaptiveWorkspace=function(){
+  requestAnimationFrame(v68ApplyLayout);
+};
+
+requestAnimationFrame(()=>{
+  v68InitLayout();
+  requestAnimationFrame(v68ApplyLayout);
+});
