@@ -933,6 +933,7 @@ function v69Init(){
   n.undo=document.getElementById("undoBtn");
   n.clear=document.getElementById("clearBtn");
   n.generate=document.getElementById("sendToDraw");
+  if(n.generate) n.generate.textContent="Generate";
   n.calculate=document.getElementById("goCalculatorBtn");
   n.nameCard=document.querySelector(".nameGeneratorCard");
   n.wideLayout=document.getElementById("wideToolLayout");
@@ -1079,15 +1080,25 @@ function v72EnforceOrientationLayout(view){
     }
     if(middle){
       middle.style.display="grid";
-      middle.style.gridTemplateColumns="minmax(300px,1.25fr) minmax(250px,1fr) auto";
+      middle.style.gridTemplateColumns="minmax(320px,max-content) minmax(250px,max-content)";
+      middle.style.justifyContent="start";
+      middle.style.alignItems="end";
+      middle.style.gap="12px";
     }
     if(graphGrid){
       graphGrid.style.display="grid";
-      graphGrid.style.gridTemplateColumns="1fr";
-      graphGrid.style.gap="10px";
+      graphGrid.style.gridTemplateColumns="minmax(0,1fr) 120px";
+      graphGrid.style.gap="12px";
+      graphGrid.style.alignItems="center";
     }
     if(left) left.style.display="none";
-    if(right) right.style.display="none";
+    if(right){
+      right.style.display="flex";
+      right.style.flexDirection="column";
+      right.style.gap="12px";
+      right.style.justifyContent="center";
+      right.style.alignItems="stretch";
+    }
     if(portraitFooter) portraitFooter.style.display="none";
     if(landscapeFooter){
       landscapeFooter.style.display="grid";
@@ -1143,10 +1154,14 @@ function v69Apply(){
     v69Move(n.spacingField,shell.querySelector(".v69PortraitRight"));
     v69Move(n.rowColumn,shell.querySelector(".v69PortraitRight"));
 
-    v69Move(n.clear,shell.querySelector(".v69PortraitFooter"));
+    // Portrait actions: top row Undo + Clear, then Generate, then Calculate
     v69Move(n.undo,shell.querySelector(".v69PortraitFooter"));
+    v69Move(n.clear,shell.querySelector(".v69PortraitFooter"));
+    if(n.generate){
+      n.generate.style.display="";
+      v69Move(n.generate,shell.querySelector(".v69PortraitFooter"));
+    }
     v69Move(n.calculate,shell.querySelector(".v69PortraitFooter"));
-    if(n.generate) n.generate.style.display="none";
   }else{
     // Layout 2 from sketch
     v69Move(n.rowsLabel,shell.querySelector(".v69Rows"));
@@ -1158,8 +1173,9 @@ function v69Apply(){
     v69Move(n.paddingField,shell.querySelector(".v69LeftControls"));
     v69Move(n.spacingField,shell.querySelector(".v69LeftControls"));
     v69Move(n.sizeWrap,shell.querySelector(".v69SizeControls"));
-    v69Move(n.draw,shell.querySelector(".v69DrawControls"));
-    v69Move(n.erase,shell.querySelector(".v69DrawControls"));
+    // V75: move Draw / Erase beside the graph in landscape.
+    v69Move(n.draw,shell.querySelector(".v69PortraitRight"));
+    v69Move(n.erase,shell.querySelector(".v69PortraitRight"));
 
     v69Move(n.rowColumn,shell.querySelector(".v69Edit"));
     v69Move(n.undo,shell.querySelector(".v69UndoClear"));

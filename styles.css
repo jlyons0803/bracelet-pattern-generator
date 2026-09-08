@@ -3733,3 +3733,76 @@ body.graphFullscreenOpen{
     grid-template-columns:1fr !important;
   }
 }
+
+
+/* V73: portrait action button placement */
+.v69Portrait .v69PortraitFooter{
+  display:grid !important;
+  grid-template-columns: minmax(100px,1fr) minmax(100px,1fr);
+  gap:8px;
+  width:min(240px,100%);
+  margin-left:auto;
+  align-items:stretch;
+}
+.v69Portrait .v69PortraitFooter #undoBtn{grid-column:1;}
+.v69Portrait .v69PortraitFooter #clearBtn{grid-column:2;}
+.v69Portrait .v69PortraitFooter #sendToDraw{
+  grid-column:1 / span 2;
+  width:100% !important;
+  min-height:42px !important;
+}
+.v69Portrait .v69PortraitFooter #goCalculatorBtn{
+  grid-column:1 / span 2;
+  width:100% !important;
+  margin-left:0 !important;
+  min-height:42px !important;
+}
+/* keep footer pinned visually under right-side controls in portrait */
+.v69Portrait .v69PortraitFooter{
+  justify-self:end;
+}
+
+
+/* V75 landscape layout tweaks */
+.v69Landscape .v69LandscapeMiddle{
+  display:grid !important;
+  grid-template-columns:minmax(320px,max-content) minmax(250px,max-content) !important;
+  justify-content:start !important;
+  align-items:end !important;
+  gap:12px !important;
+}
+.v69Landscape .v69LeftControls{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(110px,1fr));
+  gap:8px !important;
+  align-items:end !important;
+}
+.v69Landscape .v69SizeControls{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(150px,1fr));
+  gap:8px !important;
+  align-items:end !important;
+}
+.v69Landscape .v69DrawControls{
+  display:none !important;
+}
+.v69Landscape .v69GraphGrid{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) 120px !important;
+  gap:12px !important;
+  align-items:center !important;
+}
+.v69Landscape .v69PortraitLeft{
+  display:none !important;
+}
+.v69Landscape .v69PortraitRight{
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;
+  align-items:stretch !important;
+  gap:12px !important;
+}
+.v69Landscape .v69PortraitRight .graphTool{
+  width:100% !important;
+  min-height:56px !important;
+}
