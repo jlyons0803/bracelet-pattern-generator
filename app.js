@@ -1223,7 +1223,6 @@ function v69Apply(){
 
   // Common
   v69Move(n.orientationLabel,shell.querySelector(".v69View"));
-  v69Move(n.fullscreen,shell.querySelector(".v69Fullscreen"));
   v69Move(n.nameInput,shell.querySelector(".v69Name"));
   v69Move(n.stamp,shell.querySelector(".v69Stamp"));
   v69Move(n.patternLibrary,shell.querySelector(".v69Library"));
@@ -1237,6 +1236,7 @@ function v69Apply(){
     v69Move(n.colsLabel,shell.querySelector(".v69PortraitLeft"));
     v69Move(n.draw,shell.querySelector(".v69PortraitLeft"));
     v69Move(n.erase,shell.querySelector(".v69PortraitLeft"));
+    v69Move(n.fullscreen,shell.querySelector(".v69PortraitLeft"));
 
     v69Move(n.borderField,shell.querySelector(".v69PortraitRight"));
     v69Move(n.paddingField,shell.querySelector(".v69PortraitRight"));
@@ -1262,9 +1262,10 @@ function v69Apply(){
     v69Move(n.paddingField,shell.querySelector(".v69LeftControls"));
     v69Move(n.spacingField,shell.querySelector(".v69LeftControls"));
     // Rows and Columns now occupy the old Height / Width area.
-    // V75: move Draw / Erase beside the graph in landscape.
+    // V81: Draw / Erase beside the graph, with Full Screen directly underneath.
     v69Move(n.draw,shell.querySelector(".v69PortraitRight"));
     v69Move(n.erase,shell.querySelector(".v69PortraitRight"));
+    v69Move(n.fullscreen,shell.querySelector(".v69PortraitRight"));
 
     v69Move(n.rowColumn,shell.querySelector(".v69Edit"));
     v69Move(n.undo,shell.querySelector(".v69UndoClear"));

@@ -4158,3 +4158,19 @@ body.graphPopoutOpen{
 .v69Portrait .v69SizePair{
   display:none !important;
 }
+
+
+/* V81: Full Screen sits directly under Draw / Erase */
+.v69Landscape .v69PortraitRight .fullscreenGraphBtn,
+.v69Portrait .v69PortraitLeft .fullscreenGraphBtn{
+  width:100% !important;
+  min-width:0 !important;
+  min-height:44px !important;
+  margin:0 !important;
+}
+.v69Landscape .v69PortraitRight{
+  align-items:stretch !important;
+}
+.v69Portrait .v69PortraitLeft{
+  align-items:stretch !important;
+}
