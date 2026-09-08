@@ -1107,6 +1107,65 @@ function v72EnforceOrientationLayout(view){
   }
 }
 
+
+function v77EnterGraphFullscreen(){
+  const n=v69LayoutState.nodes;
+  const preview=n.preview || document.querySelector(".previewCard");
+  const shell=n.shell || document.querySelector(".v69EditorShell");
+  const graph=n.graphCenter || document.querySelector(".graphCenter");
+  if(!preview || !shell || !graph) return;
+
+  preview.classList.add("graphFullscreen","v77GraphFullscreen");
+  document.body.classList.add("v77BodyFullscreen");
+
+  let overlay=document.getElementById("v77FullscreenOverlay");
+  if(!overlay){
+    overlay=document.createElement("div");
+    overlay.id="v77FullscreenOverlay";
+    overlay.className="v77FullscreenOverlay";
+    overlay.innerHTML=`
+      <div class="v77FullscreenTop">
+        <div class="v77FullscreenTools"></div>
+        <button id="v77FullscreenDone" type="button" class="v77FullscreenDone">Done</button>
+      </div>
+      <div class="v77FullscreenGraph"></div>
+    `;
+    document.body.appendChild(overlay);
+    overlay.querySelector("#v77FullscreenDone").addEventListener("click",v77ExitGraphFullscreen);
+  }
+
+  const tools=overlay.querySelector(".v77FullscreenTools");
+  const graphSlot=overlay.querySelector(".v77FullscreenGraph");
+  tools.replaceChildren();
+  graphSlot.replaceChildren();
+
+  if(n.draw) tools.appendChild(n.draw);
+  if(n.erase) tools.appendChild(n.erase);
+  graphSlot.appendChild(graph);
+
+  overlay.classList.add("open");
+  requestAnimationFrame(()=>{
+    if(typeof __v54RenderGrid==="function") __v54RenderGrid();
+    else if(typeof renderGrid==="function") renderGrid();
+  });
+}
+
+function v77ExitGraphFullscreen(){
+  const n=v69LayoutState.nodes;
+  const overlay=document.getElementById("v77FullscreenOverlay");
+  if(overlay) overlay.classList.remove("open");
+  document.body.classList.remove("v77BodyFullscreen");
+  if(n.preview) n.preview.classList.remove("graphFullscreen","v77GraphFullscreen");
+
+  requestAnimationFrame(()=>{
+    if(typeof v69Apply==="function") v69Apply();
+    requestAnimationFrame(()=>{
+      if(typeof __v54RenderGrid==="function") __v54RenderGrid();
+      else if(typeof renderGrid==="function") renderGrid();
+    });
+  });
+}
+
 function v69Apply(){
   if(!v69LayoutState.initialized){
     v69Init();
@@ -1196,3 +1255,26 @@ function v69Apply(){
 
 updateAdaptiveWorkspace=function(){ requestAnimationFrame(v69Apply); };
 requestAnimationFrame(()=>{ v69Init(); requestAnimationFrame(v69Apply); });
+
+
+// V77 fullscreen graph + Draw / Erase pop-out
+requestAnimationFrame(()=>{
+  const btn=document.getElementById("fullscreenGraphBtn");
+  if(btn && !btn.dataset.v77FullscreenBound){
+    btn.dataset.v77FullscreenBound="1";
+    btn.addEventListener("click",e=>{
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      v77EnterGraphFullscreen();
+    },true);
+  }
+  const exitBtn=document.getElementById("exitFullscreenGraphBtn");
+  if(exitBtn && !exitBtn.dataset.v77FullscreenBound){
+    exitBtn.dataset.v77FullscreenBound="1";
+    exitBtn.addEventListener("click",e=>{
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      v77ExitGraphFullscreen();
+    },true);
+  }
+});
