@@ -4106,3 +4106,55 @@ body.graphPopoutOpen{
     min-height:50px;
   }
 }
+
+
+/* V80: remove Name Height/Width options; Rows/Columns take their place */
+.v80HiddenNameSize{
+  display:none !important;
+}
+
+/* Landscape: Rows + Columns now live in the former Height / Width area */
+.v69Landscape .v69Rows,
+.v69Landscape .v69Cols{
+  display:none !important;
+}
+.v69Landscape .v69SizeControls{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+  gap:10px !important;
+  width:100% !important;
+  min-width:0 !important;
+}
+.v69Landscape .v69SizeControls > label{
+  display:grid !important;
+  gap:4px !important;
+  min-width:0 !important;
+  font-size:10px !important;
+  font-weight:850 !important;
+  color:#687086 !important;
+}
+.v69Landscape .v69SizeControls select{
+  width:100% !important;
+  min-width:0 !important;
+  min-height:36px !important;
+  padding:6px 24px 6px 8px !important;
+  border-radius:10px !important;
+}
+
+/* Top landscape row no longer reserves space for Rows / Columns */
+.v69Landscape .v69LandscapeTop{
+  grid-template-columns:
+    minmax(95px,.8fr)
+    minmax(135px,1fr)
+    minmax(125px,1fr)
+    minmax(135px,1.05fr) !important;
+}
+.v69Landscape .v69View{grid-column:1;}
+.v69Landscape .v69Fullscreen{grid-column:2;}
+.v69Landscape .v69Pattern{grid-column:3;}
+.v69Landscape .v69Background{grid-column:4;}
+
+/* Portrait simply loses Height/Width; Rows and Columns remain on the left. */
+.v69Portrait .v69SizePair{
+  display:none !important;
+}

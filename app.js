@@ -1001,6 +1001,8 @@ function v69Init(){
   n.backgroundPicker=document.getElementById("sideBackgroundColor");
   n.heightField=v69FieldFor("nameHeight");
   n.widthField=v69FieldFor("nameWidth");
+  if(n.heightField) n.heightField.classList.add("v80HiddenNameSize");
+  if(n.widthField) n.widthField.classList.add("v80HiddenNameSize");
   n.paddingField=v69FieldFor("namePad");
   n.spacingField=v69FieldFor("spacing");
   n.borderField=v69FieldFor("nameBorder");
@@ -1083,9 +1085,7 @@ function v69Init(){
   n.bgWrap=bgWrap;
 
   const sizeWrap=document.createElement("div");
-  sizeWrap.className="v69SizePair";
-  if(n.heightField) sizeWrap.appendChild(n.heightField);
-  if(n.widthField) sizeWrap.appendChild(n.widthField);
+  sizeWrap.className="v69SizePair v80GraphSizePair";
   n.sizeWrap=sizeWrap;
 
   if(n.quickGenerate) n.quickGenerate.style.display="none";
@@ -1235,7 +1235,6 @@ function v69Apply(){
     v69Move(n.bgWrap,shell.querySelector(".v69PortraitLeft"));
     v69Move(n.rowsLabel,shell.querySelector(".v69PortraitLeft"));
     v69Move(n.colsLabel,shell.querySelector(".v69PortraitLeft"));
-    v69Move(n.sizeWrap,shell.querySelector(".v69PortraitLeft"));
     v69Move(n.draw,shell.querySelector(".v69PortraitLeft"));
     v69Move(n.erase,shell.querySelector(".v69PortraitLeft"));
 
@@ -1254,15 +1253,15 @@ function v69Apply(){
     v69Move(n.calculate,shell.querySelector(".v69PortraitFooter"));
   }else{
     // Layout 2 from sketch
-    v69Move(n.rowsLabel,shell.querySelector(".v69Rows"));
-    v69Move(n.colsLabel,shell.querySelector(".v69Cols"));
+    v69Move(n.rowsLabel,shell.querySelector(".v69SizeControls"));
+    v69Move(n.colsLabel,shell.querySelector(".v69SizeControls"));
     v69Move(n.patternWrap,shell.querySelector(".v69Pattern"));
     v69Move(n.bgWrap,shell.querySelector(".v69Background"));
 
     v69Move(n.borderField,shell.querySelector(".v69LeftControls"));
     v69Move(n.paddingField,shell.querySelector(".v69LeftControls"));
     v69Move(n.spacingField,shell.querySelector(".v69LeftControls"));
-    v69Move(n.sizeWrap,shell.querySelector(".v69SizeControls"));
+    // Rows and Columns now occupy the old Height / Width area.
     // V75: move Draw / Erase beside the graph in landscape.
     v69Move(n.draw,shell.querySelector(".v69PortraitRight"));
     v69Move(n.erase,shell.querySelector(".v69PortraitRight"));

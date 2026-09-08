@@ -1,7 +1,7 @@
-const CACHE='dandelyons-designs-v79-fullscreen-rotation-fix';
+const CACHE='dandelyons-designs-v80-rows-cols-layout';
 const ASSETS=[
-  './','./index.html','./styles.css?v=79','./data.js?v=79','./core.js?v=79',
-  './calculator.js?v=79','./beads.js?v=79','./projects.js?v=79','./export.js?v=79','./app.js?v=79',
+  './','./index.html','./styles.css?v=80','./data.js?v=80','./core.js?v=80',
+  './calculator.js?v=80','./beads.js?v=80','./projects.js?v=80','./export.js?v=80','./app.js?v=80',
   './manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'
 ];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
