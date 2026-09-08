@@ -1,7 +1,7 @@
-const CACHE='dandelyons-designs-v75-landscape-layout-tweaks';
+const CACHE='dandelyons-designs-v76-height-width-default';
 const ASSETS=[
-  './','./index.html','./styles.css?v=75','./data.js?v=75','./core.js?v=75',
-  './calculator.js?v=75','./beads.js?v=75','./projects.js?v=75','./export.js?v=75','./app.js?v=75',
+  './','./index.html','./styles.css?v=76','./data.js?v=76','./core.js?v=76',
+  './calculator.js?v=76','./beads.js?v=76','./projects.js?v=76','./export.js?v=76','./app.js?v=76',
   './manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'
 ];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});

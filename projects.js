@@ -397,7 +397,7 @@ function newProjectNow(){
     document.querySelectorAll("[data-stamp]").forEach(b=>b.classList.remove("active"));
     customFitToScreen=true;
     nameMatrix=makeNameMatrix();
-    drawMatrix=blank(Number($("drawRows").value)||9,Number($("drawCols").value)||60);
+    drawMatrix=blank(Number($("drawRows").value)||10,Number($("drawCols").value)||20);
     customBorderApplied=Math.max(0,Math.min(3,Number($("nameBorder").value)||0));
     $("drawBorderThickness").value=customBorderApplied||1;
     $("drawRows").value=drawMatrix.length;

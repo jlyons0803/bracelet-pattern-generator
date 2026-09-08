@@ -97,7 +97,7 @@ function switchMode(next){
   $("modeBadge").textContent="Editable pattern";
 
   if(!drawMatrix.length){
-    drawMatrix=blank(Number($("drawRows").value)||9,Number($("drawCols").value)||60);
+    drawMatrix=blank(Number($("drawRows").value)||10,Number($("drawCols").value)||20);
   }
 
   if(next==="name"){
@@ -728,8 +728,8 @@ function applyGraphSize(rows,cols){
 }
 
 function updateGraphSizeReadout(){
-  const rows=Math.max(3,Math.min(60,Number($("drawRows")?.value)||9));
-  const cols=Math.max(5,Math.min(200,Number($("drawCols")?.value)||60));
+  const rows=Math.max(3,Math.min(60,Number($("drawRows")?.value)||10));
+  const cols=Math.max(5,Math.min(200,Number($("drawCols")?.value)||20));
   if($("graphSizeReadout")) $("graphSizeReadout").textContent=`${rows} × ${cols}`;
 }
 
@@ -741,8 +741,8 @@ function stepGraphSize(axis,amount){
   const value=Math.max(min,Math.min(max,Math.round(Number(el.value)||min)+amount));
   el.value=value;
 
-  const rows=Number($("drawRows").value)||9;
-  const cols=Number($("drawCols").value)||60;
+  const rows=Number($("drawRows").value)||10;
+  const cols=Number($("drawCols").value)||20;
   applyGraphSize(rows,cols);
 }
 

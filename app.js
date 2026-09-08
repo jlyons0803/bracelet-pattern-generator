@@ -157,8 +157,8 @@ $("invertBtn").addEventListener("click",()=>mutate("invert"));
 
 
 function syncInlineGraphSizeControls(){
-  if($("graphRowsSelect")) $("graphRowsSelect").value=String(Math.max(3,Math.min(60,drawMatrix.length || Number($("drawRows").value)||9)));
-  if($("graphColsSelect")) $("graphColsSelect").value=String(Math.max(5,Math.min(200,(drawMatrix[0]?.length) || Number($("drawCols").value)||60)));
+  if($("graphRowsSelect")) $("graphRowsSelect").value=String(Math.max(3,Math.min(60,drawMatrix.length || Number($("drawRows").value)||10)));
+  if($("graphColsSelect")) $("graphColsSelect").value=String(Math.max(5,Math.min(200,(drawMatrix[0]?.length) || Number($("drawCols").value)||20)));
   refreshEditPositionOptions();
 }
 
@@ -172,8 +172,8 @@ function refreshEditPositionOptions(){
     pos.disabled=true;
     return;
   }
-  const max=axis==="row" ? (drawMatrix.length || Number($("drawRows").value)||9)
-                         : ((drawMatrix[0]?.length) || Number($("drawCols").value)||60);
+  const max=axis==="row" ? (drawMatrix.length || Number($("drawRows").value)||10)
+                         : ((drawMatrix[0]?.length) || Number($("drawCols").value)||20);
   for(let i=1;i<=max;i++){
     const opt=document.createElement("option");
     opt.value=String(i);
@@ -435,7 +435,7 @@ $("applyPlasticRowsBtn").addEventListener("click",()=>{
   const recommended=Math.max(1,Number($("applyPlasticRowsBtn").dataset.rows)||0);
   if(!recommended) return;
   const rows=Math.min(60,recommended);
-  const cols=(drawMatrix[0]?.length)||Number($("drawCols").value)||60;
+  const cols=(drawMatrix[0]?.length)||Number($("drawCols").value)||20;
   applyGraphSize(rows,cols);
   if(typeof syncInlineGraphSizeControls==="function") syncInlineGraphSizeControls();
   $("plasticRowsNote").innerHTML=
@@ -508,7 +508,7 @@ syncInlineGraphSizeControls();
 refreshProjectList();
 renderThreadNotes();
 nameMatrix=makeNameMatrix();
-drawMatrix=blank(Number($("drawRows").value)||9,Number($("drawCols").value)||60);
+drawMatrix=blank(Number($("drawRows").value)||10,Number($("drawCols").value)||20);
 customBorderApplied=0;
 $("drawLetterColor").value=$("nameLetterColor").value;
 $("drawBgColor").value=$("nameBgColor").value;

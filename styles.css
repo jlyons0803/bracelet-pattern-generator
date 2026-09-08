@@ -3806,3 +3806,63 @@ body.graphFullscreenOpen{
   width:100% !important;
   min-height:56px !important;
 }
+
+
+/* V76: fix Height / Width overlap in landscape */
+.v69Landscape .v69LandscapeMiddle{
+  grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr) !important;
+  column-gap:14px !important;
+  row-gap:8px !important;
+  align-items:end !important;
+}
+.v69Landscape .v69LeftControls{
+  min-width:0 !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+}
+.v69Landscape .v69SizeControls{
+  min-width:0 !important;
+  width:100% !important;
+  display:block !important;
+}
+.v69Landscape .v69SizePair{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+  gap:10px !important;
+  width:100% !important;
+  min-width:0 !important;
+}
+.v69Landscape .v69SizePair .field{
+  min-width:0 !important;
+  width:100% !important;
+}
+.v69Landscape .v69SizePair .stepper{
+  width:100% !important;
+  min-width:0 !important;
+  grid-template-columns:30px minmax(54px,1fr) 30px !important;
+}
+.v69Landscape .v69SizePair .stepper input{
+  width:100% !important;
+  min-width:0 !important;
+  padding-left:4px !important;
+  padding-right:4px !important;
+  text-align:center !important;
+}
+.v69Landscape .v69SizePair .stepper button{
+  width:30px !important;
+  min-width:30px !important;
+  padding-left:0 !important;
+  padding-right:0 !important;
+}
+
+/* At narrower iPad landscape widths, put Height and Width on their own clean row. */
+@media(max-width:1050px){
+  .v69Landscape .v69LandscapeMiddle{
+    grid-template-columns:1fr !important;
+  }
+  .v69Landscape .v69LeftControls{
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  }
+  .v69Landscape .v69SizeControls{
+    max-width:520px !important;
+  }
+}
