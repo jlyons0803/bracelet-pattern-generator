@@ -628,6 +628,67 @@ function generateRandomPattern(style="chevron"){
   renderGrid();
 }
 
+
+
+function rotateMatrixClockwise(matrix){
+  const rows=matrix.length;
+  const cols=matrix[0]?.length || 0;
+  const out=Array.from({length:cols},()=>Array(rows).fill(0));
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      out[c][rows-1-r]=matrix[r][c];
+    }
+  }
+  return out;
+}
+
+function rotateMatrixCounterClockwise(matrix){
+  const rows=matrix.length;
+  const cols=matrix[0]?.length || 0;
+  const out=Array.from({length:cols},()=>Array(rows).fill(0));
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      out[cols-1-c][r]=matrix[r][c];
+    }
+  }
+  return out;
+}
+
+function autoAdjustGraphForOrientation(view){
+  if(mode!=="draw" || !drawMatrix.length || !drawMatrix[0]?.length) return false;
+
+  const rows=drawMatrix.length;
+  const cols=drawMatrix[0].length;
+
+  // Only auto-rotate when the graph shape clearly opposes the chosen view.
+  const shouldRotateToPortrait=view==="portrait" && cols>rows;
+  const shouldRotateToLandscape=view==="landscape" && rows>cols;
+  if(!shouldRotateToPortrait && !shouldRotateToLandscape) return false;
+
+  history.push(clone(drawMatrix));
+  if(history.length>40) history.shift();
+
+  drawMatrix=shouldRotateToPortrait
+    ? rotateMatrixClockwise(drawMatrix)
+    : rotateMatrixCounterClockwise(drawMatrix);
+
+  const newRows=drawMatrix.length;
+  const newCols=drawMatrix[0]?.length || 0;
+  if($("drawRows")) $("drawRows").value=newRows;
+  if($("drawCols")) $("drawCols").value=newCols;
+  updateGraphSizeReadout();
+  if(typeof syncInlineGraphSizeControls==="function"){
+    syncInlineGraphSizeControls();
+  }
+  if($("fitNote")){
+    $("fitNote").textContent=`Graph auto-adjusted for ${view} view: ${newRows} rows × ${newCols} columns.`;
+  }
+  renderGrid();
+  return true;
+}
+window.autoAdjustGraphForOrientation=autoAdjustGraphForOrientation;
+
+
 function applyGraphSize(rows,cols){
   rows=Math.max(3,Math.min(60,Math.round(Number(rows)||9)));
   cols=Math.max(5,Math.min(200,Math.round(Number(cols)||60)));

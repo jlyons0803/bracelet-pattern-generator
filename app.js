@@ -204,10 +204,21 @@ $("graphColsSelect").addEventListener("change",()=>{
 });
 
 $("graphOrientationSelect").addEventListener("change",()=>{
-  const portrait=$("graphOrientationSelect").value==="portrait";
+  const view=$("graphOrientationSelect").value;
+  const portrait=view==="portrait";
   const card=document.querySelector(".previewCard");
   if(card) card.classList.toggle("graphPortraitView",portrait);
-  requestAnimationFrame(()=>renderGrid());
+
+  if(typeof autoAdjustGraphForOrientation==="function"){
+    autoAdjustGraphForOrientation(view);
+  }
+
+  requestAnimationFrame(()=>{
+    if(typeof syncInlineGraphSizeControls==="function"){
+      syncInlineGraphSizeControls();
+    }
+    renderGrid();
+  });
 });
 
 $("editAxisSelect").addEventListener("change",()=>{
