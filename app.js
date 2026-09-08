@@ -1022,6 +1022,80 @@ function v69Init(){
   requestAnimationFrame(v69Apply);
 }
 
+
+function v72EnforceOrientationLayout(view){
+  const shell=v69LayoutState.nodes.shell;
+  if(!shell) return;
+
+  const top=shell.querySelector(".v69LandscapeTop");
+  const upper=shell.querySelector(".v69UpperCards");
+  const middle=shell.querySelector(".v69LandscapeMiddle");
+  const graphGrid=shell.querySelector(".v69GraphGrid");
+  const left=shell.querySelector(".v69PortraitLeft");
+  const right=shell.querySelector(".v69PortraitRight");
+  const portraitFooter=shell.querySelector(".v69PortraitFooter");
+  const landscapeFooter=shell.querySelector(".v69LandscapeFooter");
+
+  if(view==="portrait"){
+    if(top){
+      top.style.display="grid";
+      top.style.gridTemplateColumns="minmax(110px,170px) minmax(150px,220px)";
+      top.style.justifyContent="space-between";
+    }
+    if(upper){
+      upper.style.display="grid";
+      upper.style.gridTemplateColumns="minmax(180px,1fr) minmax(170px,.9fr) minmax(200px,1fr)";
+    }
+    if(middle) middle.style.display="none";
+    if(graphGrid){
+      graphGrid.style.display="grid";
+      graphGrid.style.gridTemplateColumns="145px minmax(0,1fr) 175px";
+      graphGrid.style.gap="10px";
+      graphGrid.style.alignItems="start";
+    }
+    if(left){
+      left.style.display="grid";
+      left.style.gridTemplateColumns="1fr";
+      left.style.gap="9px";
+      left.style.alignContent="start";
+    }
+    if(right){
+      right.style.display="grid";
+      right.style.gridTemplateColumns="1fr";
+      right.style.gap="9px";
+      right.style.alignContent="start";
+    }
+    if(portraitFooter) portraitFooter.style.display="flex";
+    if(landscapeFooter) landscapeFooter.style.display="none";
+  }else{
+    if(top){
+      top.style.display="grid";
+      top.style.gridTemplateColumns="minmax(95px,.8fr) minmax(135px,1fr) minmax(72px,.55fr) minmax(82px,.62fr) minmax(125px,1fr) minmax(135px,1.05fr)";
+      top.style.justifyContent="";
+    }
+    if(upper){
+      upper.style.display="grid";
+      upper.style.gridTemplateColumns="minmax(220px,1.1fr) minmax(180px,.8fr) minmax(230px,1.1fr)";
+    }
+    if(middle){
+      middle.style.display="grid";
+      middle.style.gridTemplateColumns="minmax(300px,1.25fr) minmax(250px,1fr) auto";
+    }
+    if(graphGrid){
+      graphGrid.style.display="grid";
+      graphGrid.style.gridTemplateColumns="1fr";
+      graphGrid.style.gap="10px";
+    }
+    if(left) left.style.display="none";
+    if(right) right.style.display="none";
+    if(portraitFooter) portraitFooter.style.display="none";
+    if(landscapeFooter){
+      landscapeFooter.style.display="grid";
+      landscapeFooter.style.gridTemplateColumns="minmax(0,1fr) minmax(220px,260px)";
+    }
+  }
+}
+
 function v69Apply(){
   if(!v69LayoutState.initialized){
     v69Init();
@@ -1035,6 +1109,10 @@ function v69Apply(){
   shell.classList.toggle("v69Landscape",view==="landscape");
   n.preview.classList.toggle("v69PortraitMode",view==="portrait");
   n.preview.classList.toggle("v69LandscapeMode",view==="landscape");
+
+  // V72: force the selected orientation layout with inline grid rules so
+  // Safari/iPad responsive breakpoints cannot collapse portrait into one column.
+  v72EnforceOrientationLayout(view);
 
   // Hide legacy holders.
   [n.graphToolBar,n.leftRail,n.rightRail,n.underGraphBar,n.wideLayout,n.quickTools].forEach(node=>{
@@ -1094,6 +1172,7 @@ function v69Apply(){
   }
 
   requestAnimationFrame(()=>{
+    v72EnforceOrientationLayout(view);
     if(typeof __v54RenderGrid==="function") __v54RenderGrid();
     else if(typeof renderGrid==="function") renderGrid();
   });

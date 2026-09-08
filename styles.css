@@ -3597,3 +3597,139 @@ body.graphFullscreenOpen{
     grid-template-columns:1fr;
   }
 }
+
+
+/* V70: restore portrait layout while preserving V69 landscape fixes */
+
+/* Force portrait back to the original 3-column layout on iPad portrait widths. */
+.v69Portrait .v69LandscapeTop{
+  grid-template-columns:minmax(110px,170px) minmax(150px,220px) !important;
+  justify-content:space-between !important;
+}
+.v69Portrait .v69Rows,
+.v69Portrait .v69Cols,
+.v69Portrait .v69Pattern,
+.v69Portrait .v69Background{
+  display:none !important;
+}
+.v69Portrait .v69UpperCards{
+  grid-template-columns:minmax(180px,1fr) minmax(170px,.9fr) minmax(200px,1fr) !important;
+}
+.v69Portrait .v69LandscapeMiddle{
+  display:none !important;
+}
+.v69Portrait .v69GraphGrid{
+  grid-template-columns:145px minmax(0,1fr) 175px !important;
+  gap:10px !important;
+  align-items:start !important;
+}
+.v69Portrait .v69PortraitLeft,
+.v69Portrait .v69PortraitRight{
+  display:grid !important;
+  gap:9px !important;
+  align-content:start !important;
+}
+.v69Portrait .v69LandscapeFooter{
+  display:none !important;
+}
+.v69Portrait .v69PortraitFooter{
+  display:flex !important;
+}
+
+/* Keep portrait side controls compact instead of stretching full-width. */
+.v69Portrait .v69PortraitLeft .field,
+.v69Portrait .v69PortraitRight .field,
+.v69Portrait .v69PortraitLeft label,
+.v69Portrait .v69PortraitRight label{
+  min-width:0 !important;
+}
+.v69Portrait .v69PortraitLeft select,
+.v69Portrait .v69PortraitLeft input,
+.v69Portrait .v69PortraitRight select,
+.v69Portrait .v69PortraitRight input{
+  width:100% !important;
+  min-width:0 !important;
+}
+.v69Portrait .v69SizePair{
+  grid-template-columns:1fr !important;
+}
+.v69Portrait .v69SizePair .stepper{
+  grid-template-columns:28px minmax(44px,1fr) 28px !important;
+}
+.v69Portrait .v69Graph .graphCenter,
+.v69Portrait .v69Graph .graphEditWrap,
+.v69Portrait .v69Graph .gridScroll{
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+}
+
+/* IMPORTANT: do not collapse portrait on normal iPad portrait widths.
+   Only stack portrait on genuinely small phone-sized widths. */
+@media(max-width:700px){
+  .v69Portrait .v69UpperCards{
+    grid-template-columns:1fr !important;
+  }
+  .v69Portrait .v69GraphGrid{
+    grid-template-columns:1fr !important;
+  }
+  .v69Portrait .v69PortraitLeft,
+  .v69Portrait .v69PortraitRight{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+
+/* Neutralize the broader V69 850px portrait collapse without touching landscape. */
+@media(min-width:701px) and (max-width:850px){
+  .v69Portrait .v69UpperCards{
+    grid-template-columns:minmax(180px,1fr) minmax(170px,.9fr) minmax(200px,1fr) !important;
+  }
+  .v69Portrait .v69GraphGrid{
+    grid-template-columns:145px minmax(0,1fr) 175px !important;
+  }
+}
+
+
+/* V72 portrait layout hardening */
+.v69Portrait .v69GraphGrid{
+  grid-template-columns:145px minmax(0,1fr) 175px !important;
+}
+.v69Portrait .v69UpperCards{
+  grid-template-columns:minmax(180px,1fr) minmax(170px,.9fr) minmax(200px,1fr) !important;
+}
+.v69Portrait .v69PortraitLeft,
+.v69Portrait .v69PortraitRight{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+}
+.v69Portrait .v69LandscapeMiddle,
+.v69Portrait .v69LandscapeFooter{
+  display:none !important;
+}
+.v69Portrait .v69PortraitFooter{
+  display:flex !important;
+}
+
+/* Do not stack the portrait workspace on iPad widths. */
+@media(max-width:850px){
+  .v69Portrait .v69GraphGrid{
+    grid-template-columns:145px minmax(0,1fr) 175px !important;
+  }
+  .v69Portrait .v69UpperCards{
+    grid-template-columns:minmax(180px,1fr) minmax(170px,.9fr) minmax(200px,1fr) !important;
+  }
+  .v69Portrait .v69PortraitLeft,
+  .v69Portrait .v69PortraitRight{
+    grid-template-columns:1fr !important;
+  }
+}
+
+/* Only phones get a stacked fallback. */
+@media(max-width:560px){
+  .v69Portrait .v69GraphGrid{
+    grid-template-columns:1fr !important;
+  }
+  .v69Portrait .v69UpperCards{
+    grid-template-columns:1fr !important;
+  }
+}

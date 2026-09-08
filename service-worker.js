@@ -1,7 +1,7 @@
-const CACHE='dandelyons-designs-v71-auto-orientation-graph';
+const CACHE='dandelyons-designs-v72-portrait-layout-fix';
 const ASSETS=[
-  './','./index.html','./styles.css?v=71','./data.js?v=71','./core.js?v=71',
-  './calculator.js?v=71','./beads.js?v=71','./projects.js?v=71','./export.js?v=71','./app.js?v=71',
+  './','./index.html','./styles.css?v=72','./data.js?v=72','./core.js?v=72',
+  './calculator.js?v=72','./beads.js?v=72','./projects.js?v=72','./export.js?v=72','./app.js?v=72',
   './manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'
 ];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
