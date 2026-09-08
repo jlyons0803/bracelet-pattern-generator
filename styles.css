@@ -4057,3 +4057,52 @@ body.graphPopoutOpen{
   min-height:18px !important;
   font-size:12px !important;
 }
+
+
+/* V79: iPad rotation stability for fullscreen editor */
+.graphPopoutEditor.open{
+  width:100vw !important;
+  height:100dvh !important;
+  max-width:100vw !important;
+  max-height:100dvh !important;
+  overflow:hidden !important;
+}
+.graphPopoutCanvas{
+  position:relative;
+  min-width:0 !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+}
+.graphPopoutCanvas .graphCenter,
+.graphPopoutCanvas .graphEditWrap{
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:100% !important;
+  max-height:100% !important;
+}
+.graphPopoutCanvas .gridScroll{
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* Give Safari a clean layout in each physical orientation. */
+@media (orientation:portrait){
+  .graphPopoutEditor.open{
+    grid-template-rows:auto minmax(0,1fr) !important;
+  }
+  .graphPopoutHeader{
+    min-height:54px;
+  }
+}
+@media (orientation:landscape){
+  .graphPopoutEditor.open{
+    grid-template-rows:auto minmax(0,1fr) !important;
+  }
+  .graphPopoutHeader{
+    min-height:50px;
+  }
+}

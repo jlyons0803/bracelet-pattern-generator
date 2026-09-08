@@ -131,8 +131,10 @@ function setGraphFullscreen(on){
     requestAnimationFrame(()=>{
       if(typeof v69Apply==="function") v69Apply();
       requestAnimationFrame(()=>{
-        if(typeof __v54RenderGrid==="function") __v54RenderGrid();
-        else renderGrid();
+        requestAnimationFrame(()=>{
+          if(typeof __v54RenderGrid==="function") __v54RenderGrid();
+          else renderGrid();
+        });
       });
     });
   }
@@ -147,9 +149,35 @@ document.addEventListener("keydown",e=>{
   }
 });
 
-window.addEventListener("resize",()=>{
+function handleResponsiveGraphResize(){
   clearTimeout(window.__wovenResizeTimer);
-  window.__wovenResizeTimer=setTimeout(()=>renderGrid(),120);
+  window.__wovenResizeTimer=setTimeout(()=>{
+    const popoutOpen=document.body.classList.contains("graphPopoutOpen");
+    if(popoutOpen){
+      const overlay=document.getElementById("graphPopoutEditor");
+      if(overlay){
+        // Force Safari to recalculate the viewport after iPad rotation.
+        overlay.style.height="100dvh";
+        overlay.style.width="100vw";
+      }
+      requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>{
+          if(typeof __v54RenderGrid==="function") __v54RenderGrid();
+          else renderGrid();
+        });
+      });
+    }else{
+      renderGrid();
+    }
+  },180);
+}
+
+window.addEventListener("resize",handleResponsiveGraphResize);
+window.addEventListener("orientationchange",()=>{
+  clearTimeout(window.__wovenOrientationTimer);
+  window.__wovenOrientationTimer=setTimeout(()=>{
+    handleResponsiveGraphResize();
+  },260);
 });
 
 // Name controls
@@ -263,7 +291,11 @@ $("graphOrientationSelect").addEventListener("change",()=>{
     if(typeof syncInlineGraphSizeControls==="function"){
       syncInlineGraphSizeControls();
     }
-    renderGrid();
+    if(document.body.classList.contains("graphPopoutOpen")){
+      handleResponsiveGraphResize();
+    }else{
+      renderGrid();
+    }
   });
 });
 
@@ -1156,6 +1188,16 @@ function v72EnforceOrientationLayout(view){
 
 
 function v69Apply(){
+  // V79: while the pop-out editor is open, keep the graph and editing
+  // controls inside the overlay. Rotation should only resize the overlay.
+  if(document.body.classList.contains("graphPopoutOpen")){
+    requestAnimationFrame(()=>{
+      if(typeof __v54RenderGrid==="function") __v54RenderGrid();
+      else if(typeof renderGrid==="function") renderGrid();
+    });
+    return;
+  }
+
   if(!v69LayoutState.initialized){
     v69Init();
     if(!v69LayoutState.initialized) return;
