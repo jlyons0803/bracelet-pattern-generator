@@ -4174,3 +4174,36 @@ body.graphPopoutOpen{
 .v69Portrait .v69PortraitLeft{
   align-items:stretch !important;
 }
+
+
+/* V82: Full Screen matches Draw / Erase styling */
+.v69Landscape .v69PortraitRight .fullscreenGraphBtn,
+.v69Portrait .v69PortraitLeft .fullscreenGraphBtn{
+  width:100% !important;
+  min-width:0 !important;
+  min-height:40px !important;
+  height:auto !important;
+  padding:8px 12px !important;
+  border:1px solid #d7d1e5 !important;
+  border-radius:10px !important;
+  background:#ffffff !important;
+  color:#514879 !important;
+  font:inherit !important;
+  font-size:12px !important;
+  font-weight:850 !important;
+  line-height:1.2 !important;
+  justify-content:center !important;
+  box-shadow:none !important;
+}
+.v69Landscape .v69PortraitRight .fullscreenGraphBtn .fullscreenIcon,
+.v69Portrait .v69PortraitLeft .fullscreenGraphBtn .fullscreenIcon{
+  display:none !important;
+}
+.v69Landscape .v69PortraitRight .fullscreenGraphBtn.active,
+.v69Landscape .v69PortraitRight .fullscreenGraphBtn:active,
+.v69Portrait .v69PortraitLeft .fullscreenGraphBtn.active,
+.v69Portrait .v69PortraitLeft .fullscreenGraphBtn:active{
+  background:#eeeafe !important;
+  border-color:#7567d9 !important;
+  color:#4f44a5 !important;
+}
