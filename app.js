@@ -1056,6 +1056,11 @@ function v69Init(){
       <aside class="v69PortraitRight"></aside>
     </div>
 
+    <div class="v83ColorRow">
+      <div class="v83PatternUnderGraph"></div>
+      <div class="v83BackgroundUnderGraph"></div>
+    </div>
+
     <div class="v69PortraitFooter"></div>
 
     <div class="v69LandscapeFooter">
@@ -1230,8 +1235,8 @@ function v69Apply(){
 
   if(view==="portrait"){
     // Layout 1 from sketch
-    v69Move(n.patternWrap,shell.querySelector(".v69PortraitLeft"));
-    v69Move(n.bgWrap,shell.querySelector(".v69PortraitLeft"));
+    v69Move(n.patternWrap,shell.querySelector(".v83PatternUnderGraph"));
+    v69Move(n.bgWrap,shell.querySelector(".v83BackgroundUnderGraph"));
     v69Move(n.rowsLabel,shell.querySelector(".v69PortraitLeft"));
     v69Move(n.colsLabel,shell.querySelector(".v69PortraitLeft"));
     v69Move(n.draw,shell.querySelector(".v69PortraitLeft"));
@@ -1255,8 +1260,8 @@ function v69Apply(){
     // Layout 2 from sketch
     v69Move(n.rowsLabel,shell.querySelector(".v69SizeControls"));
     v69Move(n.colsLabel,shell.querySelector(".v69SizeControls"));
-    v69Move(n.patternWrap,shell.querySelector(".v69Pattern"));
-    v69Move(n.bgWrap,shell.querySelector(".v69Background"));
+    v69Move(n.patternWrap,shell.querySelector(".v83PatternUnderGraph"));
+    v69Move(n.bgWrap,shell.querySelector(".v83BackgroundUnderGraph"));
 
     v69Move(n.borderField,shell.querySelector(".v69LeftControls"));
     v69Move(n.paddingField,shell.querySelector(".v69LeftControls"));

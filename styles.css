@@ -4207,3 +4207,61 @@ body.graphPopoutOpen{
   border-color:#7567d9 !important;
   color:#4f44a5 !important;
 }
+
+
+/* V83: Pattern + Background color controls directly under the graph */
+.v83ColorRow{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:10px;
+  width:100%;
+  min-width:0;
+  margin-top:-2px;
+}
+.v83PatternUnderGraph,
+.v83BackgroundUnderGraph{
+  min-width:0;
+}
+.v83ColorRow .v69ColorControl{
+  width:100% !important;
+  min-width:0 !important;
+}
+.v83ColorRow .v69ColorInner{
+  grid-template-columns:minmax(0,1fr) 38px !important;
+  gap:6px !important;
+}
+.v83ColorRow .compactColorSelect{
+  width:100% !important;
+  min-width:0 !important;
+  min-height:38px !important;
+}
+.v83ColorRow .compactColorPicker{
+  width:38px !important;
+  min-width:38px !important;
+  height:38px !important;
+  min-height:38px !important;
+}
+
+/* Those controls are no longer used in the landscape top row. */
+.v69Landscape .v69Pattern,
+.v69Landscape .v69Background{
+  display:none !important;
+}
+
+/* With colors moved down, the landscape top only needs View. */
+.v69Landscape .v69LandscapeTop{
+  grid-template-columns:minmax(110px,180px) !important;
+  justify-content:start !important;
+}
+
+/* Portrait keeps the two color pickers directly beneath the entire graph row. */
+.v69Portrait .v83ColorRow{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+}
+
+/* Narrow phones may stack the two color controls. */
+@media(max-width:560px){
+  .v83ColorRow{
+    grid-template-columns:1fr;
+  }
+}

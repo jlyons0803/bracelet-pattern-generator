@@ -1,7 +1,7 @@
-const CACHE='dandelyons-designs-v82-fullscreen-button-style';
+const CACHE='dandelyons-designs-v83-colors-under-graph';
 const ASSETS=[
-  './','./index.html','./styles.css?v=82','./data.js?v=82','./core.js?v=82',
-  './calculator.js?v=82','./beads.js?v=82','./projects.js?v=82','./export.js?v=82','./app.js?v=82',
+  './','./index.html','./styles.css?v=83','./data.js?v=83','./core.js?v=83',
+  './calculator.js?v=83','./beads.js?v=83','./projects.js?v=83','./export.js?v=83','./app.js?v=83',
   './manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'
 ];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
