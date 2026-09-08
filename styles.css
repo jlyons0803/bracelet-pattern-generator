@@ -3248,3 +3248,352 @@ body.graphFullscreenOpen{
     grid-template-columns:1fr;
   }
 }
+
+
+/* V69 orientation layout fixes */
+.v69LegacyHidden{display:none !important;}
+.v69SourceHidden{
+  position:absolute !important;
+  left:-99999px !important;
+  width:1px !important;
+  height:1px !important;
+  overflow:hidden !important;
+}
+.v69EditorShell{
+  width:100%;
+  display:grid;
+  gap:10px;
+  min-width:0;
+}
+.v69LandscapeTop{
+  display:grid;
+  gap:8px;
+  align-items:end;
+  min-width:0;
+}
+.v69LandscapeTop>div{min-width:0;}
+.v69LandscapeTop label{
+  display:grid;
+  gap:3px;
+  min-width:0;
+  font-size:10px;
+  font-weight:850;
+  color:#687086;
+}
+.v69LandscapeTop select{
+  width:100%;
+  min-width:0;
+  min-height:36px;
+  padding:6px 24px 6px 8px;
+  border-radius:10px;
+  font-size:11px;
+}
+.v69Fullscreen .fullscreenGraphBtn{
+  width:100%;
+  min-width:0;
+  min-height:38px;
+}
+.v69UpperCards{
+  display:grid;
+  gap:10px;
+  min-width:0;
+}
+.v69MiniCard{
+  min-width:0;
+  padding:8px 10px;
+  border:1px solid #e4dfee;
+  border-radius:13px;
+  background:#fbfaff;
+}
+.v69MiniTitle{
+  margin-bottom:5px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  color:#686185;
+}
+.v69Name input{
+  width:100% !important;
+  min-width:0 !important;
+  min-height:42px !important;
+  padding:8px 10px !important;
+  border:1px solid #dcd7e8 !important;
+  border-radius:10px !important;
+  background:#fff !important;
+  font-size:15px !important;
+}
+.v69Stamp .graphStampWindow,
+.v69Library .toolDrawer{
+  margin:0 !important;
+  border:0 !important;
+  background:transparent !important;
+}
+.v69Stamp .graphStampWindow>summary,
+.v69Library .toolDrawer>summary{
+  min-height:42px;
+  padding:7px 8px !important;
+  border-radius:9px;
+}
+.v69Stamp .toolDrawerBody,
+.v69Library .toolDrawerBody{
+  max-height:320px;
+  overflow:auto;
+}
+.v69ColorControl{min-width:0;display:grid;gap:4px;}
+.v69ControlLabel{
+  font-size:10px;
+  font-weight:850;
+  color:#687086;
+}
+.v69ColorInner{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 34px;
+  gap:5px;
+  min-width:0;
+}
+.v69ColorInner .compactColorSelect{
+  width:100% !important;
+  min-width:0 !important;
+  height:34px !important;
+  min-height:34px !important;
+  font-size:11px !important;
+  padding:5px 22px 5px 7px !important;
+}
+.v69ColorInner .compactColorPicker{
+  width:34px !important;
+  min-width:34px !important;
+  height:34px !important;
+  min-height:34px !important;
+}
+.v69SizePair{
+  display:grid;
+  gap:6px;
+  min-width:0;
+}
+.v69SizePair .field{min-width:0;}
+.v69SizePair .stepper{
+  display:grid;
+  grid-template-columns:28px minmax(38px,1fr) 28px;
+  gap:3px;
+}
+.v69SizePair .stepper button,
+.v69SizePair .stepper input{
+  min-width:0 !important;
+  min-height:34px !important;
+  height:34px !important;
+}
+.v69LandscapeMiddle{
+  display:grid;
+  gap:10px;
+  align-items:end;
+  min-width:0;
+}
+.v69LeftControls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:end;
+  min-width:0;
+}
+.v69LeftControls>.field{
+  flex:1 1 110px;
+  min-width:90px;
+  max-width:150px;
+}
+.v69DrawControls{
+  display:flex;
+  gap:8px;
+  align-items:end;
+  justify-content:flex-end;
+}
+.v69DrawControls .graphTool{
+  min-width:86px !important;
+  min-height:40px !important;
+}
+.v69GraphGrid{
+  display:grid;
+  gap:10px;
+  align-items:stretch;
+  min-width:0;
+}
+.v69Graph{
+  min-width:0;
+}
+.v69Graph .graphCenter,
+.v69Graph .graphEditWrap,
+.v69Graph .gridScroll{
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+}
+.v69PortraitLeft,
+.v69PortraitRight{
+  min-width:0;
+}
+.v69PortraitLeft .graphTool{
+  width:100% !important;
+  min-height:40px !important;
+}
+.v69PortraitLeft label,
+.v69PortraitRight .field{
+  display:grid;
+  gap:4px;
+}
+.v69PortraitRight input,
+.v69PortraitRight select{
+  width:100% !important;
+  min-width:0 !important;
+  min-height:34px;
+}
+.v69PortraitRight .rowColumnSection,
+.v69Edit .rowColumnSection{
+  display:grid !important;
+  gap:7px !important;
+  padding:10px !important;
+  border:1px solid #e4dfee;
+  border-radius:12px;
+  background:#fbfaff;
+}
+.v69PortraitFooter,
+.v69UndoClear{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.v69PortraitFooter button,
+.v69UndoClear button{
+  min-width:110px;
+  min-height:40px;
+}
+.v69PortraitFooter #goCalculatorBtn{margin-left:auto;}
+.v69LandscapeFooter{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(220px,260px);
+  gap:12px;
+  align-items:start;
+  min-width:0;
+}
+.v69ActionStack{
+  display:grid;
+  gap:8px;
+}
+.v69Generate #sendToDraw,
+.v69Calculate #goCalculatorBtn{
+  width:100% !important;
+  min-height:42px !important;
+}
+
+/* Portrait layout */
+.v69Portrait .v69LandscapeTop{
+  grid-template-columns:minmax(110px,170px) minmax(150px,220px);
+  justify-content:space-between;
+}
+.v69Portrait .v69Rows,
+.v69Portrait .v69Cols,
+.v69Portrait .v69Pattern,
+.v69Portrait .v69Background{display:none;}
+.v69Portrait .v69UpperCards{
+  grid-template-columns:minmax(180px,1fr) minmax(170px,.9fr) minmax(200px,1fr);
+}
+.v69Portrait .v69LandscapeMiddle{display:none;}
+.v69Portrait .v69GraphGrid{
+  grid-template-columns:minmax(120px,145px) minmax(0,1fr) minmax(150px,175px);
+}
+.v69Portrait .v69PortraitLeft,
+.v69Portrait .v69PortraitRight{
+  display:grid;
+  gap:9px;
+  align-content:start;
+}
+.v69Portrait .v69LandscapeFooter{display:none;}
+
+/* Landscape layout */
+.v69Landscape .v69LandscapeTop{
+  grid-template-columns:
+    minmax(95px,.8fr)
+    minmax(135px,1fr)
+    minmax(72px,.55fr)
+    minmax(82px,.62fr)
+    minmax(125px,1fr)
+    minmax(135px,1.05fr);
+}
+.v69Landscape .v69UpperCards{
+  grid-template-columns:minmax(220px,1.1fr) minmax(180px,.8fr) minmax(230px,1.1fr);
+}
+.v69Landscape .v69LandscapeMiddle{
+  grid-template-columns:minmax(300px,1.25fr) minmax(250px,1fr) auto;
+}
+.v69Landscape .v69GraphGrid{grid-template-columns:1fr;}
+.v69Landscape .v69PortraitLeft,
+.v69Landscape .v69PortraitRight,
+.v69Landscape .v69PortraitFooter{display:none;}
+.v69Landscape .v69LandscapeFooter{display:grid;}
+
+/* Important: prevent overflow at iPad landscape widths */
+.v69LandscapeTop,
+.v69UpperCards,
+.v69LandscapeMiddle,
+.v69LandscapeFooter{
+  max-width:100%;
+  overflow:visible;
+}
+.v69LandscapeTop>*,
+.v69UpperCards>*,
+.v69LandscapeMiddle>*,
+.v69LandscapeFooter>*{
+  min-width:0;
+}
+.v69Landscape .v69DrawControls{
+  min-width:180px;
+}
+.v69Landscape .v69SizeControls{
+  min-width:0;
+}
+.v69Landscape .v69SizePair{
+  grid-template-columns:1fr 1fr;
+}
+.v69Landscape .v69SizePair .field{
+  min-width:0;
+}
+
+/* Tighten on typical iPad landscape widths */
+@media(max-width:1100px){
+  .v69Landscape .v69LandscapeTop{
+    grid-template-columns:110px 155px 76px 86px minmax(115px,1fr) minmax(125px,1fr);
+    gap:6px;
+  }
+  .v69Landscape .v69UpperCards{
+    grid-template-columns:minmax(210px,1fr) minmax(170px,.8fr) minmax(220px,1fr);
+    gap:8px;
+  }
+  .v69Landscape .v69LandscapeMiddle{
+    grid-template-columns:minmax(270px,1fr) minmax(220px,.9fr) 170px;
+    gap:8px;
+  }
+  .v69LeftControls>.field{
+    flex:1 1 90px;
+    max-width:120px;
+  }
+  .v69DrawControls .graphTool{
+    min-width:78px !important;
+  }
+}
+@media(max-width:850px){
+  .v69Landscape .v69LandscapeTop{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+  .v69Landscape .v69UpperCards{
+    grid-template-columns:1fr;
+  }
+  .v69Landscape .v69LandscapeMiddle,
+  .v69Landscape .v69LandscapeFooter{
+    grid-template-columns:1fr;
+  }
+  .v69Portrait .v69UpperCards{
+    grid-template-columns:1fr;
+  }
+  .v69Portrait .v69GraphGrid{
+    grid-template-columns:1fr;
+  }
+}
