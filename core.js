@@ -1,3 +1,23 @@
+function isColorCellValue(v){
+  return typeof v==="string" && /^#?[0-9a-fA-F]{6}$/.test(v);
+}
+function normalizeColorValue(v){
+  if(typeof v!=="string") return v;
+  return v.startsWith("#") ? v : "#"+v;
+}
+function getDrawOnValue(){
+  return normalizeColorValue(($("drawLetterColor")?.value || "#1f4b99"));
+}
+function applyCellVisual(cell,value){
+  cell.style.background="";
+  if(isColorCellValue(value)){
+    cell.classList.add("on");
+    cell.style.background=normalizeColorValue(value);
+  }else{
+    cell.classList.toggle("on",!!value);
+  }
+}
+
 function paintStampAt(centerRow,centerCol,stampRows){
   const height=stampRows.length;
   const width=stampRows[0].length;
@@ -9,7 +29,7 @@ function paintStampAt(centerRow,centerCol,stampRows){
       const rr=startRow+r;
       const cc=startCol+c;
       if(rr<0 || cc<0 || rr>=drawMatrix.length || cc>=drawMatrix[0].length) continue;
-      if(stampRows[r][c]==="1") drawMatrix[rr][cc]=1;
+      if(stampRows[r][c]==="1") drawMatrix[rr][cc]=getDrawOnValue();
     }
   }
 }
@@ -242,7 +262,8 @@ function renderGrid(){
 
   m.forEach((row,r)=>row.forEach((v,c)=>{
     const cell=document.createElement("div");
-    cell.className="cell"+(v?" on":"");
+    cell.className="cell";
+    applyCellVisual(cell,v);
     if(mode==="draw"){
       cell.addEventListener("pointerdown",e=>{
         e.preventDefault();
@@ -256,36 +277,34 @@ function renderGrid(){
           if(history.length>40)history.shift();
           placeStampAt(r,c,STAMPS[activeStamp]);
           renderGrid();
-          if($("fitNote")){
-            $("fitNote").textContent=mirrorStampEnabled
-              ? `Added mirrored ${activeStamp} stamps on both sides.`
-              : `Added a ${activeStamp}. Tap again to place more, or switch tools to keep editing.`;
-          }
+          autosaveCurrentProject();
           return;
         }
 
         if(currentTool==="fill"){
           history.push(clone(drawMatrix));
           if(history.length>40)history.shift();
-          if(floodFillAt(r,c)){
-            renderGrid();
-            if($("fitNote")) $("fitNote").textContent="Filled the connected area.";
-          }
+          fillAreaAt(r,c,currentTool==="erase" ? 0 : getDrawOnValue());
+          renderGrid();
+          autosaveCurrentProject();
+          if($("fitNote")) $("fitNote").textContent="Filled the connected area.";
           return;
         }
 
-        history.push(clone(drawMatrix));
-        if(history.length>40)history.shift();
-        dragging=true;
-        drawValue=currentTool==="erase" ? 0 : 1;
-        drawMatrix[r][c]=drawValue;
-        cell.classList.toggle("on",!!drawValue);
+        if(currentTool==="draw" || currentTool==="erase"){
+          history.push(clone(drawMatrix));
+          if(history.length>40)history.shift();
+          dragging=true;
+          drawValue=currentTool==="erase" ? 0 : getDrawOnValue();
+          drawMatrix[r][c]=drawValue;
+          applyCellVisual(cell,drawValue);
+        }
       });
       cell.addEventListener("pointerenter",()=>{
         if(!dragging)return;
         if(currentTool==="draw" || currentTool==="erase"){
           drawMatrix[r][c]=drawValue;
-          cell.classList.toggle("on",!!drawValue);
+          applyCellVisual(cell,drawValue);
         }
       });
     }

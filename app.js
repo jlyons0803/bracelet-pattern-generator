@@ -1300,9 +1300,14 @@ function v88ColorDistance(a,b){
   const dr=a[0]-b[0], dg=a[1]-b[1], db=a[2]-b[2];
   return Math.sqrt(dr*dr+dg*dg+db*db);
 }
-
+function v89RgbToHex(rgb){
+  return "#" + rgb.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,"0")).join("");
+}
+function v89HexToRgb(hex){
+  const raw=String(hex||"").replace("#","");
+  return [parseInt(raw.slice(0,2),16)||0, parseInt(raw.slice(2,4),16)||0, parseInt(raw.slice(4,6),16)||0];
+}
 function v88DominantColor(data){
-  // Quantize to 32-level buckets and choose the most frequent opaque bucket.
   const counts=new Map();
   for(let i=0;i<data.length;i+=4){
     if(data[i+3]<80) continue;
@@ -1318,15 +1323,10 @@ function v88DominantColor(data){
   }
   return best.split(",").map(Number);
 }
-
 function v88SmartMatrix(ctx,rows,cols,threshold,invert){
   const px=ctx.getImageData(0,0,cols,rows).data;
   const bg=v88DominantColor(px);
-
-  // Threshold slider now means "how different from the dominant background".
-  // Map 40..220 into a useful RGB-distance range.
   const distanceCutoff=28 + ((threshold-40)/(220-40))*92;
-
   const matrix=Array.from({length:rows},()=>Array(cols).fill(0));
   for(let r=0;r<rows;r++){
     for(let c=0;c<cols;c++){
@@ -1340,22 +1340,93 @@ function v88SmartMatrix(ctx,rows,cols,threshold,invert){
       matrix[r][c]=on?1:0;
     }
   }
-
-  // Remove isolated single-cell noise while keeping connected motifs.
-  const clean=matrix.map(row=>row.slice());
+  return matrix;
+}
+function v89EstimatePaletteCount(colors){
+  const bins=new Set();
+  colors.forEach(rgb=>{
+    const key=[Math.round(rgb[0]/40),Math.round(rgb[1]/40),Math.round(rgb[2]/40)].join("-");
+    bins.add(key);
+  });
+  return Math.max(3, Math.min(12, bins.size));
+}
+function v89KMeans(colors,k,iterations=12){
+  if(!colors.length) return {centroids:[[31,75,153]], assignments:[]};
+  const centroids=[colors[0].slice()];
+  while(centroids.length<k){
+    let bestIdx=0, bestDist=-1;
+    for(let i=0;i<colors.length;i++){
+      const d=Math.min(...centroids.map(c=>v88ColorDistance(colors[i],c)));
+      if(d>bestDist){bestDist=d; bestIdx=i;}
+    }
+    centroids.push(colors[bestIdx].slice());
+  }
+  const assignments=new Array(colors.length).fill(0);
+  for(let iter=0;iter<iterations;iter++){
+    const sums=Array.from({length:k},()=>[0,0,0,0]);
+    let changed=false;
+    for(let i=0;i<colors.length;i++){
+      let best=0, bestDist=Infinity;
+      for(let j=0;j<k;j++){
+        const d=v88ColorDistance(colors[i],centroids[j]);
+        if(d<bestDist){bestDist=d; best=j;}
+      }
+      if(assignments[i]!==best){assignments[i]=best; changed=true;}
+      sums[best][0]+=colors[i][0]; sums[best][1]+=colors[i][1]; sums[best][2]+=colors[i][2]; sums[best][3]++;
+    }
+    for(let j=0;j<k;j++){
+      if(sums[j][3]){
+        centroids[j]=[sums[j][0]/sums[j][3], sums[j][1]/sums[j][3], sums[j][2]/sums[j][3]];
+      }
+    }
+    if(!changed && iter>1) break;
+  }
+  return {centroids,assignments};
+}
+function v89BuildColorMatrix(ctx,rows,cols){
+  const px=ctx.getImageData(0,0,cols,rows).data;
+  const samples=[];
   for(let r=0;r<rows;r++){
     for(let c=0;c<cols;c++){
-      let neighbors=0;
-      for(let rr=Math.max(0,r-1);rr<=Math.min(rows-1,r+1);rr++){
-        for(let cc=Math.max(0,c-1);cc<=Math.min(cols-1,c+1);cc++){
-          if(rr===r && cc===c) continue;
-          if(matrix[rr][cc]) neighbors++;
-        }
-      }
-      if(matrix[r][c] && neighbors===0) clean[r][c]=0;
+      const i=(r*cols+c)*4;
+      samples.push([
+        Math.round(px[i]/8)*8,
+        Math.round(px[i+1]/8)*8,
+        Math.round(px[i+2]/8)*8
+      ]);
     }
   }
-  return clean;
+  const k=v89EstimatePaletteCount(samples);
+  const {centroids,assignments}=v89KMeans(samples,k,12);
+  const paletteHex=centroids.map(v89RgbToHex);
+  const matrix=[];
+  let idx=0;
+  for(let r=0;r<rows;r++){
+    const row=[];
+    for(let c=0;c<cols;c++) row.push(paletteHex[assignments[idx++]]);
+    matrix.push(row);
+  }
+  return {matrix,paletteHex};
+}
+function v89MostCommonHex(matrix){
+  const counts=new Map();
+  matrix.flat().forEach(v=>{
+    if(typeof v!=="string") return;
+    counts.set(v,(counts.get(v)||0)+1);
+  });
+  let best="#dfe", n=-1;
+  for(const [k,v] of counts){ if(v>n){best=k; n=v;} }
+  return best;
+}
+function v89MostCommonNonBgHex(matrix,bgHex){
+  const counts=new Map();
+  matrix.flat().forEach(v=>{
+    if(typeof v!=="string" || v===bgHex) return;
+    counts.set(v,(counts.get(v)||0)+1);
+  });
+  let best="#1f4b99", n=-1;
+  for(const [k,v] of counts){ if(v>n){best=k; n=v;} }
+  return best;
 }
 
 function v84ConvertImageToGraph(){
@@ -1368,7 +1439,7 @@ function v84ConvertImageToGraph(){
   const cols=sizing.cols;
   const threshold=Number(document.getElementById("imageGraphThreshold")?.value || 135);
   const invert=!!document.getElementById("imageGraphInvert")?.checked;
-  const mode=document.getElementById("imageGraphMode")?.value || "smart";
+  const mode=document.getElementById("imageGraphMode")?.value || "color";
 
   const orientation=document.getElementById("graphOrientationSelect");
   if(orientation){
@@ -1385,7 +1456,7 @@ function v84ConvertImageToGraph(){
 
   ctx.imageSmoothingEnabled=true;
   ctx.imageSmoothingQuality="high";
-  ctx.fillStyle="#fff";
+  ctx.fillStyle="#ffffff";
   ctx.fillRect(0,0,cols,rows);
 
   const scale=Math.min(cols/bounds.w,rows/bounds.h);
@@ -1397,9 +1468,9 @@ function v84ConvertImageToGraph(){
 
   let matrix;
 
-  if(mode==="smart"){
-    // Best for bracelet/pixel/bead photos: detect the most common background
-    // color and keep cells whose color differs from that background.
+  if(mode==="color"){
+    matrix=v89BuildColorMatrix(ctx,rows,cols).matrix;
+  }else if(mode==="smart"){
     matrix=v88SmartMatrix(ctx,rows,cols,threshold,invert);
   }else{
     const px=ctx.getImageData(0,0,cols,rows).data;
@@ -1409,11 +1480,8 @@ function v84ConvertImageToGraph(){
         const i=(r*cols+c)*4;
         const lum=0.2126*px[i]+0.7152*px[i+1]+0.0722*px[i+2];
         let on;
-        if(mode==="detail"){
-          on=lum<Math.min(245,threshold+28);
-        }else{
-          on=lum<threshold;
-        }
+        if(mode==="detail") on=lum<Math.min(245,threshold+28);
+        else on=lum<threshold;
         if(px[i+3]<38) on=false;
         if(invert) on=!on;
         matrix[r][c]=on?1:0;
@@ -1423,7 +1491,6 @@ function v84ConvertImageToGraph(){
 
   history.push(clone(drawMatrix));
   if(history.length>40) history.shift();
-
   drawMatrix=matrix;
   customBorderApplied=0;
 
@@ -1431,6 +1498,19 @@ function v84ConvertImageToGraph(){
   if($("drawCols")) $("drawCols").value=cols;
   if($("graphRowsSelect")) $("graphRowsSelect").value=String(rows);
   if($("graphColsSelect")) $("graphColsSelect").value=String(cols);
+
+  if(mode==="color"){
+    const bgHex=v89MostCommonHex(matrix);
+    const patternHex=v89MostCommonNonBgHex(matrix,bgHex);
+    if($("drawBgColor")) $("drawBgColor").value=bgHex;
+    if($("drawLetterColor")) $("drawLetterColor").value=patternHex;
+    if($("sidePatternColor")) $("sidePatternColor").value=patternHex;
+    if($("sideBackgroundColor")) $("sideBackgroundColor").value=bgHex;
+    if(typeof syncCompactColorDropdown==="function"){
+      syncCompactColorDropdown("patternColorSelect", patternHex);
+      syncCompactColorDropdown("backgroundColorSelect", bgHex);
+    }
+  }
 
   if(typeof syncInlineGraphSizeControls==="function") syncInlineGraphSizeControls();
   if(typeof updateGraphSizeReadout==="function") updateGraphSizeReadout();
@@ -1444,11 +1524,10 @@ function v84ConvertImageToGraph(){
   });
 
   if($("fitNote")){
-    const method=mode==="smart" ? "smart background detection" : mode;
-    $("fitNote").textContent=
-      `Picture converted with ${method}: ${rows} rows × ${cols} columns, ${sizing.view} view.`;
+    $("fitNote").textContent = mode==="color"
+      ? `Picture converted to a color graph: ${rows} rows × ${cols} columns, ${sizing.view} view.`
+      : `Picture converted: ${rows} rows × ${cols} columns, ${sizing.view} view.`;
   }
-
   if(typeof autosaveCurrentProject==="function") autosaveCurrentProject();
 }
 
