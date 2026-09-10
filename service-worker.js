@@ -1,7 +1,7 @@
-const CACHE='dandelyons-designs-v84-image-to-graph';
+const CACHE='dandelyons-designs-v85-visible-image-upload';
 const ASSETS=[
-  './','./index.html','./styles.css?v=84','./data.js?v=84','./core.js?v=84',
-  './calculator.js?v=84','./beads.js?v=84','./projects.js?v=84','./export.js?v=84','./app.js?v=84',
+  './','./index.html','./styles.css?v=85','./data.js?v=85','./core.js?v=85',
+  './calculator.js?v=85','./beads.js?v=85','./projects.js?v=85','./export.js?v=85','./app.js?v=85',
   './manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'
 ];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});

@@ -4284,3 +4284,49 @@ body.graphPopoutOpen{
 #convertImageToGraphBtn{width:100%;min-height:40px}
 @media(max-width:700px){.v84ImageControls{grid-template-columns:1fr}}
 @media(max-width:560px){.v84ImageImportHead{align-items:stretch;flex-direction:column}.v84UploadButton{width:100%}.v84ImageOptions{grid-template-columns:1fr}}
+
+
+/* V85: make Picture to Graph visible in the main tool row */
+.v69Landscape .v69UpperCards{
+  grid-template-columns:minmax(180px,1fr) minmax(160px,.8fr) minmax(190px,1fr) minmax(150px,.72fr) !important;
+}
+.v69Portrait .v69UpperCards{
+  grid-template-columns:minmax(160px,1fr) minmax(150px,.9fr) minmax(180px,1fr) minmax(145px,.8fr) !important;
+}
+.v85PictureCard{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-width:0;
+}
+.v85UploadButton{
+  width:100% !important;
+  min-height:42px !important;
+  cursor:pointer;
+}
+.v85ImageImportPanel{
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+}
+.v85ImageImportPanel:has(#imageGraphControls[hidden]){
+  display:none !important;
+}
+.v85ImageImportPanel #imageGraphControls:not([hidden]){
+  border:1px solid #e4dfee;
+  border-radius:14px;
+  background:#fbfaff;
+  padding:10px;
+}
+@media(max-width:900px){
+  .v69Landscape .v69UpperCards,
+  .v69Portrait .v69UpperCards{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+@media(max-width:560px){
+  .v69Landscape .v69UpperCards,
+  .v69Portrait .v69UpperCards{
+    grid-template-columns:1fr !important;
+  }
+}

@@ -1042,19 +1042,16 @@ function v69Init(){
       <section class="v69MiniCard"><div class="v69MiniTitle">Name</div><div class="v69Name"></div></section>
       <section class="v69MiniCard v69StampCard"><div class="v69Stamp"></div></section>
       <section class="v69MiniCard v69LibraryCard"><div class="v69Library"></div></section>
-    </div>
-
-    <section class="v84ImageImportCard">
-      <div class="v84ImageImportHead">
-        <div>
-          <div class="v69MiniTitle">Picture to graph</div>
-          <div class="v84ImageImportHint">Upload a picture and convert it to the editable bracelet graph.</div>
-        </div>
-        <label class="v84UploadButton">
+      <section class="v69MiniCard v85PictureCard">
+        <div class="v69MiniTitle">Picture to graph</div>
+        <label class="v84UploadButton v85UploadButton">
           <input id="imageGraphUpload" type="file" accept="image/*">
           <span>Upload Picture</span>
         </label>
-      </div>
+      </section>
+    </div>
+
+    <section class="v84ImageImportCard v85ImageImportPanel">
       <div id="imageGraphControls" class="v84ImageControls" hidden>
         <div class="v84ImagePreviewWrap">
           <img id="imageGraphPreview" class="v84ImagePreview" alt="Uploaded preview">
