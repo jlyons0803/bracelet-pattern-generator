@@ -1295,6 +1295,69 @@ function v87AutoGridSize(bounds){
   return {rows,cols,view:landscape?"landscape":"portrait"};
 }
 
+
+function v88ColorDistance(a,b){
+  const dr=a[0]-b[0], dg=a[1]-b[1], db=a[2]-b[2];
+  return Math.sqrt(dr*dr+dg*dg+db*db);
+}
+
+function v88DominantColor(data){
+  // Quantize to 32-level buckets and choose the most frequent opaque bucket.
+  const counts=new Map();
+  for(let i=0;i<data.length;i+=4){
+    if(data[i+3]<80) continue;
+    const r=Math.round(data[i]/32)*32;
+    const g=Math.round(data[i+1]/32)*32;
+    const b=Math.round(data[i+2]/32)*32;
+    const key=`${Math.min(255,r)},${Math.min(255,g)},${Math.min(255,b)}`;
+    counts.set(key,(counts.get(key)||0)+1);
+  }
+  let best="255,255,255",bestCount=-1;
+  for(const [key,count] of counts){
+    if(count>bestCount){best=key;bestCount=count;}
+  }
+  return best.split(",").map(Number);
+}
+
+function v88SmartMatrix(ctx,rows,cols,threshold,invert){
+  const px=ctx.getImageData(0,0,cols,rows).data;
+  const bg=v88DominantColor(px);
+
+  // Threshold slider now means "how different from the dominant background".
+  // Map 40..220 into a useful RGB-distance range.
+  const distanceCutoff=28 + ((threshold-40)/(220-40))*92;
+
+  const matrix=Array.from({length:rows},()=>Array(cols).fill(0));
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const i=(r*cols+c)*4;
+      let on=false;
+      if(px[i+3]>=38){
+        const here=[px[i],px[i+1],px[i+2]];
+        on=v88ColorDistance(here,bg)>distanceCutoff;
+      }
+      if(invert) on=!on;
+      matrix[r][c]=on?1:0;
+    }
+  }
+
+  // Remove isolated single-cell noise while keeping connected motifs.
+  const clean=matrix.map(row=>row.slice());
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      let neighbors=0;
+      for(let rr=Math.max(0,r-1);rr<=Math.min(rows-1,r+1);rr++){
+        for(let cc=Math.max(0,c-1);cc<=Math.min(cols-1,c+1);cc++){
+          if(rr===r && cc===c) continue;
+          if(matrix[rr][cc]) neighbors++;
+        }
+      }
+      if(matrix[r][c] && neighbors===0) clean[r][c]=0;
+    }
+  }
+  return clean;
+}
+
 function v84ConvertImageToGraph(){
   if(!v84UploadedImage) return;
 
@@ -1305,9 +1368,8 @@ function v84ConvertImageToGraph(){
   const cols=sizing.cols;
   const threshold=Number(document.getElementById("imageGraphThreshold")?.value || 135);
   const invert=!!document.getElementById("imageGraphInvert")?.checked;
-  const detail=document.getElementById("imageGraphMode")?.value==="detail";
+  const mode=document.getElementById("imageGraphMode")?.value || "smart";
 
-  // Switch the app's selected view to match the picture.
   const orientation=document.getElementById("graphOrientationSelect");
   if(orientation){
     orientation.value=sizing.view;
@@ -1321,32 +1383,41 @@ function v84ConvertImageToGraph(){
   const ctx=canvas.getContext("2d",{willReadFrequently:true});
   if(!ctx) return;
 
+  ctx.imageSmoothingEnabled=true;
+  ctx.imageSmoothingQuality="high";
   ctx.fillStyle="#fff";
   ctx.fillRect(0,0,cols,rows);
 
-  // Fit the cropped subject to the graph without stretching.
   const scale=Math.min(cols/bounds.w,rows/bounds.h);
   const drawW=bounds.w*scale;
   const drawH=bounds.h*scale;
   const dx=(cols-drawW)/2;
   const dy=(rows-drawH)/2;
-  ctx.drawImage(
-    img,
-    bounds.x,bounds.y,bounds.w,bounds.h,
-    dx,dy,drawW,drawH
-  );
+  ctx.drawImage(img,bounds.x,bounds.y,bounds.w,bounds.h,dx,dy,drawW,drawH);
 
-  const px=ctx.getImageData(0,0,cols,rows).data;
-  const matrix=Array.from({length:rows},()=>Array(cols).fill(0));
+  let matrix;
 
-  for(let r=0;r<rows;r++){
-    for(let c=0;c<cols;c++){
-      const i=(r*cols+c)*4;
-      const lum=0.2126*px[i]+0.7152*px[i+1]+0.0722*px[i+2];
-      let on=lum < (detail ? Math.min(245,threshold+28) : threshold);
-      if(px[i+3] < 38) on=false;
-      if(invert) on=!on;
-      matrix[r][c]=on?1:0;
+  if(mode==="smart"){
+    // Best for bracelet/pixel/bead photos: detect the most common background
+    // color and keep cells whose color differs from that background.
+    matrix=v88SmartMatrix(ctx,rows,cols,threshold,invert);
+  }else{
+    const px=ctx.getImageData(0,0,cols,rows).data;
+    matrix=Array.from({length:rows},()=>Array(cols).fill(0));
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<cols;c++){
+        const i=(r*cols+c)*4;
+        const lum=0.2126*px[i]+0.7152*px[i+1]+0.0722*px[i+2];
+        let on;
+        if(mode==="detail"){
+          on=lum<Math.min(245,threshold+28);
+        }else{
+          on=lum<threshold;
+        }
+        if(px[i+3]<38) on=false;
+        if(invert) on=!on;
+        matrix[r][c]=on?1:0;
+      }
     }
   }
 
@@ -1364,7 +1435,6 @@ function v84ConvertImageToGraph(){
   if(typeof syncInlineGraphSizeControls==="function") syncInlineGraphSizeControls();
   if(typeof updateGraphSizeReadout==="function") updateGraphSizeReadout();
 
-  // Apply the new portrait/landscape layout without rotating the newly-created matrix.
   requestAnimationFrame(()=>{
     if(typeof v69Apply==="function") v69Apply();
     requestAnimationFrame(()=>{
@@ -1374,8 +1444,9 @@ function v84ConvertImageToGraph(){
   });
 
   if($("fitNote")){
+    const method=mode==="smart" ? "smart background detection" : mode;
     $("fitNote").textContent=
-      `Picture auto-sized to ${rows} rows × ${cols} columns and set to ${sizing.view} view.`;
+      `Picture converted with ${method}: ${rows} rows × ${cols} columns, ${sizing.view} view.`;
   }
 
   if(typeof autosaveCurrentProject==="function") autosaveCurrentProject();

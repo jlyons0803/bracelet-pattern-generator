@@ -1,7 +1,7 @@
-const CACHE='dandelyons-designs-v87-image-auto-size-orient';
+const CACHE='dandelyons-designs-v88-smart-image-conversion';
 const ASSETS=[
-  './','./index.html','./styles.css?v=87','./data.js?v=87','./core.js?v=87',
-  './calculator.js?v=87','./beads.js?v=87','./projects.js?v=87','./export.js?v=87','./app.js?v=87',
+  './','./index.html','./styles.css?v=88','./data.js?v=88','./core.js?v=88',
+  './calculator.js?v=88','./beads.js?v=88','./projects.js?v=88','./export.js?v=88','./app.js?v=88',
   './manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'
 ];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
