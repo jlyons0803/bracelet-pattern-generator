@@ -1212,30 +1212,133 @@ function v84LoadImageFile(file){
   reader.readAsDataURL(file);
 }
 
+
+function v87FindContentBounds(img){
+  const maxSample=320;
+  const scale=Math.min(1,maxSample/Math.max(img.width,img.height));
+  const w=Math.max(1,Math.round(img.width*scale));
+  const h=Math.max(1,Math.round(img.height*scale));
+  const canvas=document.createElement("canvas");
+  canvas.width=w; canvas.height=h;
+  const ctx=canvas.getContext("2d",{willReadFrequently:true});
+  if(!ctx) return {x:0,y:0,w:img.width,h:img.height};
+
+  ctx.fillStyle="#fff";
+  ctx.fillRect(0,0,w,h);
+  ctx.drawImage(img,0,0,w,h);
+  const data=ctx.getImageData(0,0,w,h).data;
+
+  // Estimate the outer background from the four corners.
+  const pts=[[0,0],[w-1,0],[0,h-1],[w-1,h-1]];
+  let br=0,bg=0,bb=0;
+  for(const [x,y] of pts){
+    const i=(y*w+x)*4;
+    br+=data[i]; bg+=data[i+1]; bb+=data[i+2];
+  }
+  br/=4; bg/=4; bb/=4;
+
+  let minX=w,minY=h,maxX=-1,maxY=-1;
+  for(let y=0;y<h;y++){
+    for(let x=0;x<w;x++){
+      const i=(y*w+x)*4;
+      const dr=data[i]-br, dg=data[i+1]-bg, db=data[i+2]-bb;
+      const dist=Math.sqrt(dr*dr+dg*dg+db*db);
+      if(data[i+3]>40 && dist>34){
+        if(x<minX) minX=x;
+        if(y<minY) minY=y;
+        if(x>maxX) maxX=x;
+        if(y>maxY) maxY=y;
+      }
+    }
+  }
+
+  // If there is no clear foreground, use the whole image.
+  if(maxX<minX || maxY<minY){
+    return {x:0,y:0,w:img.width,h:img.height};
+  }
+
+  // Small padding so edges are not clipped.
+  const padX=Math.max(1,Math.round((maxX-minX+1)*0.04));
+  const padY=Math.max(1,Math.round((maxY-minY+1)*0.04));
+  minX=Math.max(0,minX-padX);
+  minY=Math.max(0,minY-padY);
+  maxX=Math.min(w-1,maxX+padX);
+  maxY=Math.min(h-1,maxY+padY);
+
+  return {
+    x:minX/scale,
+    y:minY/scale,
+    w:(maxX-minX+1)/scale,
+    h:(maxY-minY+1)/scale
+  };
+}
+
+function v87AutoGridSize(bounds){
+  const ratio=bounds.w/Math.max(1,bounds.h);
+  const landscape=ratio>=1;
+
+  // Bracelet-friendly defaults while preserving subject proportions.
+  let rows,cols;
+  if(landscape){
+    cols=20;
+    rows=Math.round(cols/ratio);
+    if(rows<5){ rows=5; cols=Math.round(rows*ratio); }
+  }else{
+    rows=20;
+    cols=Math.round(rows*ratio);
+    if(cols<5){ cols=5; rows=Math.round(cols/ratio); }
+  }
+
+  rows=Math.max(3,Math.min(60,rows));
+  cols=Math.max(5,Math.min(200,cols));
+
+  return {rows,cols,view:landscape?"landscape":"portrait"};
+}
+
 function v84ConvertImageToGraph(){
   if(!v84UploadedImage) return;
 
-  const rows=Math.max(3,Math.min(60,drawMatrix.length || 10));
-  const cols=Math.max(5,Math.min(200,(drawMatrix[0]?.length) || 20));
+  const img=v84UploadedImage;
+  const bounds=v87FindContentBounds(img);
+  const sizing=v87AutoGridSize(bounds);
+  const rows=sizing.rows;
+  const cols=sizing.cols;
   const threshold=Number(document.getElementById("imageGraphThreshold")?.value || 135);
   const invert=!!document.getElementById("imageGraphInvert")?.checked;
   const detail=document.getElementById("imageGraphMode")?.value==="detail";
 
+  // Switch the app's selected view to match the picture.
+  const orientation=document.getElementById("graphOrientationSelect");
+  if(orientation){
+    orientation.value=sizing.view;
+    const card=document.querySelector(".previewCard");
+    if(card) card.classList.toggle("graphPortraitView",sizing.view==="portrait");
+  }
+
   const canvas=document.createElement("canvas");
-  canvas.width=cols; canvas.height=rows;
+  canvas.width=cols;
+  canvas.height=rows;
   const ctx=canvas.getContext("2d",{willReadFrequently:true});
   if(!ctx) return;
 
   ctx.fillStyle="#fff";
   ctx.fillRect(0,0,cols,rows);
 
-  const img=v84UploadedImage;
-  const scale=Math.min(cols/img.width,rows/img.height);
-  const w=img.width*scale, h=img.height*scale;
-  ctx.drawImage(img,(cols-w)/2,(rows-h)/2,w,h);
+  // Fit the cropped subject to the graph without stretching.
+  const scale=Math.min(cols/bounds.w,rows/bounds.h);
+  const drawW=bounds.w*scale;
+  const drawH=bounds.h*scale;
+  const dx=(cols-drawW)/2;
+  const dy=(rows-drawH)/2;
+  ctx.drawImage(
+    img,
+    bounds.x,bounds.y,bounds.w,bounds.h,
+    dx,dy,drawW,drawH
+  );
 
   const px=ctx.getImageData(0,0,cols,rows).data;
   const matrix=Array.from({length:rows},()=>Array(cols).fill(0));
+
   for(let r=0;r<rows;r++){
     for(let c=0;c<cols;c++){
       const i=(r*cols+c)*4;
@@ -1249,15 +1352,32 @@ function v84ConvertImageToGraph(){
 
   history.push(clone(drawMatrix));
   if(history.length>40) history.shift();
+
   drawMatrix=matrix;
   customBorderApplied=0;
 
   if($("drawRows")) $("drawRows").value=rows;
   if($("drawCols")) $("drawCols").value=cols;
+  if($("graphRowsSelect")) $("graphRowsSelect").value=String(rows);
+  if($("graphColsSelect")) $("graphColsSelect").value=String(cols);
+
   if(typeof syncInlineGraphSizeControls==="function") syncInlineGraphSizeControls();
   if(typeof updateGraphSizeReadout==="function") updateGraphSizeReadout();
-  if($("fitNote")) $("fitNote").textContent="Picture converted to an editable graph. Use Draw and Erase to clean it up.";
-  renderGrid();
+
+  // Apply the new portrait/landscape layout without rotating the newly-created matrix.
+  requestAnimationFrame(()=>{
+    if(typeof v69Apply==="function") v69Apply();
+    requestAnimationFrame(()=>{
+      if(typeof __v54RenderGrid==="function") __v54RenderGrid();
+      else renderGrid();
+    });
+  });
+
+  if($("fitNote")){
+    $("fitNote").textContent=
+      `Picture auto-sized to ${rows} rows × ${cols} columns and set to ${sizing.view} view.`;
+  }
+
   if(typeof autosaveCurrentProject==="function") autosaveCurrentProject();
 }
 
