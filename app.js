@@ -1044,6 +1044,39 @@ function v69Init(){
       <section class="v69MiniCard v69LibraryCard"><div class="v69Library"></div></section>
     </div>
 
+    <section class="v84ImageImportCard">
+      <div class="v84ImageImportHead">
+        <div>
+          <div class="v69MiniTitle">Picture to graph</div>
+          <div class="v84ImageImportHint">Upload a picture and convert it to the editable bracelet graph.</div>
+        </div>
+        <label class="v84UploadButton">
+          <input id="imageGraphUpload" type="file" accept="image/*">
+          <span>Upload Picture</span>
+        </label>
+      </div>
+      <div id="imageGraphControls" class="v84ImageControls" hidden>
+        <div class="v84ImagePreviewWrap">
+          <img id="imageGraphPreview" class="v84ImagePreview" alt="Uploaded preview">
+        </div>
+        <div class="v84ImageOptions">
+          <label><span>Style</span>
+            <select id="imageGraphMode">
+              <option value="silhouette">Simple silhouette</option>
+              <option value="detail">More detail</option>
+            </select>
+          </label>
+          <label><span>Threshold</span>
+            <input id="imageGraphThreshold" type="range" min="40" max="220" value="135">
+          </label>
+          <label class="v84InvertLabel">
+            <input id="imageGraphInvert" type="checkbox"><span>Invert light/dark</span>
+          </label>
+          <button id="convertImageToGraphBtn" type="button" class="primary">Convert to Graph</button>
+        </div>
+      </div>
+    </section>
+
     <div class="v69LandscapeMiddle">
       <div class="v69LeftControls"></div>
       <div class="v69SizeControls"></div>
@@ -1191,6 +1224,88 @@ function v72EnforceOrientationLayout(view){
 }
 
 
+
+
+let v84UploadedImage=null;
+
+function v84LoadImageFile(file){
+  if(!file || !file.type?.startsWith("image/")) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const img=new Image();
+    img.onload=()=>{
+      v84UploadedImage=img;
+      const preview=document.getElementById("imageGraphPreview");
+      const controls=document.getElementById("imageGraphControls");
+      if(preview) preview.src=reader.result;
+      if(controls) controls.hidden=false;
+    };
+    img.src=reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function v84ConvertImageToGraph(){
+  if(!v84UploadedImage) return;
+
+  const rows=Math.max(3,Math.min(60,drawMatrix.length || 10));
+  const cols=Math.max(5,Math.min(200,(drawMatrix[0]?.length) || 20));
+  const threshold=Number(document.getElementById("imageGraphThreshold")?.value || 135);
+  const invert=!!document.getElementById("imageGraphInvert")?.checked;
+  const detail=document.getElementById("imageGraphMode")?.value==="detail";
+
+  const canvas=document.createElement("canvas");
+  canvas.width=cols; canvas.height=rows;
+  const ctx=canvas.getContext("2d",{willReadFrequently:true});
+  if(!ctx) return;
+
+  ctx.fillStyle="#fff";
+  ctx.fillRect(0,0,cols,rows);
+
+  const img=v84UploadedImage;
+  const scale=Math.min(cols/img.width,rows/img.height);
+  const w=img.width*scale, h=img.height*scale;
+  ctx.drawImage(img,(cols-w)/2,(rows-h)/2,w,h);
+
+  const px=ctx.getImageData(0,0,cols,rows).data;
+  const matrix=Array.from({length:rows},()=>Array(cols).fill(0));
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const i=(r*cols+c)*4;
+      const lum=0.2126*px[i]+0.7152*px[i+1]+0.0722*px[i+2];
+      let on=lum < (detail ? Math.min(245,threshold+28) : threshold);
+      if(px[i+3] < 38) on=false;
+      if(invert) on=!on;
+      matrix[r][c]=on?1:0;
+    }
+  }
+
+  history.push(clone(drawMatrix));
+  if(history.length>40) history.shift();
+  drawMatrix=matrix;
+  customBorderApplied=0;
+
+  if($("drawRows")) $("drawRows").value=rows;
+  if($("drawCols")) $("drawCols").value=cols;
+  if(typeof syncInlineGraphSizeControls==="function") syncInlineGraphSizeControls();
+  if(typeof updateGraphSizeReadout==="function") updateGraphSizeReadout();
+  if($("fitNote")) $("fitNote").textContent="Picture converted to an editable graph. Use Draw and Erase to clean it up.";
+  renderGrid();
+  if(typeof autosaveCurrentProject==="function") autosaveCurrentProject();
+}
+
+requestAnimationFrame(()=>{
+  const upload=document.getElementById("imageGraphUpload");
+  const convert=document.getElementById("convertImageToGraphBtn");
+  if(upload && !upload.dataset.bound84){
+    upload.dataset.bound84="1";
+    upload.addEventListener("change",()=>v84LoadImageFile(upload.files?.[0]));
+  }
+  if(convert && !convert.dataset.bound84){
+    convert.dataset.bound84="1";
+    convert.addEventListener("click",v84ConvertImageToGraph);
+  }
+});
 
 function v69Apply(){
   // V79: while the pop-out editor is open, keep the graph and editing
