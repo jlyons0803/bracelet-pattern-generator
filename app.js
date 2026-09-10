@@ -1042,37 +1042,7 @@ function v69Init(){
       <section class="v69MiniCard"><div class="v69MiniTitle">Name</div><div class="v69Name"></div></section>
       <section class="v69MiniCard v69StampCard"><div class="v69Stamp"></div></section>
       <section class="v69MiniCard v69LibraryCard"><div class="v69Library"></div></section>
-      <section class="v69MiniCard v85PictureCard">
-        <div class="v69MiniTitle">Picture to graph</div>
-        <label class="v84UploadButton v85UploadButton">
-          <input id="imageGraphUpload" type="file" accept="image/*">
-          <span>Upload Picture</span>
-        </label>
-      </section>
     </div>
-
-    <section class="v84ImageImportCard v85ImageImportPanel">
-      <div id="imageGraphControls" class="v84ImageControls" hidden>
-        <div class="v84ImagePreviewWrap">
-          <img id="imageGraphPreview" class="v84ImagePreview" alt="Uploaded preview">
-        </div>
-        <div class="v84ImageOptions">
-          <label><span>Style</span>
-            <select id="imageGraphMode">
-              <option value="silhouette">Simple silhouette</option>
-              <option value="detail">More detail</option>
-            </select>
-          </label>
-          <label><span>Threshold</span>
-            <input id="imageGraphThreshold" type="range" min="40" max="220" value="135">
-          </label>
-          <label class="v84InvertLabel">
-            <input id="imageGraphInvert" type="checkbox"><span>Invert light/dark</span>
-          </label>
-          <button id="convertImageToGraphBtn" type="button" class="primary">Convert to Graph</button>
-        </div>
-      </div>
-    </section>
 
     <div class="v69LandscapeMiddle">
       <div class="v69LeftControls"></div>
