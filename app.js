@@ -14,7 +14,7 @@ function setCraftMode(next){
   $("designHint").textContent=craftMode==="woven"
     ? "Name generator + custom editor together"
     : "Use the same grid as a bead pattern";
-  $("patternEyebrow").textContent=craftMode==="woven" ? "LIVE PATTERN" : "BEAD PATTERN";
+  if($("patternEyebrow")) $("patternEyebrow").textContent=craftMode==="woven" ? "LIVE PATTERN" : "BEAD PATTERN";
   $("goCalculatorBtn").textContent=craftMode==="woven" ? "Calculate String" : "Calculate Beads";
   if($("printBtn")) $("printBtn").textContent=craftMode==="woven" ? "Print Pattern" : "Print Bead Pattern";
 
@@ -598,7 +598,7 @@ mode="draw";
 currentTool="draw";
 renderToolSelection();
 $("modeBadge").textContent="Editable pattern";
-$("patternTitle").textContent="MY PATTERN";
+$("patternTitle").textContent="Bracelet Designer";
 renderGrid();
 if(typeof runCalculatorUpdate==="function") runCalculatorUpdate();
 

@@ -4265,3 +4265,26 @@ body.graphPopoutOpen{
     grid-template-columns:1fr;
   }
 }
+
+
+/* Clean v83 header/layout update */
+.workspaceCard{
+  padding-top:0 !important;
+}
+.v83CleanWorkspaceSection{
+  border:0 !important;
+  background:#fff !important;
+}
+.v83CleanWorkspaceSection > .workspaceBody{
+  padding-top:0 !important;
+}
+.previewHead .eyebrow,
+.previewHead .v69MiniTitle{
+  display:none !important;
+}
+.previewHead h3{
+  margin:0 !important;
+}
+.previewHead{
+  margin-bottom:14px !important;
+}

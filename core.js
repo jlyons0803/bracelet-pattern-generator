@@ -103,7 +103,7 @@ function switchMode(next){
   if(next==="name"){
     $("patternTitle").textContent=($("name").value.toUpperCase()||"NAME")+" — EDITABLE";
   }else if(!$("patternTitle").textContent || $("patternTitle").textContent==="NAME"){
-    $("patternTitle").textContent="MY PATTERN";
+    $("patternTitle").textContent="Bracelet Designer";
   }
 
   renderGrid();

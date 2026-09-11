@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>DandeLyons Designs</title>
-<link rel="stylesheet" href="styles.css?v=83">
+<link rel="stylesheet" href="styles.css?v=83clean">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#6557d9">
@@ -51,24 +51,8 @@
 <main>
   <!-- DESIGN -->
   <section id="paneDesign" class="appPane">
-    <div class="sectionIntro">
-      <div>
-        <div class="eyebrow">STEP 1</div>
-        <h2 id="designHeading">Design your bracelet</h2>
-      </div>
-      <span id="designHint" class="sectionHint">Name generator + custom editor together</span>
-    </div>
-
-    <section class="card workspaceCard">
-      <div class="cardHead workspaceHead">
-        <div>
-          <h3>Pattern Builder</h3>
-          <p>Start with a name, then customize the same editable pattern.</p>
-        </div>
-        <span class="badge">One workspace</span>
-      </div>
-
-      <details class="workspaceSection">
+<section class="card workspaceCard">
+<details class="workspaceSection">
         <summary>
           <span>
             <b>1. Name setup</b>
@@ -122,15 +106,8 @@
         </div>
       </details>
 
-      <details class="workspaceSection" open>
-        <summary>
-          <span>
-            <b>2. Pattern workspace</b>
-            <small>Size, draw and customize</small>
-          </span>
-        </summary>
-
-        <div id="drawPanel" class="workspaceBody cleanWorkspace">
+      <div class="workspaceSection v83CleanWorkspaceSection">
+<div id="drawPanel" class="workspaceBody cleanWorkspace">
 
           <section class="editorBlock editorBlockPrimary">
             <div class="editorBlockHead">
@@ -180,8 +157,8 @@
       <button type="button" id="exitFullscreenGraphBtn" class="exitFullscreenGraphBtn" aria-label="Exit full screen">Done</button>
       <div class="cardHead previewHead">
         <div>
-          <div class="eyebrow" id="patternEyebrow">LIVE PATTERN</div>
-          <h3 id="patternTitle">MY PATTERN</h3>
+          
+          <h3 id="patternTitle">Bracelet Designer</h3>
         </div>
         <div class="previewHeadActions">
           <span id="modeBadge" class="badge">Editable pattern</span>
@@ -396,7 +373,7 @@
 
               <div id="mirrorStampNote" class="infoLine compactInfo">Turn on Mirror to place the same stamp on both sides of the pattern.</div>
             </div>
-          </details>
+          </div>
         <button type="button" id="goCalculatorBtn" class="primary graphNextButton">Calculate Beads</button>
       </div>
     </section>
@@ -759,12 +736,12 @@
   On iPhone or iPad: Safari → Share → Add to Home Screen.
 </div>
 
-<script defer src="data.js?v=83"></script>
-<script defer src="core.js?v=83"></script>
-<script defer src="calculator.js?v=83"></script>
-<script defer src="beads.js?v=83"></script>
-<script defer src="projects.js?v=83"></script>
-<script defer src="export.js?v=83"></script>
-<script defer src="app.js?v=83"></script>
+<script defer src="data.js?v=83clean"></script>
+<script defer src="core.js?v=83clean"></script>
+<script defer src="calculator.js?v=83clean"></script>
+<script defer src="beads.js?v=83clean"></script>
+<script defer src="projects.js?v=83clean"></script>
+<script defer src="export.js?v=83clean"></script>
+<script defer src="app.js?v=83clean"></script>
 </body>
 </html>
