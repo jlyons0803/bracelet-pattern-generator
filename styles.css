@@ -4267,24 +4267,13 @@ body.graphPopoutOpen{
 }
 
 
-/* Clean v83 header/layout update */
+/* V83 fix2: hide only the requested text; preserve the original V83 graph/layout DOM */
+.v83UserHidden{
+  display:none !important;
+}
 .workspaceCard{
   padding-top:0 !important;
 }
-.v83CleanWorkspaceSection{
-  border:0 !important;
-  background:#fff !important;
-}
-.v83CleanWorkspaceSection > .workspaceBody{
-  padding-top:0 !important;
-}
-.previewHead .eyebrow,
-.previewHead .v69MiniTitle{
-  display:none !important;
-}
-.previewHead h3{
-  margin:0 !important;
-}
 .previewHead{
-  margin-bottom:14px !important;
+  margin-bottom:12px !important;
 }

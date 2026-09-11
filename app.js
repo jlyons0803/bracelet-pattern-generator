@@ -14,7 +14,7 @@ function setCraftMode(next){
   $("designHint").textContent=craftMode==="woven"
     ? "Name generator + custom editor together"
     : "Use the same grid as a bead pattern";
-  if($("patternEyebrow")) $("patternEyebrow").textContent=craftMode==="woven" ? "LIVE PATTERN" : "BEAD PATTERN";
+  $("patternEyebrow").textContent=craftMode==="woven" ? "LIVE PATTERN" : "BEAD PATTERN";
   $("goCalculatorBtn").textContent=craftMode==="woven" ? "Calculate String" : "Calculate Beads";
   if($("printBtn")) $("printBtn").textContent=craftMode==="woven" ? "Print Pattern" : "Print Bead Pattern";
 
